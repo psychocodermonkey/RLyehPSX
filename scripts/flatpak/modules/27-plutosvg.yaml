@@ -1,16 +1,16 @@
-name: lunasvg
+name: plutosvg
 buildsystem: cmake-ninja
 builddir: true
 config-opts:
   - "-DCMAKE_BUILD_TYPE=Release"
   - "-DBUILD_SHARED_LIBS=ON"
-  - "-DLUNASVG_BUILD_EXAMPLES=OFF"
+  - "-DPLUTOSVG_BUILD_EXAMPLES=OFF"
 build-options:
   strip: true
 sources:
   - type: git
-    url: "https://github.com/stenzek/lunasvg.git"
-    commit: "9af1ac7b90658a279b372add52d6f77a4ebb482c"
+    url: "https://github.com/sammycage/plutosvg.git"
+    commit: "fd8a080b3d0bccc41f1ae708d3785e7f08398a58"
 cleanup:
   - /bin
   - /include
