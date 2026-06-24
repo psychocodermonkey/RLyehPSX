@@ -4,9 +4,9 @@ An experimental PlayStation (PS1) emulator project derived from the GPL-licensed
 
 ## Project Status
 
-**Early Development - Not Currently Building**
+**Early Development - macOS build succeeds - Other platforms are not yet validated.**
 
-R'Lyeh PSX is an independent fork intended for long-term experimentation, maintenance, and feature development. The project is currently undergoing dependency modernization and library migration work and does not presently produce a working build.
+R'Lyeh PSX is an independent fork intended for long-term experimentation, maintenance, and feature development. The project is still undergoing dependency modernization, library migration, and validation work, but the macOS build path has been brought to a successful build state.
 
 Recent work includes:
 
@@ -16,7 +16,7 @@ Recent work includes:
 - Build system maintenance and cleanup.
 - Dependency version updates and validation.
 
-Expect build failures, incomplete functionality, regressions, and unfinished features.
+Expect incomplete functionality, regressions, unfinished features, and build failures on unvalidated platforms.
 
 ## About
 
@@ -58,9 +58,9 @@ Current areas of investigation include:
 
 ## Building
 
-At the time of writing, the project is undergoing active migration work and does not currently produce a successful build.
+At the time of writing, the macOS build path is the only validated build path.
 
-Build instructions and platform support documentation will be updated as the project stabilizes.
+Other platform build instructions and support documentation will be updated as the project stabilizes.
 
 ## Licensing
 
@@ -75,3 +75,11 @@ This repository is currently a development and learning project.
 If you are looking for a stable, production-ready PlayStation emulator, this is not it.
 
 At least not yet.
+
+## AI Usage
+
+AI tools are used in this project as development support for understanding the codebase, tracking build nuances, reviewing changes, investigating issues, and improving documentation.
+
+AI-generated output is not treated as authoritative. Contributions are expected to be reviewed, tested, and understood by the person submitting them. AI may be used by contributors, but it must be used as tooling, not as a substitute for engineering judgment.
+
+This project allows AI-assisted work. It does not accept unchecked AI-generated code, broad automated rewrites, or changes that the contributor cannot explain and maintain.
