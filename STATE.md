@@ -178,6 +178,10 @@ Validate:
 
 These are features I'd like to explore implementing.
 
+- Disable RetroAchievements during development ahead of approval.
+  - IMPORTANT NOTE: 2026/06/19: Initial working build connected to RA server using existing DuckStation configuration. No achievements unlocked or progress made. This needs to be disclosed when applying for RetroAchievements approval.
+  - Set as a build flag so once approval is granted it's easy to re-enable.
+- Remove Discord Rich Presence support.
 - M3U support when being called from another frontend.
   - M3U support seems to work on desktop when opening from the browser.
   - Verify functionality from Android build.
@@ -186,3 +190,11 @@ These are features I'd like to explore implementing.
 ---
 
 *Insaniam non modo amplectere; Contrecta eam invītam; Osculis voracibus obruito; Atque ei vinum eme.*
+
+---
+
+## Resume
+
+``` sh
+codex resume 019ee319-0f1f-7cf2-8c18-4b7e19ebd55d
+```
