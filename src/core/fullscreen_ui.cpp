@@ -1313,7 +1313,7 @@ void FullscreenUI::DrawLandingTemplate(ImVec2* menu_pos, ImVec2* menu_size)
     ImDrawList* const dl = ImGui::GetWindowDrawList();
     SmallString heading_str;
 
-    ImGui::PushFont(heading_font);
+    ImGui::PushFont(heading_font, heading_font->LegacySize);
     ImGui::PushStyleColor(ImGuiCol_Text, UIPrimaryTextColor);
 
     // draw branding
@@ -1321,7 +1321,7 @@ void FullscreenUI::DrawLandingTemplate(ImVec2* menu_pos, ImVec2* menu_size)
       const ImVec2 logo_pos = LayoutScale(LAYOUT_MENU_BUTTON_X_PADDING, LAYOUT_MENU_BUTTON_Y_PADDING);
       const ImVec2 logo_size = LayoutScale(LAYOUT_MENU_BUTTON_HEIGHT_NO_SUMMARY, LAYOUT_MENU_BUTTON_HEIGHT_NO_SUMMARY);
       dl->AddImage(s_app_icon_texture.get(), logo_pos, logo_pos + logo_size);
-      dl->AddText(heading_font, heading_font->FontSize,
+      dl->AddText(heading_font, heading_font->LegacySize,
                   ImVec2(logo_pos.x + logo_size.x + LayoutScale(LAYOUT_MENU_BUTTON_X_PADDING), logo_pos.y),
                   ImGui::GetColorU32(ImGuiCol_Text), "DuckStation");
     }
@@ -1331,7 +1331,7 @@ void FullscreenUI::DrawLandingTemplate(ImVec2* menu_pos, ImVec2* menu_size)
     {
       heading_str.format(FSUI_FSTR("{:%H:%M}"), fmt::localtime(std::time(nullptr)));
 
-      const ImVec2 time_size = heading_font->CalcTextSizeA(heading_font->FontSize, FLT_MAX, 0.0f, "00:00");
+      const ImVec2 time_size = heading_font->CalcTextSizeA(heading_font->LegacySize, FLT_MAX, 0.0f, "00:00");
       time_pos = ImVec2(heading_size.x - LayoutScale(LAYOUT_MENU_BUTTON_X_PADDING) - time_size.x,
                         LayoutScale(LAYOUT_MENU_BUTTON_Y_PADDING));
       ImGui::RenderTextClipped(time_pos, time_pos + time_size, heading_str.c_str(), heading_str.end_ptr(), &time_size);
@@ -1344,7 +1344,7 @@ void FullscreenUI::DrawLandingTemplate(ImVec2* menu_pos, ImVec2* menu_size)
       const char* username = Achievements::GetLoggedInUserName();
       if (username)
       {
-        const ImVec2 name_size = heading_font->CalcTextSizeA(heading_font->FontSize, FLT_MAX, 0.0f, username);
+        const ImVec2 name_size = heading_font->CalcTextSizeA(heading_font->LegacySize, FLT_MAX, 0.0f, username);
         const ImVec2 name_pos =
           ImVec2(time_pos.x - name_size.x - LayoutScale(LAYOUT_MENU_BUTTON_X_PADDING), time_pos.y);
         ImGui::RenderTextClipped(name_pos, name_pos + name_size, username, nullptr, &name_size);
@@ -1419,7 +1419,7 @@ void FullscreenUI::DrawLandingWindow()
       OpenAboutWindow();
     else if (ImGui::IsKeyPressed(ImGuiKey_NavGamepadMenu, false) || ImGui::IsKeyPressed(ImGuiKey_F3, false))
       DoResume();
-    else if (ImGui::IsKeyPressed(ImGuiKey_NavGamepadInput, false) || ImGui::IsKeyPressed(ImGuiKey_F11, false))
+    else if (ImGui::IsKeyPressed(ImGuiKey_GamepadFaceUp, false) || ImGui::IsKeyPressed(ImGuiKey_F11, false))
       DoToggleFullscreen();
   }
 
@@ -1693,11 +1693,11 @@ void FullscreenUI::DrawInputBindingButton(SettingsInterface* bsi, InputBindingIn
     }
   }
 
-  const float midpoint = bb.Min.y + g_large_font->FontSize + LayoutScale(4.0f);
+  const float midpoint = bb.Min.y + g_large_font->LegacySize + LayoutScale(4.0f);
 
   if (oneline)
   {
-    ImGui::PushFont(g_large_font);
+    ImGui::PushFont(g_large_font, g_large_font->LegacySize);
 
     const ImVec2 value_size(ImGui::CalcTextSize(value.empty() ? FSUI_CSTR("-") : value.c_str(), nullptr));
     const float text_end = bb.Max.x - value_size.x;
@@ -1714,12 +1714,12 @@ void FullscreenUI::DrawInputBindingButton(SettingsInterface* bsi, InputBindingIn
     const ImRect title_bb(bb.Min, ImVec2(bb.Max.x, midpoint));
     const ImRect summary_bb(ImVec2(bb.Min.x, midpoint), bb.Max);
 
-    ImGui::PushFont(g_large_font);
+    ImGui::PushFont(g_large_font, g_large_font->LegacySize);
     ImGui::RenderTextClipped(title_bb.Min, title_bb.Max, show_type ? title.c_str() : display_name, nullptr, nullptr,
                              ImVec2(0.0f, 0.0f), &title_bb);
     ImGui::PopFont();
 
-    ImGui::PushFont(g_medium_font);
+    ImGui::PushFont(g_medium_font, g_medium_font->LegacySize);
     ImGui::RenderTextClipped(summary_bb.Min, summary_bb.Max, value.empty() ? FSUI_CSTR("No Binding") : value.c_str(),
                              nullptr, nullptr, ImVec2(0.0f, 0.0f), &summary_bb);
     ImGui::PopFont();
@@ -1845,7 +1845,7 @@ void FullscreenUI::DrawInputBindingWindow()
   ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5f, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
   ImGui::OpenPopup(title);
 
-  ImGui::PushFont(g_large_font);
+  ImGui::PushFont(g_large_font, g_large_font->LegacySize);
   ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, LayoutScale(10.0f));
   ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, LayoutScale(ImGuiFullscreen::LAYOUT_MENU_BUTTON_X_PADDING,
                                                               ImGuiFullscreen::LAYOUT_MENU_BUTTON_Y_PADDING));
@@ -1978,7 +1978,7 @@ void FullscreenUI::DrawIntRangeSetting(SettingsInterface* bsi, const char* title
   ImGui::SetNextWindowSize(LayoutScale(500.0f, 192.0f));
   ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5f, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
 
-  ImGui::PushFont(g_large_font);
+  ImGui::PushFont(g_large_font, g_large_font->LegacySize);
   ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, LayoutScale(10.0f));
   ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, LayoutScale(ImGuiFullscreen::LAYOUT_MENU_BUTTON_X_PADDING,
                                                               ImGuiFullscreen::LAYOUT_MENU_BUTTON_Y_PADDING));
@@ -2036,7 +2036,7 @@ void FullscreenUI::DrawFloatRangeSetting(SettingsInterface* bsi, const char* tit
   ImGui::SetNextWindowSize(LayoutScale(500.0f, 192.0f));
   ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5f, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
 
-  ImGui::PushFont(g_large_font);
+  ImGui::PushFont(g_large_font, g_large_font->LegacySize);
   ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, LayoutScale(10.0f));
   ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, LayoutScale(ImGuiFullscreen::LAYOUT_MENU_BUTTON_X_PADDING,
                                                               ImGuiFullscreen::LAYOUT_MENU_BUTTON_Y_PADDING));
@@ -2102,7 +2102,7 @@ void FullscreenUI::DrawFloatSpinBoxSetting(SettingsInterface* bsi, const char* t
   ImGui::SetNextWindowSize(LayoutScale(500.0f, 192.0f));
   ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5f, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
 
-  ImGui::PushFont(g_large_font);
+  ImGui::PushFont(g_large_font, g_large_font->LegacySize);
   ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, LayoutScale(10.0f));
   ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, LayoutScale(ImGuiFullscreen::LAYOUT_MENU_BUTTON_X_PADDING,
                                                               ImGuiFullscreen::LAYOUT_MENU_BUTTON_Y_PADDING));
@@ -2149,7 +2149,7 @@ void FullscreenUI::DrawFloatSpinBoxSetting(SettingsInterface* bsi, const char* t
       // Align value text in middle.
       ImGui::SetCursorPosY(
         button_pos.y +
-        ((LayoutScale(LAYOUT_MENU_BUTTON_HEIGHT_NO_SUMMARY) + padding.y * 2.0f) - g_large_font->FontSize) * 0.5f);
+        ((LayoutScale(LAYOUT_MENU_BUTTON_HEIGHT_NO_SUMMARY) + padding.y * 2.0f) - g_large_font->LegacySize) * 0.5f);
       ImGui::TextUnformatted(str_value);
 
       float step = 0;
@@ -2239,7 +2239,7 @@ void FullscreenUI::DrawIntRectSetting(SettingsInterface* bsi, const char* title,
   ImGui::SetNextWindowSize(LayoutScale(500.0f, 370.0f));
   ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5f, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
 
-  ImGui::PushFont(g_large_font);
+  ImGui::PushFont(g_large_font, g_large_font->LegacySize);
   ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, LayoutScale(10.0f));
   ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, LayoutScale(ImGuiFullscreen::LAYOUT_MENU_BUTTON_X_PADDING,
                                                               ImGuiFullscreen::LAYOUT_MENU_BUTTON_Y_PADDING));
@@ -2354,7 +2354,7 @@ void FullscreenUI::DrawIntSpinBoxSetting(SettingsInterface* bsi, const char* tit
   ImGui::SetNextWindowSize(LayoutScale(500.0f, 192.0f));
   ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5f, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
 
-  ImGui::PushFont(g_large_font);
+  ImGui::PushFont(g_large_font, g_large_font->LegacySize);
   ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, LayoutScale(10.0f));
   ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, LayoutScale(ImGuiFullscreen::LAYOUT_MENU_BUTTON_X_PADDING,
                                                               ImGuiFullscreen::LAYOUT_MENU_BUTTON_Y_PADDING));
@@ -2395,7 +2395,7 @@ void FullscreenUI::DrawIntSpinBoxSetting(SettingsInterface* bsi, const char* tit
       // Align value text in middle.
       ImGui::SetCursorPosY(
         button_pos.y +
-        ((LayoutScale(LAYOUT_MENU_BUTTON_HEIGHT_NO_SUMMARY) + padding.y * 2.0f) - g_large_font->FontSize) * 0.5f);
+        ((LayoutScale(LAYOUT_MENU_BUTTON_HEIGHT_NO_SUMMARY) + padding.y * 2.0f) - g_large_font->LegacySize) * 0.5f);
       ImGui::TextUnformatted(str_value);
 
       s32 step = 0;
@@ -3914,7 +3914,7 @@ void FullscreenUI::DrawControllerSettingsPage()
 
       ImGui::SetNextWindowSize(LayoutScale(500.0f, 180.0f));
 
-      ImGui::PushFont(g_large_font);
+      ImGui::PushFont(g_large_font, g_large_font->LegacySize);
       ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, LayoutScale(10.0f));
       ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, LayoutScale(ImGuiFullscreen::LAYOUT_MENU_BUTTON_X_PADDING,
                                                                   ImGuiFullscreen::LAYOUT_MENU_BUTTON_Y_PADDING));
@@ -4731,7 +4731,7 @@ void FullscreenUI::DrawPostProcessingSettingsPage()
           ImGui::SetNextWindowSize(LayoutScale(500.0f, 190.0f));
           ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5f, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
 
-          ImGui::PushFont(g_large_font);
+          ImGui::PushFont(g_large_font, g_large_font->LegacySize);
           ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, LayoutScale(10.0f));
           ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, LayoutScale(ImGuiFullscreen::LAYOUT_MENU_BUTTON_X_PADDING,
                                                                       ImGuiFullscreen::LAYOUT_MENU_BUTTON_Y_PADDING));
@@ -4830,7 +4830,7 @@ void FullscreenUI::DrawPostProcessingSettingsPage()
           ImGui::SetNextWindowSize(LayoutScale(500.0f, 190.0f));
           ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5f, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
 
-          ImGui::PushFont(g_large_font);
+          ImGui::PushFont(g_large_font, g_large_font->LegacySize);
           ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, LayoutScale(10.0f));
           ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, LayoutScale(ImGuiFullscreen::LAYOUT_MENU_BUTTON_X_PADDING,
                                                                       ImGuiFullscreen::LAYOUT_MENU_BUTTON_Y_PADDING));
@@ -5256,14 +5256,14 @@ void FullscreenUI::DrawPauseMenu()
     const float image_height = 60.0f;
 
     const ImVec2 title_size(
-      g_large_font->CalcTextSizeA(g_large_font->FontSize, std::numeric_limits<float>::max(), -1.0f, title.c_str()));
+      g_large_font->CalcTextSizeA(g_large_font->LegacySize, std::numeric_limits<float>::max(), -1.0f, title.c_str()));
     const ImVec2 subtitle_size(
-      g_medium_font->CalcTextSizeA(g_medium_font->FontSize, std::numeric_limits<float>::max(), -1.0f, buffer.c_str()));
+      g_medium_font->CalcTextSizeA(g_medium_font->LegacySize, std::numeric_limits<float>::max(), -1.0f, buffer.c_str()));
 
     ImVec2 title_pos(display_size.x - LayoutScale(10.0f + image_width + 20.0f) - title_size.x,
                      display_size.y - LayoutScale(LAYOUT_FOOTER_HEIGHT) - LayoutScale(10.0f + image_height));
     ImVec2 subtitle_pos(display_size.x - LayoutScale(10.0f + image_width + 20.0f) - subtitle_size.x,
-                        title_pos.y + g_large_font->FontSize + LayoutScale(4.0f));
+                        title_pos.y + g_large_font->LegacySize + LayoutScale(4.0f));
 
     float rp_height = 0.0f;
     {
@@ -5273,14 +5273,14 @@ void FullscreenUI::DrawPauseMenu()
       if (!rp.empty())
       {
         const float wrap_width = LayoutScale(350.0f);
-        const ImVec2 rp_size = g_medium_font->CalcTextSizeA(g_medium_font->FontSize, std::numeric_limits<float>::max(),
+        const ImVec2 rp_size = g_medium_font->CalcTextSizeA(g_medium_font->LegacySize, std::numeric_limits<float>::max(),
                                                             wrap_width, rp.data(), rp.data() + rp.length());
 
         // Add a small extra gap if any Rich Presence is displayed
-        rp_height = rp_size.y - g_medium_font->FontSize + LayoutScale(2.0f);
+        rp_height = rp_size.y - g_medium_font->LegacySize + LayoutScale(2.0f);
 
         const ImVec2 rp_pos(display_size.x - LayoutScale(20.0f + 50.0f + 20.0f) - rp_size.x,
-                            subtitle_pos.y + g_medium_font->FontSize + LayoutScale(4.0f) - rp_height);
+                            subtitle_pos.y + g_medium_font->LegacySize + LayoutScale(4.0f) - rp_height);
 
         title_pos.y -= rp_height;
         subtitle_pos.y -= rp_height;
@@ -5306,7 +5306,7 @@ void FullscreenUI::DrawPauseMenu()
   {
     buffer.format("{:%X}", fmt::localtime(std::time(nullptr)));
 
-    const ImVec2 time_size(g_large_font->CalcTextSizeA(g_large_font->FontSize, std::numeric_limits<float>::max(), -1.0f,
+    const ImVec2 time_size(g_large_font->CalcTextSizeA(g_large_font->LegacySize, std::numeric_limits<float>::max(), -1.0f,
                                                        buffer.c_str(), buffer.end_ptr()));
     const ImVec2 time_pos(display_size.x - LayoutScale(10.0f) - time_size.x, LayoutScale(10.0f));
     DrawShadowedText(dl, g_large_font, time_pos, text_color, buffer.c_str(), buffer.end_ptr());
@@ -5318,17 +5318,17 @@ void FullscreenUI::DrawPauseMenu()
       const std::time_t session_time = static_cast<std::time_t>(System::GetSessionPlayedTime());
 
       buffer.format(FSUI_FSTR("Session: {}"), GameList::FormatTimespan(session_time, true));
-      const ImVec2 session_size(g_medium_font->CalcTextSizeA(g_medium_font->FontSize, std::numeric_limits<float>::max(),
+      const ImVec2 session_size(g_medium_font->CalcTextSizeA(g_medium_font->LegacySize, std::numeric_limits<float>::max(),
                                                              -1.0f, buffer.c_str(), buffer.end_ptr()));
       const ImVec2 session_pos(display_size.x - LayoutScale(10.0f) - session_size.x,
-                               time_pos.y + g_large_font->FontSize + LayoutScale(4.0f));
+                               time_pos.y + g_large_font->LegacySize + LayoutScale(4.0f));
       DrawShadowedText(dl, g_medium_font, session_pos, text_color, buffer.c_str(), buffer.end_ptr());
 
       buffer.format(FSUI_FSTR("All Time: {}"), GameList::FormatTimespan(cached_played_time + session_time, true));
-      const ImVec2 total_size(g_medium_font->CalcTextSizeA(g_medium_font->FontSize, std::numeric_limits<float>::max(),
+      const ImVec2 total_size(g_medium_font->CalcTextSizeA(g_medium_font->LegacySize, std::numeric_limits<float>::max(),
                                                            -1.0f, buffer.c_str(), buffer.end_ptr()));
       const ImVec2 total_pos(display_size.x - LayoutScale(10.0f) - total_size.x,
-                             session_pos.y + g_medium_font->FontSize + LayoutScale(4.0f));
+                             session_pos.y + g_medium_font->LegacySize + LayoutScale(4.0f));
       DrawShadowedText(dl, g_medium_font, total_pos, text_color, buffer.c_str(), buffer.end_ptr());
     }
   }
@@ -5680,7 +5680,7 @@ void FullscreenUI::DrawSaveStateSelector(bool is_loading)
 
   bool closed = false;
   bool was_close_not_back = false;
-  if (ImGui::BeginChild("state_titlebar", heading_size, false, ImGuiWindowFlags_NavFlattened))
+  if (ImGui::BeginChild("state_titlebar", heading_size, ImGuiChildFlags_NavFlattened, ImGuiWindowFlags_None))
   {
     BeginNavBar();
     if (NavButton(ICON_FA_BACKWARD, true, true))
@@ -5698,10 +5698,9 @@ void FullscreenUI::DrawSaveStateSelector(bool is_loading)
   if (IsFocusResetFromWindowChange())
     ImGui::SetNextWindowScroll(ImVec2(0.0f, 0.0f));
 
-
   if (ImGui::BeginChild("state_list",
                         ImVec2(io.DisplaySize.x, io.DisplaySize.y - LayoutScale(LAYOUT_FOOTER_HEIGHT) - heading_size.y),
-                        false, ImGuiWindowFlags_NavFlattened))
+                        ImGuiChildFlags_NavFlattened, ImGuiWindowFlags_None))
   {
     ResetFocusHere();
     BeginMenuButtons();
@@ -5716,8 +5715,8 @@ void FullscreenUI::DrawSaveStateSelector(bool is_loading)
     const float image_width = item_width - (style.FramePadding.x * 2.0f);
     const float image_height = image_width / 1.33f;
     const ImVec2 image_size(image_width, image_height);
-    const float item_height = (style.FramePadding.y * 2.0f) + image_height + title_spacing + g_large_font->FontSize +
-                              summary_spacing + g_medium_font->FontSize;
+    const float item_height = (style.FramePadding.y * 2.0f) + image_height + title_spacing + g_large_font->LegacySize +
+                              summary_spacing + g_medium_font->LegacySize;
     const ImVec2 item_size(item_width, item_height);
     const u32 grid_count_x = static_cast<u32>(std::floor(ImGui::GetWindowWidth() / item_width_with_spacing));
     const float start_x =
@@ -5733,7 +5732,7 @@ void FullscreenUI::DrawSaveStateSelector(bool is_loading)
       {
         // can't use a choice dialog here, because we're already in a modal...
         ImGuiFullscreen::PushResetLayout();
-        ImGui::PushFont(g_large_font);
+        ImGui::PushFont(g_large_font, g_large_font->LegacySize);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, LayoutScale(10.0f));
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding,
                             LayoutScale(LAYOUT_MENU_BUTTON_X_PADDING, LAYOUT_MENU_BUTTON_Y_PADDING));
@@ -5744,7 +5743,7 @@ void FullscreenUI::DrawSaveStateSelector(bool is_loading)
 
         const float width = LayoutScale(600.0f);
         const float title_height =
-          g_large_font->FontSize + ImGui::GetStyle().FramePadding.y * 2.0f + ImGui::GetStyle().WindowPadding.y * 2.0f;
+          g_large_font->LegacySize + ImGui::GetStyle().FramePadding.y * 2.0f + ImGui::GetStyle().WindowPadding.y * 2.0f;
         const float height =
           title_height +
           LayoutScale(LAYOUT_MENU_BUTTON_HEIGHT_NO_SUMMARY + (LAYOUT_MENU_BUTTON_Y_PADDING * 2.0f)) * 3.0f;
@@ -5869,17 +5868,17 @@ void FullscreenUI::DrawSaveStateSelector(bool is_loading)
                                              ImVec2(1.0f, 1.0f), IM_COL32(255, 255, 255, 255));
 
         const ImVec2 title_pos(bb.Min.x, bb.Min.y + image_height + title_spacing);
-        const ImRect title_bb(title_pos, ImVec2(bb.Max.x, title_pos.y + g_large_font->FontSize));
-        ImGui::PushFont(g_large_font);
+        const ImRect title_bb(title_pos, ImVec2(bb.Max.x, title_pos.y + g_large_font->LegacySize));
+        ImGui::PushFont(g_large_font, g_large_font->LegacySize);
         ImGui::RenderTextClipped(title_bb.Min, title_bb.Max, entry.title.c_str(), nullptr, nullptr, ImVec2(0.0f, 0.0f),
                                  &title_bb);
         ImGui::PopFont();
 
         if (!entry.summary.empty())
         {
-          const ImVec2 summary_pos(bb.Min.x, title_pos.y + g_large_font->FontSize + summary_spacing);
-          const ImRect summary_bb(summary_pos, ImVec2(bb.Max.x, summary_pos.y + g_medium_font->FontSize));
-          ImGui::PushFont(g_medium_font);
+          const ImVec2 summary_pos(bb.Min.x, title_pos.y + g_large_font->LegacySize + summary_spacing);
+          const ImRect summary_bb(summary_pos, ImVec2(bb.Max.x, summary_pos.y + g_medium_font->LegacySize));
+          ImGui::PushFont(g_medium_font, g_medium_font->LegacySize);
           ImGui::RenderTextClipped(summary_bb.Min, summary_bb.Max, entry.summary.c_str(), nullptr, nullptr,
                                    ImVec2(0.0f, 0.0f), &summary_bb);
           ImGui::PopFont();
@@ -5975,7 +5974,7 @@ void FullscreenUI::DrawResumeStateSelector()
   ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5f, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
   ImGui::OpenPopup(FSUI_CSTR("Load Resume State"));
 
-  ImGui::PushFont(g_large_font);
+  ImGui::PushFont(g_large_font, g_large_font->LegacySize);
   ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, LayoutScale(10.0f));
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, LayoutScale(20.0f, 20.0f));
 
@@ -5990,17 +5989,14 @@ void FullscreenUI::DrawResumeStateSelector()
       FSUI_CSTR("A resume save state created at %s was found.\n\nDo you want to load this save and continue?"),
       time.c_str());
 
-    const GPUTexture* image = entry.preview_texture ? entry.preview_texture.get() : GetPlaceholderTexture().get();
+    GPUTexture* const image = entry.preview_texture ? entry.preview_texture.get() : GetPlaceholderTexture().get();
     const float image_height = LayoutScale(250.0f);
     const float image_width =
       image_height * (static_cast<float>(image->GetWidth()) / static_cast<float>(image->GetHeight()));
     const ImVec2 pos(ImGui::GetCursorScreenPos() +
                      ImVec2((ImGui::GetCurrentWindow()->WorkRect.GetWidth() - image_width) * 0.5f, LayoutScale(20.0f)));
     const ImRect image_bb(pos, pos + ImVec2(image_width, image_height));
-    ImGui::GetWindowDrawList()->AddImage(
-      static_cast<ImTextureID>(entry.preview_texture ? entry.preview_texture.get() : GetPlaceholderTexture().get()),
-      image_bb.Min, image_bb.Max);
-
+    ImGui::GetWindowDrawList()->AddImage(image, image_bb.Min, image_bb.Max);
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() + image_height + LayoutScale(40.0f));
 
     BeginMenuButtons();
@@ -6251,7 +6247,7 @@ void FullscreenUI::DrawGameListWindow()
 
   EndFullscreenWindow();
 
-  if (ImGui::IsKeyPressed(ImGuiKey_NavGamepadInput, false) || ImGui::IsKeyPressed(ImGuiKey_F1, false))
+  if (ImGui::IsKeyPressed(ImGuiKey_GamepadFaceUp, false) || ImGui::IsKeyPressed(ImGuiKey_F1, false))
   {
     s_game_list_view = (s_game_list_view == GameListView::Grid) ? GameListView::List : GameListView::Grid;
   }
@@ -6346,19 +6342,19 @@ void FullscreenUI::DrawGameList(const ImVec2& heading_size)
       ImGui::GetWindowDrawList()->AddImage(cover_texture, image_rect.Min, image_rect.Max, ImVec2(0.0f, 0.0f),
                                            ImVec2(1.0f, 1.0f), IM_COL32(255, 255, 255, 255));
 
-      const float midpoint = bb.Min.y + g_large_font->FontSize + LayoutScale(4.0f);
+      const float midpoint = bb.Min.y + g_large_font->LegacySize + LayoutScale(4.0f);
       const float text_start_x = bb.Min.x + image_size.x + LayoutScale(15.0f);
       const ImRect title_bb(ImVec2(text_start_x, bb.Min.y), ImVec2(bb.Max.x, midpoint));
       const ImRect summary_bb(ImVec2(text_start_x, midpoint), bb.Max);
 
-      ImGui::PushFont(g_large_font);
+      ImGui::PushFont(g_large_font, g_large_font->LegacySize);
       ImGui::RenderTextClipped(title_bb.Min, title_bb.Max, entry->title.c_str(),
                                entry->title.c_str() + entry->title.size(), nullptr, ImVec2(0.0f, 0.0f), &title_bb);
       ImGui::PopFont();
 
       if (!summary.empty())
       {
-        ImGui::PushFont(g_medium_font);
+        ImGui::PushFont(g_medium_font, g_medium_font->LegacySize);
         ImGui::RenderTextClipped(summary_bb.Min, summary_bb.Max, summary.c_str(), summary.end_ptr(), nullptr,
                                  ImVec2(0.0f, 0.0f), &summary_bb);
         ImGui::PopFont();
@@ -6416,13 +6412,13 @@ void FullscreenUI::DrawGameList(const ImVec2& heading_size)
     if (selected_entry)
     {
       // title
-      ImGui::PushFont(g_large_font);
+      ImGui::PushFont(g_large_font, g_large_font->LegacySize);
       text_width = ImGui::CalcTextSize(selected_entry->title.c_str(), nullptr, false, work_width).x;
       ImGui::SetCursorPosX((work_width - text_width) / 2.0f);
       ImGui::TextWrapped("%s", selected_entry->title.c_str());
       ImGui::PopFont();
 
-      ImGui::PushFont(g_medium_font);
+      ImGui::PushFont(g_medium_font, g_medium_font->LegacySize);
 
       // developer
       if (!selected_entry->developer.empty())
@@ -6489,7 +6485,7 @@ void FullscreenUI::DrawGameList(const ImVec2& heading_size)
     {
       // title
       const char* title = FSUI_CSTR("No Game Selected");
-      ImGui::PushFont(g_large_font);
+      ImGui::PushFont(g_large_font, g_large_font->LegacySize);
       text_width = ImGui::CalcTextSize(title, nullptr, false, work_width).x;
       ImGui::SetCursorPosX((work_width - text_width) / 2.0f);
       ImGui::TextWrapped("%s", title);
@@ -6535,7 +6531,7 @@ void FullscreenUI::DrawGameGrid(const ImVec2& heading_size)
   const float image_width = item_width - (style.FramePadding.x * 2.0f);
   const float image_height = image_width;
   const ImVec2 image_size(image_width, image_height);
-  const float item_height = (style.FramePadding.y * 2.0f) + image_height + title_spacing + g_medium_font->FontSize;
+  const float item_height = (style.FramePadding.y * 2.0f) + image_height + title_spacing + g_medium_font->LegacySize;
   const ImVec2 item_size(item_width, item_height);
   const u32 grid_count_x = static_cast<u32>(std::floor(ImGui::GetWindowWidth() / item_width_with_spacing));
   const float start_x =
@@ -6587,7 +6583,7 @@ void FullscreenUI::DrawGameGrid(const ImVec2& heading_size)
       const std::string_view title(
         std::string_view(entry->title).substr(0, (entry->title.length() > 31) ? 31 : std::string_view::npos));
       draw_title.format("{}{}", title, (title.length() == entry->title.length()) ? "" : "...");
-      ImGui::PushFont(g_medium_font);
+      ImGui::PushFont(g_medium_font, g_medium_font->LegacySize);
       ImGui::RenderTextClipped(title_bb.Min, title_bb.Max, draw_title.c_str(), draw_title.end_ptr(), nullptr,
                                ImVec2(0.5f, 0.0f), &title_bb);
       ImGui::PopFont();
@@ -7024,7 +7020,7 @@ void FullscreenUI::DrawAboutWindow()
   ImGui::SetNextWindowPos(ImGui::GetIO().DisplaySize * 0.5f, ImGuiCond_Always, ImVec2(0.5f, 0.5f));
   ImGui::OpenPopup(FSUI_CSTR("About DuckStation"));
 
-  ImGui::PushFont(g_large_font);
+  ImGui::PushFont(g_large_font, g_large_font->LegacySize);
   ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, LayoutScale(10.0f));
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, LayoutScale(30.0f, 30.0f));
 
