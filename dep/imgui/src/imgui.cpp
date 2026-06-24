@@ -2349,8 +2349,7 @@ void ImFormatStringToTempBufferV(const char** out_buf, const char** out_buf_end,
         *out_buf = buf;
         *out_buf_end = buf + buf_len; // Disallow not passing 'out_buf_end' here. User is expected to use it.
     }
-    #if 0
-    // DUCKSTATION-CHANGE: We want to keep nav active, since we handle menu exits ourselves.
+
     else
     {
         int buf_len = ImFormatStringV(g.TempBuffer.Data, g.TempBuffer.Size, fmt, args);
@@ -14234,6 +14233,9 @@ static void ImGui::NavUpdateCancelRequest()
         // Close open popup/menu
         ClosePopupToLevel(g.OpenPopupStack.Size - 1, true);
     }
+
+    #if 0
+    // DUCKSTATION-CHANGE: We want to keep nav active, since we handle menu exits ourselves.
     else
     {
         // Clear NavLastId for popups but keep it for regular child window so we can leave one and come back where we were
