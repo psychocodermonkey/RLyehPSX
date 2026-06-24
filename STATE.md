@@ -179,8 +179,9 @@ Validate:
 These are features I'd like to explore implementing.
 
 - Disable RetroAchievements during development ahead of approval.
-  - IMPORTANT NOTE: 2026/06/19: Initial working build connected to RA server using existing DuckStation configuration. No achievements unlocked or progress made. This needs to be disclosed when applying for RetroAchievements approval.
+  - IMPORTANT NOTE: 2026/06/19: Initial working build connected to RA server using existing. DuckStation configuration. No achievements unlocked or progress made. This needs to be disclosed when applying for RetroAchievements approval.
   - Set as a build flag so once approval is granted it's easy to re-enable.
+  - Current `rcheevos` version is v11.5.0. As of 2026/06/22, latest version is v12.3.0. Investigate drop in change and re-work integration to use latest version of achievement code.
 - Remove Discord Rich Presence support.
 - M3U support when being called from another frontend.
   - M3U support seems to work on desktop when opening from the browser.
