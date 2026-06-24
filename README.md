@@ -80,6 +80,11 @@ This script downloads, verifies, builds, and installs the dependency set into `d
 
 ``` sh
 cd RlyehPSX
+```
+
+Run the dependencies build script.
+
+``` sh
 ./scripts/deps/build-dependencies-mac.sh deps
 ```
 
@@ -104,7 +109,11 @@ Build and ad-hoc sign the package. These steps are necessary to rebuild and laun
 
 ``` sh
 ninja -C build
+```
 
+Sign the package to allow running on MacOS.
+
+``` sh
 codesign --force --deep --sign - build/bin/DuckStation.app
 ```
 
