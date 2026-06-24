@@ -62,6 +62,54 @@ At the time of writing, the macOS build path is the only validated build path.
 
 Other platform build instructions and support documentation will be updated as the project stabilizes.
 
+### macOS build notes
+
+These steps go from a fresh clone to a runnable macOS app bundle. The app is currently unsigned, so ad hoc signing is needed before macOS will launch it locally.
+
+Prerequisites: `git`, `curl`, `cmake`, `ninja`, Xcode command line tools, and a macOS shell with `codesign`, `lipo`, and `shasum` available.
+
+#### Clone the repo
+
+``` sh
+git clone git@github.com:psychocodermonkey/RlyehPSX.git
+```
+
+#### Build and install dependencies
+
+This script downloads, verifies, builds, and installs the dependency set into `deps/`. It also sets `MACOSX_DEPLOYMENT_TARGET=11.0` internally.
+
+``` sh
+cd RlyehPSX
+./scripts/deps/build-dependencies-mac.sh deps
+```
+
+#### Configure and build the app
+
+Set the deployment target.
+
+``` sh
+export MACOSX_DEPLOYMENT_TARGET=11.0
+```
+
+Set the build parameters and execute the build.
+
+``` sh
+cmake -S . -B build \
+  -G Ninja \
+  -DCMAKE_BUILD_TYPE=Debug \
+  -DCMAKE_PREFIX_PATH="$PWD/deps"
+```
+
+Build and ad-hoc sign the package. These steps are necessary to rebuild and launch the package on macOS. The `--deep` flag ensures that all embedded resources are also signed.
+
+``` sh
+ninja -C build
+
+codesign --force --deep --sign - build/bin/DuckStation.app
+```
+
+The resulting app bundle is written to `build/bin/DuckStation.app`.
+
 ## Licensing
 
 R'Lyeh PSX incorporates code derived from GPL-licensed projects and remains subject to the terms of those licenses.
