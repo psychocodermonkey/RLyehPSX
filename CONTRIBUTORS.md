@@ -1,91 +1,17 @@
-# DuckStation Contributors List
+# R'Lyeh PSX Contributors
 
-The following people have contributed to the project in some way, and are credited here.
+This file recognizes people who have contributed directly to R'Lyeh PSX.
 
-## Code Contributions
+R'Lyeh PSX is still early in its life as an independent fork. As new contributors help maintain, repair, document, test, and improve the project, their names may be added here.
 
-- Connor McLaughlin - @stenzek
-- @ggrtk
-- @CookiePLMonster
-- @PookaMustard
+## Current Project
 
-## Translators
+- PsychoCoderMonkey
 
-- Anderson Cardoso - Portuguese (Br)
-- @bajolzas - Portuguese (Pt)
-- posix - @Richard-L, blexx - German
-- @phoe-nix, @zkdpower - Chinese (Simplified)
-- Sorer - @MojoJojoDojo - Hebrew
-- @Hipnosis183, @falsepopsky - Spanish (Latin America)
-- @IlDucci - Spanish (Spain)
-- @RaydenX93 - Italian
-- @r57zone - Russian
-- @6lackmag3 - Russian (Android)
-- @DenSinH - Dutch
-- @BenjaminSiskoo - French
-- mikakunin - Japanese
-- Zuzia, Seba, @CookiePLMonster - Polish
-- Foxtrot Uniform - Turkish
+## Project Lineage
 
-## UI Contributions
+R'Lyeh PSX is derived from DuckStation-GPL, preserved by [Trixarian](https://github.com/Trixarian), which itself was derived from DuckStation by [stenzek](https://github.com/stenzek) and contributors.
 
-- @kamfretoz
-- @maxihplay (MBee)
+We preserve the inherited contributor history out of [respect](RESPECT.md) for the work this fork is built upon.
 
-## Cheat Database
-
-- Pugsy
-- Unicorngoulash
-
-## Game Compatibility Database
-
-- @Zet-sensei
-- @DarkFrost89
-- @macattack222
-- @HeroponRikiBestest
-- @picili
-- @andercard0
-- @Abbanon
-- @Shideravan
-- @mirrornoir
-- @pryon
-- @MojoJojoDojo
-- @heckez-sys
-- @Damaniel
-- @RaydenX93
-- @gp2man
-- @Richard-L
-- @pan2marumie3
-- @CookiePLMonster
-- @LoStraniero91
-- @JFD62780
-- @lmarciano9
-- @Facepalm38
-- @Alien-Grey
-- @dmlipat
-- @Krusher97
-- @AngryScotsmanGaming
-- @PookaMustard
-- @waspennator
-- @Serpentario
-- @QuasarDGames
-- @egamboau
-- @goldstinger
-- @DankRank
-- @Kesnos-ho
-- @Facepalm38
-- @ZL1LAC
-- @cs50-account
-- @nxrighthere
-- @Overload86
-- @landcaster
-- @Sekai9
-
-## Special Thanks
-
-The following people did not directly contribute to the emulator, but it would not be in the state if not for them.
-
-- nocash (https://problemkaputt.de/) for fantastic documentation.
-- @PeterLemon for great simple test programs.
-- amidog for CPU, GTE and GPU test programs.
-- Jakub Czekański - @JaCzekanski - for collaboration on hardware tests.
+The inherited contributor history is historical attribution. It does not imply that those contributors are involved with, responsible for, or endorsing R'Lyeh PSX.

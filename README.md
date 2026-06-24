@@ -66,7 +66,7 @@ Build instructions and platform support documentation will be updated as the pro
 
 R'Lyeh PSX incorporates code derived from GPL-licensed projects and remains subject to the terms of those licenses.
 
-See the repository license files and third-party notices for complete licensing information.
+See the repository license files and third-party notices for complete licensing information. Their contributor lists, licenses, copyright notices, and attribution files belong to those projects and should be preserved in place.
 
 ## Disclaimer
 
