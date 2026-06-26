@@ -186,6 +186,8 @@ These are features I'd like to explore implementing.
 - M3U support when being called from another frontend.
   - M3U support seems to work on desktop when opening from the browser.
   - Verify functionality from Android build.
+- Update C++ versions on all platforms. (Major re-work)
+- Update SDL2 to SDL3. (Major re-work)
 - More Shaders/filters.
 
 ---
