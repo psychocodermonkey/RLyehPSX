@@ -107,6 +107,134 @@ Verified working:
 
 ---
 
+### Linux
+
+**Status:** IN PROGRESS
+
+#### Current Focus
+
+- Bring the Linux dependency build back into a known-good state.
+- Keep the Linux dependency script aligned with the MacOS dependency script where the upstream sources overlap.
+- Validate the Qt dependency stack on Linux without destabilizing the working MacOS build.
+
+#### Current Findings
+
+- The Linux dependency script has been updated to use upstream Qt source archives.
+- The Linux dependency script now verifies tarballs with `sha256sum`.
+- Qt was tested with Clang 17 on Linux, but Qt host tools hit compatibility issues with the Linux standard library/toolchain.
+- Qt was then moved back to GCC for Linux dependency builds, but Qt 6.7.2 still failed during host-tool linking on this machine.
+- The current Linux blocker appears to be a Qt / GCC 16 / libstdc++ compatibility issue, not a project source issue.
+- The cleanest next validation point is back on the working MacOS environment.
+
+#### Linux Build
+
+##### Reference Build Process
+
+``` sh
+./scripts/deps/build-dependencies-linux.sh deps
+
+cmake -S . -B build \
+  -G Ninja \
+  -DCMAKE_BUILD_TYPE=Debug \
+  -DCMAKE_PREFIX_PATH="$PWD/deps" \
+  -DCMAKE_TOOLCHAIN_FILE="$PWD/scripts/clang-toolchain.cmake"
+
+ninja -C build
+```
+
+##### Linux Host Tooling Assumptions
+
+- Linux build tooling is currently pinned to `clang-17` in `scripts/clang-toolchain.cmake`.
+- The dependency build script uses upstream source archives for its third-party components.
+- Qt's configure step expects system packages for X11, XCB, XKB, fontconfig, OpenGL, GTK, and related headers.
+
+##### Required Host Tools
+
+These should be present before running the Linux dependency script:
+
+- `clang-17`
+- `clang++-17`
+- `lld-17`
+- `cmake`
+- `ninja`
+- `make`
+- `git`
+- `curl`
+- `pkg-config`
+- `autoconf`
+- `automake`
+- `libtool`
+- `m4`
+- `sha256sum`
+- `tar`
+- `unzip`
+
+##### Required Linux Development Packages
+
+These are the main system packages identified from Qt's configure and link failures on Fedora:
+
+- `fontconfig-devel`
+- `mesa-libGL-devel`
+- `mesa-libEGL-devel`
+- `libxcb-devel`
+- `xcb-util-devel`
+- `xcb-util-keysyms-devel`
+- `xcb-util-image-devel`
+- `xcb-util-renderutil-devel`
+- `xcb-util-wm-devel`
+- `xcb-util-cursor-devel`
+- `libxkbcommon-devel`
+- `libxkbcommon-x11-devel`
+- `gtk3-devel`
+- `glib2-devel`
+- `libX11-devel`
+- `libXext-devel`
+- `libXi-devel`
+- `libXrender-devel`
+- `libSM-devel`
+- `libICE-devel`
+
+Depending on distro release and how Qt probes the system, additional XCB-related development packages may still be needed.
+
+##### Notes On Clang
+
+- The current Linux path expects Clang 17 for compatibility with the repo's Linux toolchain file.
+- Keeping a newer system default compiler, such as Clang 22, is fine as long as `clang-17` remains available and is the compiler selected for this project.
+
+##### Fedora Install Command
+
+``` sh
+sudo dnf install \
+  clang17 llvm17 lld17 \
+  cmake ninja make git curl pkgconf-pkg-config \
+  autoconf automake libtool m4 \
+  fontconfig-devel mesa-libGL-devel mesa-libEGL-devel \
+  libxcb-devel xcb-util-devel xcb-util-keysyms-devel xcb-util-image-devel xcb-util-renderutil-devel \
+  xcb-util-wm-devel xcb-util-cursor-devel \
+  libxkbcommon-devel libxkbcommon-x11-devel \
+  gtk3-devel glib2-devel \
+  libX11-devel libXext-devel libXi-devel libXrender-devel \
+  libSM-devel libICE-devel
+```
+
+##### Debian / Ubuntu Install Command
+
+``` sh
+sudo apt update && sudo apt install -y \
+  clang-17 lld-17 llvm-17 \
+  cmake ninja-build make git curl pkg-config \
+  autoconf automake libtool m4 \
+  libfontconfig1-dev libgl1-mesa-dev libegl1-mesa-dev \
+  libxcb1-dev xcb-util-dev xcb-util-keysyms-dev xcb-util-image-dev xcb-util-renderutil-dev \
+  xcb-util-wm-dev xcb-util-cursor-dev \
+  libxkbcommon-dev libxkbcommon-x11-dev \
+  libgtk-3-dev libglib2.0-dev \
+  libx11-dev libxext-dev libxi-dev libxrender-dev \
+  libsm-dev libice-dev
+```
+
+Package names can vary slightly across Debian-based releases. If one of the Qt-related packages is unavailable, install the closest `-dev` equivalent for that library family.
+
 ## Platform Validation Matrix
 
 | Platform      | Status       |
@@ -114,7 +242,7 @@ Verified working:
 | macOS         | PASS         |
 | Android       | NOT TESTED   |
 | Windows       | NOT TESTED   |
-| Linux         | NOT TESTED   |
+| Linux         | IN PROGRESS  |
 
 ---
 
@@ -168,11 +296,19 @@ Target platform:
 
 ### Linux Validation
 
-Validate:
+Current goal:
 
-- Dependency build
-- Configure process
-- Full build process
+- Validate the dependency build.
+- Verify configure succeeds.
+- Verify the full build succeeds.
+
+Current blocker:
+
+- Qt host-tool linking on Linux with the current GCC/libstdc++ toolchain.
+
+Next step:
+
+- Return to the MacOS environment and validate the Qt update there first.
 
 ### Maintenance Work / Feature ToDo
 
