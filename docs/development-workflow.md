@@ -35,35 +35,20 @@ Production
 
 ---
 
-## Long-Lived Branches
-
-``` flowchart
-                  master
-                     ▲
-             Release Promotion
-                     │
-                    dev
-                     ▲
-         Integration Promotion
-                     │
-        ┌────────────┼────────────┐
-        │            │            │
-    android       linux       darwin
-        ▲            ▲            ▲
-        │            │            │
-     feature/*   feature/*   feature/*
-```
+## Promotion Pipeline
 
 ```mermaid
 flowchart BT
 
     master["master"]
 
-    release["Release Promotion"]
+    release{"Release Promotion"}
 
     dev["dev"]
 
-    integration["Integration Promotion"]
+    integration{"Integration Promotion"}
+
+    feature["feature/*"]
 
     subgraph Platforms
         direction LR
@@ -88,11 +73,21 @@ flowchart BT
             darwin["darwin"]
             dFeature --> darwin
         end
+
+        subgraph WinNT
+            direction BT
+            wFeature["feature/*"]
+            winnt["winnt"]
+            wFeature --> winnt
+        end
     end
+
+    feature --> integration
 
     android --> integration
     linux --> integration
     darwin --> integration
+    winnt --> integration
 
     integration --> dev
     dev --> release
