@@ -57,6 +57,8 @@ add_library(common
   thirdparty/SmallVector.h
   threading.cpp
   threading.h
+  time_util.cpp
+  time_util.h
   timer.cpp
   timer.h
   types.h

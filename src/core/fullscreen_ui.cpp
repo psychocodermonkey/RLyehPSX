@@ -28,6 +28,7 @@
 #include "common/path.h"
 #include "common/small_string.h"
 #include "common/string_util.h"
+#include "common/time_util.h"
 #include "common/timer.h"
 
 #include "IconsFontAwesome5.h"
@@ -1329,7 +1330,11 @@ void FullscreenUI::DrawLandingTemplate(ImVec2* menu_pos, ImVec2* menu_size)
     // draw time
     ImVec2 time_pos;
     {
-      heading_str.format(FSUI_FSTR("{:%H:%M}"), fmt::localtime(std::time(nullptr)));
+      std::tm local_time;
+      if (TimeUtil::ToLocalTime(std::time(nullptr), &local_time))
+        heading_str.format(FSUI_FSTR("{:%H:%M}"), local_time);
+      else
+        heading_str = "--:--";
 
       const ImVec2 time_size = heading_font->CalcTextSizeA(heading_font->LegacySize, FLT_MAX, 0.0f, "00:00");
       time_pos = ImVec2(heading_size.x - LayoutScale(LAYOUT_MENU_BUTTON_X_PADDING) - time_size.x,
@@ -5089,10 +5094,13 @@ void FullscreenUI::DrawAchievementsSettingsPage()
                    false, false, ImGuiFullscreen::LAYOUT_MENU_BUTTON_HEIGHT_NO_SUMMARY);
 
       TinyString ts_string;
-      ts_string.format(
-        FSUI_FSTR("{:%Y-%m-%d %H:%M:%S}"),
-        fmt::localtime(
-          StringUtil::FromChars<u64>(bsi->GetTinyStringValue("Cheevos", "LoginTimestamp", "0")).value_or(0)));
+      const std::time_t timestamp = static_cast<std::time_t>(
+        StringUtil::FromChars<u64>(bsi->GetTinyStringValue("Cheevos", "LoginTimestamp", "0")).value_or(0));
+      std::tm local_time;
+      if (TimeUtil::ToLocalTime(timestamp, &local_time))
+        ts_string.format(FSUI_FSTR("{:%Y-%m-%d %H:%M:%S}"), local_time);
+      else
+        ts_string = FSUI_CSTR("Unknown");
       ActiveButton(
         SmallString::from_format(fmt::runtime(FSUI_ICONSTR(ICON_FA_CLOCK, "Login token generated on {}")), ts_string),
         false, false, ImGuiFullscreen::LAYOUT_MENU_BUTTON_HEIGHT_NO_SUMMARY);
@@ -5304,7 +5312,11 @@ void FullscreenUI::DrawPauseMenu()
 
   // current time / play time
   {
-    buffer.format("{:%X}", fmt::localtime(std::time(nullptr)));
+    std::tm local_time;
+    if (TimeUtil::ToLocalTime(std::time(nullptr), &local_time))
+      buffer.format("{:%X}", local_time);
+    else
+      buffer = "--:--:--";
 
     const ImVec2 time_size(g_large_font->CalcTextSizeA(g_large_font->LegacySize, std::numeric_limits<float>::max(), -1.0f,
                                                        buffer.c_str(), buffer.end_ptr()));
@@ -5530,7 +5542,11 @@ bool FullscreenUI::InitializeSaveStateListEntryFromPath(SaveStateListEntry* li, 
     li->title = (slot > 0) ? fmt::format(FSUI_FSTR("Game Slot {0}##game_slot_{0}"), slot) : FSUI_STR("Game Quick Save");
   }
 
-  li->summary = fmt::format(FSUI_FSTR("Saved {:%c}"), fmt::localtime(ssi->timestamp));
+  std::tm local_time;
+  if (TimeUtil::ToLocalTime(ssi->timestamp, &local_time))
+    li->summary = fmt::format(FSUI_FSTR("Saved {:%c}"), local_time);
+  else
+    li->summary = FSUI_STR("Saved at an unknown time");
   li->timestamp = ssi->timestamp;
   li->slot = slot;
   li->path = std::move(path);

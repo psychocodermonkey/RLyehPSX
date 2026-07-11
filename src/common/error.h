@@ -6,7 +6,7 @@
 #include "small_string.h"
 #include "types.h"
 
-#include "fmt/core.h"
+#include "fmt/format.h"
 
 #include <string>
 #include <string_view>

@@ -58,6 +58,7 @@
 #include "common/path.h"
 #include "common/string_util.h"
 #include "common/threading.h"
+#include "common/time_util.h"
 
 #include "IconsEmoji.h"
 #include "IconsFontAwesome5.h"
@@ -346,7 +347,12 @@ static time_t s_discord_presence_time_epoch;
 
 static TinyString GetTimestampStringForFileName()
 {
-  return TinyString::from_format("{:%Y-%m-%d-%H-%M-%S}", fmt::localtime(std::time(nullptr)));
+  const std::time_t timestamp = std::time(nullptr);
+  std::tm local_time;
+  if (!TimeUtil::ToLocalTime(timestamp, &local_time))
+    return TinyString::from_format("{}", timestamp);
+
+  return TinyString::from_format("{:%Y-%m-%d-%H-%M-%S}", local_time);
 }
 
 bool System::Internal::PerformEarlyHardwareChecks(Error* error)

@@ -427,7 +427,7 @@ ALWAYS_INLINE void SmallStringBase::format(fmt::format_string<T...> fmt, T&&... 
     }                                                                                                                  \
                                                                                                                        \
     template<typename FormatContext>                                                                                   \
-    auto format(const type& str, FormatContext& ctx)                                                                   \
+    auto format(const type& str, FormatContext& ctx) const                                                             \
     {                                                                                                                  \
       return fmt::format_to(ctx.out(), "{}", str.view());                                                              \
     }                                                                                                                  \
