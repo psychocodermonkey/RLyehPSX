@@ -268,6 +268,41 @@ rm -fr "qtbase-everywhere-src-$QT"
 tar xf "qtbase-everywhere-src-$QT.tar.xz"
 cd "qtbase-everywhere-src-$QT"
 
+# Temporary Qt 6.7.2 compatibility workaround for Apple Clang 21.
+#
+# Apple Clang 21 reports __has_builtin(__yield) but requires <arm_acle.h> to
+# declare it. Prefer the ARM-specific builtin, as current upstream Qt does.
+# Remove this patch when upgrading Qt to 6.12 or a version that contains the
+# upstream ordering change.
+patch -u src/corelib/thread/qyieldcpu.h <<EOF
+--- qyieldcpu.h
++++ qyieldcpu.h
+@@ -31,8 +31,22 @@
+ #ifdef __cplusplus
+     noexcept
+ #endif
+ {
+-#if __has_builtin(__yield)
++#if __has_builtin(__builtin_arm_yield)
++    __builtin_arm_yield();
++
++/*
++ * Temporary Apple Clang 21 workaround. Qt 6.7.2 originally tested
++ * __yield first:
++ *
++ * #if __has_builtin(__yield)
++ *     __yield();              // Generic
++ * #endif
++ *
++ * Remove this comment and the preceding __builtin_arm_yield branch when
++ * upgrading Qt to a release that contains the upstream fix.
++ */
++#elif __has_builtin(__yield)
+     __yield();              // Generic
+ #elif defined(_YIELD_PROCESSOR) && defined(Q_CC_MSVC)
+     _YIELD_PROCESSOR();     // Generic; MSVC's <atomic>
+EOF
+
 # since we don't have a direct reference to QtSvg, it doesn't deployed directly from the main binary
 # (only indirectly from iconengines), and the libqsvg.dylib imageformat plugin does not get deployed.
 # We could run macdeployqt twice, but that's even more janky than patching it.
