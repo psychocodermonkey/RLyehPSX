@@ -66,7 +66,7 @@ Other platform build instructions and support documentation will be updated as t
 
 These steps go from a fresh clone to a runnable macOS app bundle. The app is currently unsigned, so ad hoc signing is needed before macOS will launch it locally.
 
-Prerequisites: `git`, `curl`, `cmake`, `ninja`, Xcode command line tools, and a macOS shell with `codesign`, `lipo`, and `shasum` available.
+Prerequisites: `git`, `curl`, CMake 3.21 or newer, `ninja`, Xcode command line tools, and a macOS shell with `codesign`, `lipo`, and `shasum` available.
 
 #### Clone the repo
 
@@ -90,34 +90,25 @@ Run the dependencies build script.
 
 #### Configure and build the app
 
-Set the deployment target.
+Configure the Debug build. The preset sets the generator, dependency path, build type, and deployment target.
 
 ``` sh
-export MACOSX_DEPLOYMENT_TARGET=11.0
-```
-
-Set the build parameters and execute the build.
-
-``` sh
-cmake -S . -B build \
-  -G Ninja \
-  -DCMAKE_BUILD_TYPE=Debug \
-  -DCMAKE_PREFIX_PATH="$PWD/deps"
+cmake --preset debug-mac
 ```
 
 Build and ad-hoc sign the package. These steps are necessary to rebuild and launch the package on macOS. The `--deep` flag ensures that all embedded resources are also signed.
 
 ``` sh
-ninja -C build
+cmake --build --preset debug-mac
 ```
 
 Sign the package to allow running on MacOS.
 
 ``` sh
-codesign --force --deep --sign - build/bin/DuckStation.app
+codesign --force --deep --sign - build/debug-mac/bin/DuckStation.app
 ```
 
-The resulting app bundle is written to `build/bin/DuckStation.app`.
+The resulting app bundle is written to `build/debug-mac/bin/DuckStation.app`. Use `release-mac` in place of `debug-mac` for a Release build.
 
 ## Licensing
 

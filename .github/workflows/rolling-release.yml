@@ -218,6 +218,11 @@ jobs:
           libxcb-shm0-dev libxcb-sync-dev libxcb-util-dev libxcb-xfixes0-dev libxcb-xinput-dev libxcb-xkb-dev libxext-dev libxkbcommon-x11-dev libxrandr-dev lld-17 \
           llvm-17 nasm ninja-build patchelf pkg-config zlib1g-dev
 
+    - name: Verify CMake version
+      shell: bash
+      run: |
+        printf '%s\n' 'if(CMAKE_VERSION VERSION_LESS "3.21")' '  message(FATAL_ERROR "CMake 3.21 or newer is required")' 'endif()' 'message(STATUS "CMake ${CMAKE_VERSION} satisfies requirement")' | cmake -P /dev/stdin
+
     - name: Cache Dependencies
       id: cache-deps
       uses: actions/cache@v4.0.2
@@ -348,6 +353,11 @@ jobs:
       run: |
         brew install curl ninja
 
+    - name: Verify CMake version
+      shell: bash
+      run: |
+        printf '%s\n' 'if(CMAKE_VERSION VERSION_LESS "3.21")' '  message(FATAL_ERROR "CMake 3.21 or newer is required")' 'endif()' 'message(STATUS "CMake ${CMAKE_VERSION} satisfies requirement")' | cmake -P /dev/stdin
+
     - name: Cache Dependencies
       id: cache-deps-mac
       uses: actions/cache@v4.0.2
@@ -426,6 +436,7 @@ jobs:
             ./artifacts/linux-flatpak/duckstation-x64.flatpak
             ./artifacts/macos/duckstation-mac-release.zip
 
+
       - name: Create dev release
         if: github.ref == 'refs/heads/dev'
         uses: "marvinpinto/action-automatic-releases@latest"
@@ -442,4 +453,3 @@ jobs:
             ./artifacts/linux-x64-appimage-qt/DuckStation-x64.AppImage
             ./artifacts/linux-flatpak/duckstation-x64.flatpak
             ./artifacts/macos/duckstation-mac-release.zip
-
