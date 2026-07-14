@@ -6,16 +6,16 @@ This document records the completed image-rebranding pass and preserves the rema
 
 The DuckStation-specific logos and application icons have been replaced with the new R'Lyeh PSX/Vaulketh assets. The old tracked binary assets were removed from the working tree and the new assets are present as their replacements.
 
-| Original asset | Replacement asset | Type and role |
-|---|---|---|
-| `data/resources/images/duck.png` | `data/resources/images/vaulketh.png` | PNG, 498×498; fullscreen UI logo |
-| `scripts/org.duckstation.DuckStation.png` | `scripts/dev.rlyeh.rlyehpsx.png` | PNG, 512×512; Linux/AppImage/Flatpak icon |
-| `src/duckstation-qt/DuckStation.icns` | `src/duckstation-qt/RLyehPSX.icns` | macOS ICNS application icon |
-| `src/duckstation-qt/duckstation-qt.ico` | `src/duckstation-qt/rlyehpsx-qt.ico` | Windows ICO application/updater icon |
-| `src/duckstation-qt/resources/icons/duck.png` | `src/duckstation-qt/resources/icons/vaulketh.png` | PNG, 260×260; Qt application/dialog icon |
-| `src/duckstation-qt/resources/icons/duck_64.png` | `src/duckstation-qt/resources/icons/vaulketh_64.png` | PNG, 64×64; Qt icon variant |
-| `src/duckstation-qt/resources/icons/duck_128.png` | `src/duckstation-qt/resources/icons/vaulketh_128.png` | PNG, 128×128; Qt icon variant |
-| `src/duckstation-qt/resources/icons/UpdateDuck.png` | `src/duckstation-qt/resources/icons/UpdateVaulketh.png` | PNG, 48×48; updater illustration |
+| Original asset                                      | Replacement asset                                       | Type and role                             |
+|-----------------------------------------------------|---------------------------------------------------------|-------------------------------------------|
+| `data/resources/images/duck.png`                    | `data/resources/images/vaulketh.png`                    | PNG, 498×498; fullscreen UI logo          |
+| `scripts/org.duckstation.DuckStation.png`           | `scripts/dev.rlyeh.rlyehpsx.png`                        | PNG, 512×512; Linux/AppImage/Flatpak icon |
+| `src/duckstation-qt/DuckStation.icns`               | `src/duckstation-qt/RLyehPSX.icns`                      | macOS ICNS application icon               |
+| `src/duckstation-qt/duckstation-qt.ico`             | `src/duckstation-qt/rlyehpsx-qt.ico`                    | Windows ICO application/updater icon      |
+| `src/duckstation-qt/resources/icons/duck.png`       | `src/duckstation-qt/resources/icons/vaulketh.png`       | PNG, 260×260; Qt application/dialog icon  |
+| `src/duckstation-qt/resources/icons/duck_64.png`    | `src/duckstation-qt/resources/icons/vaulketh_64.png`    | PNG, 64×64; Qt icon variant               |
+| `src/duckstation-qt/resources/icons/duck_128.png`   | `src/duckstation-qt/resources/icons/vaulketh_128.png`   | PNG, 128×128; Qt icon variant             |
+| `src/duckstation-qt/resources/icons/UpdateDuck.png` | `src/duckstation-qt/resources/icons/UpdateVaulketh.png` | PNG, 48×48; updater illustration          |
 
 ### Completed reference updates
 
