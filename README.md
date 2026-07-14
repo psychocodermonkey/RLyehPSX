@@ -1,5 +1,13 @@
 # R'Lyeh PSX
 
+<p align="center">
+  <img
+    src="data/resources/images/vaulketh.png"
+    alt="Vaul'keth"
+    width="300"
+  />
+</p>
+
 An experimental PlayStation (PS1) emulator project derived from the GPL-licensed [DuckStation-GPL](https://github.com/Trixarian/duckstation-gpl) codebase.
 
 ## Project Status
@@ -8,13 +16,30 @@ An experimental PlayStation (PS1) emulator project derived from the GPL-licensed
 
 R'Lyeh PSX is an independent fork intended for long-term experimentation, maintenance, and feature development. The project is still undergoing dependency modernization, library migration, and validation work, but the macOS build path has been brought to a successful build state.
 
-Recent work includes:
+### Recent development highlights
 
-- PlutoVG integration as a first-class dependency.
-- PlutoSVG dependency chain modernization.
-- Dear ImGui 1.92.x migration work.
-- Build system maintenance and cleanup.
-- Dependency version updates and validation.
+#### macOS build-system migration
+
+- Initial modern macOS/Xcode support.
+- Improved dependency retrieval and local builds.
+- Apple Clang 21 build validation.
+- Metal toolchain and deployment-target discoveries.
+
+#### Dependency modernization
+
+- ImGui 1.91.0 → 1.92.7
+- Replaced LunaSVG with PlutoSVG 0.0.8
+- Added PlutoVG 1.3.3 as a dependency for PlutoSVG.
+- {fmt} 10.1.1 → 12.2.0 migration.
+- Compatibility work required by newer APIs and compilers.
+- Cubeb updated to current upstream, preserving project-specific behavior while adapting R’Lyeh to upstream API changes.
+- Established dependency provenance and version audit process for vendored source, including commit pinning where upstream releases are unavailable.
+
+#### Replacing restricted components
+
+- Audio-stream subsystem rewrite.
+- Software rasterizer rewrite.
+- Replaced components with licensing constraints to simplify long-term maintenance and project ownership.
 
 Expect incomplete functionality, regressions, unfinished features, and build failures on unvalidated platforms.
 
@@ -123,6 +148,10 @@ This repository is currently a development and learning project.
 If you are looking for a stable, production-ready PlayStation emulator, this is not it.
 
 At least not yet.
+
+Icon by icons8: <https://icons8.com/icon/74847/platforms.undefined.short-title>
+
+"PlayStation" and "PSX" are registered trademarks of Sony Interactive Entertainment. This project is not affiliated in any way with Sony Interactive Entertainment.
 
 ## AI Usage
 
