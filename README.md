@@ -149,8 +149,6 @@ If you are looking for a stable, production-ready PlayStation emulator, this is 
 
 At least not yet.
 
-Icon by icons8: <https://icons8.com/icon/74847/platforms.undefined.short-title>
-
 "PlayStation" and "PSX" are registered trademarks of Sony Interactive Entertainment. This project is not affiliated in any way with Sony Interactive Entertainment.
 
 ## AI Usage
