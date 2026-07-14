@@ -1,24 +1,63 @@
 # Rebranding Artifacts
 
-Generated from the tracked repository at the current working tree on 2026-06-19. A finding is one semantic artifact group in one file; repeated lines with the same classification and risk are grouped and all matching line numbers are retained. Binary assets and branded filenames are separate findings.
+This document records the completed image-rebranding pass and preserves the remaining DuckStation/R'Lyeh PSX inventory for future rebranding work. The detailed inventory below was gathered from the repository and remains intentionally conservative: upstream attribution, legal notices, compatibility identifiers, and external service identities are not treated as ordinary text replacements.
 
-## Scope and method
+## Completed image-rebranding pass
 
-- Searched all Git-tracked paths case-insensitively for `DuckStation` variants, `org.duckstation`, `duckstation.org`, `stenzek`, current `R'Lyeh PSX` variants, branded filenames, known duck-logo resources, copyright notices, and license notices.
-- Inspected package metadata, build targets, runtime integration identifiers, version surfaces, save-state serialization constants, Qt/fullscreen UI, translations, documentation, and image assets.
-- Build outputs, untracked files, `.git`, and installed dependency output under untracked directories are outside this report.
-- PNG duck assets were visually confirmed. The `.icns` and `.ico` containers were identified from their branded names and use sites; their individual embedded sizes were not separately rendered.
-- Generic dependency/product names such as Qt, FFmpeg, Discord, Vulkan, and RetroAchievements are listed only where they are part of a DuckStation-specific integration or attribution surface.
+The DuckStation-specific logos and application icons have been replaced with the new R'Lyeh PSX/Vaulketh assets. The old tracked binary assets were removed from the working tree and the new assets are present as their replacements.
 
-## Summary
+| Original asset | Replacement asset | Type and role |
+|---|---|---|
+| `data/resources/images/duck.png` | `data/resources/images/vaulketh.png` | PNG, 498×498; fullscreen UI logo |
+| `scripts/org.duckstation.DuckStation.png` | `scripts/dev.rlyeh.rlyehpsx.png` | PNG, 512×512; Linux/AppImage/Flatpak icon |
+| `src/duckstation-qt/DuckStation.icns` | `src/duckstation-qt/RLyehPSX.icns` | macOS ICNS application icon |
+| `src/duckstation-qt/duckstation-qt.ico` | `src/duckstation-qt/rlyehpsx-qt.ico` | Windows ICO application/updater icon |
+| `src/duckstation-qt/resources/icons/duck.png` | `src/duckstation-qt/resources/icons/vaulketh.png` | PNG, 260×260; Qt application/dialog icon |
+| `src/duckstation-qt/resources/icons/duck_64.png` | `src/duckstation-qt/resources/icons/vaulketh_64.png` | PNG, 64×64; Qt icon variant |
+| `src/duckstation-qt/resources/icons/duck_128.png` | `src/duckstation-qt/resources/icons/vaulketh_128.png` | PNG, 128×128; Qt icon variant |
+| `src/duckstation-qt/resources/icons/UpdateDuck.png` | `src/duckstation-qt/resources/icons/UpdateVaulketh.png` | PNG, 48×48; updater illustration |
 
-- **Total findings:** 1866
-- **User-visible branding:** 67
-- **Internal branding:** 813
-- **Third-party attribution:** 954
-- **Assets:** 32
-- **Findings by classification:** Safe Rename: 20, Probably Rename: 862, Leave Alone: 959, Needs Human Decision: 25
-- **High-risk findings:** 972. Most are legal notices; the non-legal high-risk set includes package IDs, user-data directories, updater/service destinations, IPC/shared-memory names, Discord/RetroAchievements identifiers, and save-state format identity.
+### Completed reference updates
+
+- Core fullscreen references in `src/core/fullscreen_ui.cpp` and `src/core/imgui_overlays.cpp` now load `images/vaulketh.png`.
+- Qt resource registration in `src/duckstation-qt/resources/duckstation-qt.qrc` now lists the Vaulketh assets.
+- Qt UI/source references now use `:/icons/vaulketh.png`, `:/icons/vaulketh_64.png`, and `:/icons/UpdateVaulketh.png`.
+- Windows references in `duckstation-qt.rc`, the Visual Studio project/filter files, and `src/updater/updater.rc` now use `rlyehpsx-qt.ico`.
+- macOS references in `src/duckstation-qt/CMakeLists.txt` and `Info.plist.in` now use `RLyehPSX.icns`.
+- AppImage packaging now uses `scripts/dev.rlyeh.rlyehpsx.png`.
+- Flatpak packaging now sources the new PNG while retaining the existing installed icon filename and package identity.
+
+### Validation completed
+
+- All replacement assets exist and all Qt `.qrc` entries resolve.
+- Qt resource/UI XML files validate successfully.
+- No stale image asset references remain in source, packaging, or build configuration outside documentation/build artifacts.
+- `git diff --check` passed.
+- The macOS preset build completed successfully after removing the stale existing `DuckStation.app` bundle. The rebuilt bundle contains `RLyehPSX.icns` and no longer retains the old `DuckStation.icns` artifact.
+- A full Qt dependency rebuild was not required; the earlier direct-build failure was caused by the pre-existing local `uic` execution/toolchain environment.
+
+### Deliberately unchanged during the image pass
+
+- Executable name: `DuckStation`
+- macOS bundle name: `DuckStation.app`
+- Flatpak/application identifiers
+- Desktop-entry filenames and identifiers
+- Package upgrade/migration behavior
+- User-data directories
+- Third-party UI/service icons such as Qt, GitHub, Discord, controller, and system icons
+
+## Remaining rebranding work gathered from the prior inventory
+
+The following work is not complete and is preserved in the detailed tables below.
+
+1. **Approve canonical public identity values.** Confirm product spelling, executable stem, reverse-DNS ID, repository/homepage/support URLs, contact address, updater URL, Flatpak/AppID, macOS bundle identifier, and Windows product name.
+2. **Resolve compatibility-sensitive identifiers.** Decide policy for save-state magic/version/header identity, PINE socket/version names, shared-memory names, IPC/service names, updater destinations, and persistent user-data roots. Any user-data rename needs discovery/migration behavior.
+3. **Rename build and package identity together.** Coordinate CMake/MSBuild targets, solution/project paths, resource bundle names, bundle identifiers, Flatpak/AppStream/desktop IDs, CI artifacts, and updater packaging.
+4. **Update remaining user-visible branding.** Replace source-language UI strings, About/version/window text, documentation, issue forms, public links, and generated metadata; then regenerate translation catalogs through the normal workflow.
+5. **Review external integrations.** Decide whether Discord Rich Presence, RetroAchievements, rcheevos compatibility keys, updater endpoints, and other external identities remain inherited, migrate, or receive new registrations.
+6. **Perform legal and attribution review last.** Preserve copyright, license, contributor, and upstream-lineage material unless an approved legal decision calls for additive project attribution or another explicit change.
+
+The existing `User-Visible Branding`, `Internal Branding`, and `Third-Party Attribution` sections retain the full file-by-file findings, line numbers, classifications, and risk notes used to execute these future steps.
 
 ### Rebranding Translation table
 
@@ -1927,40 +1966,20 @@ This section includes both DuckStation lineage/authorship references and a compr
 
 ## Assets
 
-| Classification | Current value | File path | Line number(s) | Explanation | Risk |
-|---|---|---|---:|---|---|
-| Probably Rename | `duck.png` | `data/resources/images/duck.png` | N/A (binary asset) | DuckStation geometric duck logo used by the fullscreen UI and setup wizard. | Medium |
-| Probably Rename | `org.duckstation`, `DuckStation` | `scripts/appimage/make-appimage.sh` | 148 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `org.duckstation`, `DuckStation` | `scripts/flatpak/org.duckstation.DuckStation.yaml` | 80-81 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `org.duckstation.DuckStation.png` | `scripts/org.duckstation.DuckStation.png` | N/A (binary asset) | DuckStation geometric duck logo used for Linux desktop/AppImage/Flatpak packaging. | Medium |
-| Probably Rename | `images/duck.png` | `src/core/fullscreen_ui.cpp` | 897 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `images/duck.png` | `src/core/imgui_overlays.cpp` | 114 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `duckstation`, `DuckStation` | `src/duckstation-qt/CMakeLists.txt` | 248-249 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `DuckStation.icns` | `src/duckstation-qt/DuckStation.icns` | N/A (binary asset) | macOS application icon bundle; branded filename and bundle references identify it as the DuckStation app icon. | Medium |
-| Probably Rename | `DuckStation` | `src/duckstation-qt/Info.plist.in` | 19, 29 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `icons/duck.png` | `src/duckstation-qt/aboutdialog.cpp` | 62 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `icons/duck.png` | `src/duckstation-qt/aboutdialog.ui` | 18, 51 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `UpdateDuck.png` | `src/duckstation-qt/autoupdaterdialog.ui` | 37 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `icons/duck.png` | `src/duckstation-qt/cheatmanagerwindow.ui` | 18 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `icons/duck.png` | `src/duckstation-qt/controllersettingswindow.ui` | 24 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `duckstation-qt.ico` | `src/duckstation-qt/duckstation-qt.ico` | N/A (binary asset) | Windows application/updater icon resource; branded filename and RC references identify it as the DuckStation app icon. | Medium |
-| Probably Rename | `duckstation` | `src/duckstation-qt/duckstation-qt.rc` | 94 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `duckstation` | `src/duckstation-qt/duckstation-qt.vcxproj` | 271 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `duckstation` | `src/duckstation-qt/duckstation-qt.vcxproj.filters` | 300 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `icons/duck.png` | `src/duckstation-qt/gamesummarywidget.ui` | 18 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `icons/duck.png` | `src/duckstation-qt/logwindow.cpp` | 112 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `icons/duck.png`, `icons/duck_64.png` | `src/duckstation-qt/mainwindow.ui` | 21, 478 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `icons/duck.png` | `src/duckstation-qt/memorycardeditorwindow.ui` | 18 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `icons/duck.png` | `src/duckstation-qt/memoryscannerwindow.ui` | 18 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `icons/duck.png` | `src/duckstation-qt/qthost.cpp` | 259 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `icons/duck_128.png`, `icons/duck_64.png`, `icons/duck.png`, `UpdateDuck.png` | `src/duckstation-qt/resources/duckstation-qt.qrc` | 137-139, 248 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `UpdateDuck.png` | `src/duckstation-qt/resources/icons/UpdateDuck.png` | N/A (binary asset) | DuckStation duck-in-box updater illustration. | Medium |
-| Probably Rename | `duck.png` | `src/duckstation-qt/resources/icons/duck.png` | N/A (binary asset) | DuckStation geometric duck logo used in Qt windows and dialogs. | Medium |
-| Probably Rename | `duck_128.png` | `src/duckstation-qt/resources/icons/duck_128.png` | N/A (binary asset) | 128-pixel DuckStation geometric duck logo variant. | Medium |
-| Probably Rename | `duck_64.png` | `src/duckstation-qt/resources/icons/duck_64.png` | N/A (binary asset) | 64-pixel DuckStation geometric duck logo variant. | Medium |
-| Probably Rename | `icons/duck.png` | `src/duckstation-qt/settingswindow.ui` | 24 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `icons/duck.png` | `src/duckstation-qt/setupwizarddialog.ui` | 18 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
-| Probably Rename | `duckstation` | `src/updater/updater.rc` | 94 | Reference to a DuckStation logo/icon asset; coordinate with replacement asset names and resource manifests. | Medium |
+The image pass is complete. The following assets are now active:
+
+| Asset | Type and dimensions | Location | Role |
+|---|---|---|---|
+| `vaulketh.png` | PNG, 498×498 RGBA | `data/resources/images/vaulketh.png` | Fullscreen UI logo |
+| `dev.rlyeh.rlyehpsx.png` | PNG, 512×512 RGBA | `scripts/dev.rlyeh.rlyehpsx.png` | Linux desktop/AppImage/Flatpak icon |
+| `RLyehPSX.icns` | macOS ICNS | `src/duckstation-qt/RLyehPSX.icns` | macOS application icon |
+| `rlyehpsx-qt.ico` | Windows ICO, seven embedded images | `src/duckstation-qt/rlyehpsx-qt.ico` | Windows application/updater icon |
+| `vaulketh.png` | PNG, 260×260 RGBA | `src/duckstation-qt/resources/icons/vaulketh.png` | Qt application/dialog icon |
+| `vaulketh_64.png` | PNG, 64×64 RGBA | `src/duckstation-qt/resources/icons/vaulketh_64.png` | Qt icon variant |
+| `vaulketh_128.png` | PNG, 128×128 RGBA | `src/duckstation-qt/resources/icons/vaulketh_128.png` | Qt icon variant |
+| `UpdateVaulketh.png` | PNG, 48×48 RGBA | `src/duckstation-qt/resources/icons/UpdateVaulketh.png` | Qt updater illustration |
+
+The former DuckStation image files and their source/build references have been removed or replaced. The remaining `org.duckstation.DuckStation` icon filename in the Flatpak install destination is intentional because package/application identity was outside the scope of this pass.
 
 ## Review notes
 
