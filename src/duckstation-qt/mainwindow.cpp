@@ -1408,7 +1408,7 @@ void MainWindow::onViewGamePropertiesActionTriggered()
 
 void MainWindow::onGitHubRepositoryActionTriggered()
 {
-  QtUtils::OpenURL(this, "https://github.com/stenzek/duckstation/");
+  QtUtils::OpenURL(this, "https://github.com/psychocodermonkey/RLyehPSX");
 }
 
 void MainWindow::onIssueTrackerActionTriggered()
@@ -2891,7 +2891,7 @@ void MainWindow::checkForUpdates(bool display_message)
           tr("<p>Sorry, you are trying to update a DuckStation version which is not an official GitHub release. To "
              "prevent incompatibilities, the auto-updater is only enabled on official builds.</p>"
              "<p>Please download an official release from from <a "
-             "href=\"https://www.duckstation.org/\">duckstation.org</a>.</p>");
+             "href=\"https://rlyeh.dev\">duckstation.org</a>.</p>");
       }
       else
       {

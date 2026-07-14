@@ -11700,8 +11700,8 @@ Are you sure you want to continue?</source>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2889"/>
-        <source>&lt;p&gt;Sorry, you are trying to update a DuckStation version which is not an official GitHub release. To prevent incompatibilities, the auto-updater is only enabled on official builds.&lt;/p&gt;&lt;p&gt;To obtain an official build, please follow the instructions under &quot;Downloading and Running&quot; at the link below:&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/stenzek/duckstation/&quot;&gt;https://github.com/stenzek/duckstation/&lt;/a&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;죄송합니다, GitHub의 공식 릴리스가 아닌 DuckStation 버전을 업데이트하려고 합니다. 비호환성을 방지하기 위해 자동 업데이트는 공식 빌드에서만 활성화되어 있습니다.&lt;/p&gt;&lt;p&gt;공식 빌드를 얻으려면 아래 바로가기의 &apos;내려받기 및 실행&apos; 단계를 따르세요.&lt;/p&gt;&lt;p&gt; &lt;a href=&quot;https://github.com/stenzek/duckstation/&quot;&gt; https://github.com/stenzek/duckstation/ &lt;/a&gt;&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Sorry, you are trying to update a DuckStation version which is not an official GitHub release. To prevent incompatibilities, the auto-updater is only enabled on official builds.&lt;/p&gt;&lt;p&gt;To obtain an official build, please follow the instructions under &quot;Downloading and Running&quot; at the link below:&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/psychocodermonkey/RLyehPSX&quot;&gt;https://github.com/psychocodermonkey/RLyehPSX&lt;/a&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;죄송합니다, GitHub의 공식 릴리스가 아닌 DuckStation 버전을 업데이트하려고 합니다. 비호환성을 방지하기 위해 자동 업데이트는 공식 빌드에서만 활성화되어 있습니다.&lt;/p&gt;&lt;p&gt;공식 빌드를 얻으려면 아래 바로가기의 &apos;내려받기 및 실행&apos; 단계를 따르세요.&lt;/p&gt;&lt;p&gt; &lt;a href=&quot;https://github.com/psychocodermonkey/RLyehPSX&quot;&gt; https://github.com/psychocodermonkey/RLyehPSX &lt;/a&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2895"/>
