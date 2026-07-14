@@ -61,18 +61,18 @@ The existing `User-Visible Branding`, `Internal Branding`, and `Third-Party Attr
 
 ### Rebranding Translation table
 
-| Artifact          | Old Value                               | New Value                               |
-|-------------------|-----------------------------------------|-----------------------------------------|
-| Project Name      | DuckStation                             | R'Lyeh PSX                              |
-| Executable stem   | duckstation                             | rlyehpsx                                |
-| DNS Identifier    | org.duckstation                         | dev.rlyeh.psx                           |
-| Site              | https://www.duckstation.org             | https://psx.rlyeh.dev                   |
-| Repo              | github.com/stenzek/duckstation          | github.com/psychocodermonkey/rlyehpsx   |
-| Support Email     | ?                                       | support@rlyeh.dev                       |
-| Updater URL       | ?                                       | ?                                       |
-| Flatpak/AppID     | org.duckstation.DuckStation             |dev.rlyeh.psx                            |
-| macOS Bundle      | org.duckstation.DuckStation             |dev.rlyeh.psx                            |
-| Windows Product   | DuckStation                             | RLyehPSX                                |
+| Artifact          | Old Value                        | New Value                               |
+|-------------------|----------------------------------|-----------------------------------------|
+| Project Name      | DuckStation                      | R'Lyeh PSX                              |
+| Executable stem   | duckstation                      | rlyehpsx                                |
+| DNS Identifier    | org.duckstation                  | dev.rlyeh.rlyehpsx                      |
+| Site              | https://www.duckstation.org      | https://psx.rlyeh.dev                   |
+| Repo              | github.com/stenzek/duckstation   | github.com/psychocodermonkey/rlyehpsx   |
+| Support Email     | ?                                | support@rlyeh.dev                       |
+| Updater URL       | ?                                | ?                                       |
+| Flatpak/AppID     | org.duckstation.DuckStation      |dev.rlyeh.rlyehpsx                       |
+| macOS Bundle      | org.duckstation.DuckStation      |dev.rlyeh.rlyehpsx                       |
+| Windows Product   | DuckStation                      | RLyehPSX                                |
 
 ### Recommended rename order
 
