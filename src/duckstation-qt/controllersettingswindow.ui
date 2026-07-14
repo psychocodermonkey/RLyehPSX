@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resources/duckstation-qt.qrc">
-    <normaloff>:/icons/duck.png</normaloff>:/icons/duck.png</iconset>
+    <normaloff>:/icons/vaulketh.png</normaloff>:/icons/vaulketh.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">

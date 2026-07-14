@@ -91,7 +91,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON1               ICON                    "duckstation-qt.ico"
+IDI_ICON1               ICON                    "rlyehpsx-qt.ico"
 
 #endif    // English (Australia) resources
 /////////////////////////////////////////////////////////////////////////////
@@ -107,4 +107,3 @@ IDI_ICON1               ICON                    "duckstation-qt.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

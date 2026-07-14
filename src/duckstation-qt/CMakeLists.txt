@@ -245,8 +245,8 @@ elseif(APPLE)
   endif()
 
   # Copy icon into the bundle
-  target_sources(duckstation-qt PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/DuckStation.icns")
-  set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/DuckStation.icns" PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+  target_sources(duckstation-qt PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/RLyehPSX.icns")
+  set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/RLyehPSX.icns" PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 endif()
 
 if(ALLOW_INSTALL)

@@ -16,7 +16,7 @@
                 <string>psf</string>
             </array>
             <key>CFBundleTypeIconFile</key>
-            <string>DuckStation.icns</string>
+            <string>RLyehPSX.icns</string>
             <key>CFBundleTypeName</key>
             <string>PlayStation File</string>
             <key>CFBundleTypeRole</key>
@@ -26,7 +26,7 @@
     <key>CFBundleExecutable</key>
     <string>DuckStation</string>
     <key>CFBundleIconFile</key>
-    <string>DuckStation.icns</string>
+    <string>RLyehPSX.icns</string>
     <key>CFBundleIdentifier</key>
     <string>com.github.stenzek.duckstation</string>
     <key>CFBundleDevelopmentRegion</key>

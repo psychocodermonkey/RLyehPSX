@@ -145,7 +145,7 @@ QMAKE="$DEPSDIR/bin/qmake" \
 NO_STRIP="1" \
 $LINUXDEPLOY --plugin qt --appdir="$OUTDIR" --executable="$BUILDDIR/bin/duckstation-qt" ${EXTRA_LIBS_ARGS[@]} \
 --desktop-file="$ROOTDIR/scripts/org.duckstation.DuckStation.desktop" \
---icon-file="$ROOTDIR/scripts/org.duckstation.DuckStation.png" \
+--icon-file="$ROOTDIR/scripts/dev.rlyeh.rlyehpsx.png" \
 
 echo "Copying resources into AppDir..."
 cp -a "$BUILDDIR/bin/resources" "$OUTDIR/usr/bin"

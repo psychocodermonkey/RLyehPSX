@@ -77,7 +77,7 @@ modules:
       # Manually copy desktop file/metadata, it's not done as part of the regular build.
       - >-
         install -Dm644
-        "${FLATPAK_BUILDER_BUILDDIR}/scripts/org.duckstation.DuckStation.png"
+        "${FLATPAK_BUILDER_BUILDDIR}/scripts/dev.rlyeh.rlyehpsx.png"
         "${FLATPAK_DEST}/share/icons/hicolor/512x512/apps/org.duckstation.DuckStation.png"
       - >-
         install -Dm644

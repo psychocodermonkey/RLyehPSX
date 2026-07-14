@@ -297,7 +297,7 @@
     <ResourceCompile Include="duckstation-qt.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="duckstation-qt.ico" />
+    <Image Include="rlyehpsx-qt.ico" />
   </ItemGroup>
   <ItemGroup>
     <QtResource Include="resources\duckstation-qt.qrc">
