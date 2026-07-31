@@ -31,6 +31,9 @@
         "type": "equals",
         "lhs": "${hostSystemName}",
         "rhs": "Linux"
+      },
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/scripts/clang-toolchain.cmake"
       }
     },
     {

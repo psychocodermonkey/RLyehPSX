@@ -131,7 +131,7 @@ Verified working:
 ##### Reference Build Process
 
 ``` sh
-./scripts/deps/build-dependencies-linux.sh deps
+./scripts/deps/build-dependencies-linux.sh deps 2>&1 | tee linux-deps-build.log
 
 cmake -S . -B build \
   -G Ninja \
@@ -144,7 +144,9 @@ ninja -C build
 
 ##### Linux Host Tooling Assumptions
 
-- Linux build tooling is currently pinned to `clang-17` in `scripts/clang-toolchain.cmake`.
+- Linux dependencies and the application both use Fedora's system `clang` and `clang++`.
+- The Linux toolchain uses the system default linker; `lld` is not required.
+- Recreate `deps`, `deps-build`, and the application CMake build directory when changing compiler major versions.
 - The dependency build script uses upstream source archives for its third-party components.
 - Qt's configure step expects system packages for X11, XCB, XKB, fontconfig, OpenGL, GTK, and related headers.
 
@@ -152,9 +154,8 @@ ninja -C build
 
 These should be present before running the Linux dependency script:
 
-- `clang-17`
-- `clang++-17`
-- `lld-17`
+- `clang`
+- `clang++`
 - `cmake`
 - `ninja`
 - `make`

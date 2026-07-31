@@ -2,6 +2,22 @@
 
 set -e
 
+# Keep the dependency prefix ABI-consistent with the Linux application build.
+# The project intentionally follows Fedora's system Clang rather than a pinned
+# LLVM release.
+if ! command -v clang >/dev/null 2>&1; then
+	echo "error: system Clang compiler 'clang' was not found in PATH"
+	exit 1
+fi
+if ! command -v clang++ >/dev/null 2>&1; then
+	echo "error: system Clang C++ compiler 'clang++' was not found in PATH"
+	exit 1
+fi
+export CC=clang
+export CXX=clang++
+echo "Using C compiler: $(clang --version | head -n 1)"
+echo "Using C++ compiler: $(clang++ --version | head -n 1)"
+
 if [ "$#" -lt 1 ]; then
     echo "Syntax: $0 [-system-freetype] [-system-harfbuzz] [-system-libjpeg] [-system-libpng] [-system-libwebp] [-system-zstd] [-system-qt] [-skip-download] [-skip-cleanup] <output directory>"
     exit 1
@@ -158,7 +174,7 @@ if [ "$SKIP_QT" != true ]; then
 			-O "https://download.qt.io/archive/qt/${QT%.*}/$QT/submodules/qtsvg-everywhere-src-$QT.tar.xz" \
 			-O "https://download.qt.io/archive/qt/${QT%.*}/$QT/submodules/qttools-everywhere-src-$QT.tar.xz" \
 			-O "https://download.qt.io/archive/qt/${QT%.*}/$QT/submodules/qttranslations-everywhere-src-$QT.tar.xz" \
-			-O "https://download.qt.io/archive/qt/${QT%.*}/$QT/submodules/qtwayland-everywhere-src-$QT.tar.xz" 
+			-O "https://download.qt.io/archive/qt/${QT%.*}/$QT/submodules/qtwayland-everywhere-src-$QT.tar.xz"
 	fi
 	cat >> SHASUMS <<EOF
 c5f22a5e10fb162895ded7de0963328e7307611c688487b5d152c9ee64767599  qtbase-everywhere-src-$QT.tar.xz
@@ -269,6 +285,9 @@ echo "Building SDL2..."
 rm -fr "SDL2-$SDL2"
 tar xf "SDL2-$SDL2.tar.gz"
 cd "SDL2-$SDL2"
+# PipeWire 1.4+ requires its node API to receive a pw_node pointer.
+# SDL 2.30.6 predates the upstream compatibility fix.
+patch -p1 < "$SCRIPTDIR/sdl2-pipewire-compat.patch"
 cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -DBUILD_SHARED_LIBS=ON -DSDL_SHARED=ON -DSDL_STATIC=OFF -G Ninja
 cmake --build build --parallel
 ninja -C build install
@@ -402,7 +421,11 @@ echo "Building discord-rpc..."
 rm -fr "discord-rpc-$DISCORD_RPC"
 tar xf "discord-rpc-$DISCORD_RPC.tar.gz"
 cd "discord-rpc-$DISCORD_RPC"
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -DBUILD_SHARED_LIBS=ON -B build -G Ninja
+cmake -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
+	-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
+	-DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
+	-DBUILD_SHARED_LIBS=ON -B build -G Ninja
 cmake --build build --parallel
 ninja -C build install
 cd ..
