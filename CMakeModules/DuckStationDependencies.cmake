@@ -19,7 +19,6 @@ find_package(Freetype 2.13.2 REQUIRED) # 2.13.3, but flatpak is still on 2.13.2.
 find_package(plutosvg 0.0.8 REQUIRED CONFIG)
 find_package(cpuinfo REQUIRED)
 find_package(DiscordRPC 3.4.0 REQUIRED)
-find_package(SoundTouch 2.3.3 REQUIRED)
 
 if(NOT WIN32)
   find_package(CURL REQUIRED)

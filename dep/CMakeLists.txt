@@ -13,6 +13,21 @@ add_subdirectory(imgui EXCLUDE_FROM_ALL)
 disable_compiler_warnings_for_target(imgui)
 add_subdirectory(simpleini EXCLUDE_FROM_ALL)
 disable_compiler_warnings_for_target(simpleini)
+
+# Move SoundTouch from downloaded source to the vendored source directory
+set(SOUNDTOUCH_DLL ON CACHE BOOL "")
+set(SOUNDSTRETCH OFF CACHE BOOL "")
+add_subdirectory(soundtouch EXCLUDE_FROM_ALL)
+foreach(SOUNDTOUCH_TARGET SoundTouch SoundTouchDLL)
+  if(MSVC)
+    target_compile_options(${SOUNDTOUCH_TARGET} PRIVATE /EHsc /U_HAS_EXCEPTIONS /D_HAS_EXCEPTIONS=1)
+  else()
+    target_compile_options(${SOUNDTOUCH_TARGET} PRIVATE -fexceptions)
+  endif()
+endforeach()
+# Preserve naming with the dependency move.
+add_library(SoundTouch::SoundTouchDLL ALIAS SoundTouchDLL)
+
 add_subdirectory(vulkan EXCLUDE_FROM_ALL)
 add_subdirectory(googletest EXCLUDE_FROM_ALL)
 add_subdirectory(fast_float EXCLUDE_FROM_ALL)
@@ -56,4 +71,3 @@ if(WIN32)
   disable_compiler_warnings_for_target(d3d12ma)
   add_subdirectory(winpixeventruntime EXCLUDE_FROM_ALL)
 endif()
-

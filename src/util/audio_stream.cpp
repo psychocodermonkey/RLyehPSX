@@ -24,8 +24,7 @@
 #include "common/string_util.h"
 
 #include "kiss_fftr.h"
-#include "soundtouch/SoundTouch.h"
-#include "soundtouch/SoundTouchDLL.h"
+#include "SoundTouchDLL.h"
 
 #include <algorithm>
 #include <array>
