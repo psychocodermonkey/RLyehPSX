@@ -32,7 +32,7 @@ R'Lyeh PSX is an independent fork intended for long-term experimentation, mainte
 - Added PlutoVG 1.3.3 as a dependency for PlutoSVG.
 - {fmt} 10.1.1 → 12.2.0 migration.
 - Compatibility work required by newer APIs and compilers.
-- Cubeb updated to current upstream, preserving project-specific behavior while adapting R’Lyeh to upstream API changes.
+- ~~Cubeb updated to current upstream, preserving project-specific behavior while adapting R’Lyeh to upstream API changes.~~
 - Established dependency provenance and version audit process for vendored source, including commit pinning where upstream releases are unavailable.
 - Migrate CPUINFO from the Stenzek fork to upstream PyTorch cpuinfo, preserving CPU feature, cache, and topology detection.
 - Replace the deprecated Discord RPC integration with Discord's Social SDK, updating Rich Presence and R'Lyeh branding identifiers.
