@@ -80,7 +80,7 @@ SDL2=2.30.6
 QT=6.7.2
 ZSTD=1.5.6
 
-CPUINFO=7524ad504fdcfcf75a18a133da6abd75c5d48053
+CPUINFO=66ee79c038d70dad9f08705b2c9b3e58f6d8f512
 DISCORD_RPC=144f3a3f1209994d8d9e8a87964a989cb9911c1e
 PLUTOSVG=0.0.8
 # PlutoVG pin rationale:
@@ -98,7 +98,7 @@ if [ "$SKIP_DOWNLOAD" != true ]; then
 	curl -C - -L \
 		-O "https://github.com/ianlancetaylor/libbacktrace/archive/$LIBBACKTRACE.zip" \
 		-O "https://github.com/libsdl-org/SDL/releases/download/release-$SDL2/SDL2-$SDL2.tar.gz" \
-		-o "cpuinfo-$CPUINFO.tar.gz" "https://github.com/stenzek/cpuinfo/archive/$CPUINFO.tar.gz" \
+		-o "cpuinfo-$CPUINFO.tar.gz" "https://github.com/pytorch/cpuinfo/archive/$CPUINFO.tar.gz" \
 		-o "discord-rpc-$DISCORD_RPC.tar.gz" "https://github.com/stenzek/discord-rpc/archive/$DISCORD_RPC.tar.gz" \
 		-o "plutosvg-$PLUTOSVG.tar.gz" "https://github.com/sammycage/plutosvg/archive/refs/tags/v$PLUTOSVG.tar.gz" \
 		-o "plutovg-$PLUTOVG.tar.gz" "https://github.com/sammycage/plutovg/archive/refs/tags/v$PLUTOVG.tar.gz" \
@@ -108,7 +108,7 @@ fi
 cat > SHASUMS <<EOF
 fd6f417fe9e3a071cf1424a5152d926a34c4a3c5070745470be6cf12a404ed79  $LIBBACKTRACE.zip
 c6ef64ca18a19d13df6eb22df9aff19fb0db65610a74cc81dae33a82235cacd4  SDL2-$SDL2.tar.gz
-e1351218d270db49c3dddcba04fb2153b09731ea3fa6830e423f5952f44585be  cpuinfo-$CPUINFO.tar.gz
+e3d09aa27ec50da6310da45d1ec6b2e903c367a1455d8ee350bda12b9dedf556  cpuinfo-$CPUINFO.tar.gz
 3eea5ccce6670c126282f1ba4d32c19d486db49a1a5cbfb8d6f48774784d310c  discord-rpc-$DISCORD_RPC.tar.gz
 49d5cfe772d3aa10cd4879f2f6e189f5083c08e4c8ea01bf3d5b87c97dfca7d2  plutosvg-$PLUTOSVG.tar.gz
 2b0d17a6e016f47b86f9c00e2cb82600041b1ea1f7d2a00c2d46ae542cbfed3c  plutovg-$PLUTOVG.tar.gz
