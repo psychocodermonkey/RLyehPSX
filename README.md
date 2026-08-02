@@ -37,7 +37,7 @@ R'Lyeh PSX is an independent fork intended for long-term experimentation, mainte
 - Migrate CPUINFO from the Stenzek fork to upstream PyTorch cpuinfo, preserving CPU feature, cache, and topology detection.
 - Replace the deprecated Discord RPC integration with Discord's Social SDK, updating Rich Presence and R'Lyeh branding identifiers.
 - Migrate shaderc from the Stenzek fork to upstream Google shaderc, preserving runtime GLSL-to-SPIR-V compilation.
-- Migrate SoundTouch from the Stenzek fork to the official Codeberg source, preserving audio time-stretching behavior and validating audio output.
+- ~~Migrate SoundTouch from the Stenzek fork to the official Codeberg source, preserving audio time-stretching behavior and validating audio output.~~
 
 #### Replacing restricted components
 
