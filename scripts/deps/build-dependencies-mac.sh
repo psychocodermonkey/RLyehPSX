@@ -54,7 +54,7 @@ FFMPEG=7.0.2
 MOLTENVK=1.2.9
 QT=6.7.2
 
-CPUINFO=7524ad504fdcfcf75a18a133da6abd75c5d48053
+CPUINFO=66ee79c038d70dad9f08705b2c9b3e58f6d8f512
 DISCORD_RPC=144f3a3f1209994d8d9e8a87964a989cb9911c1e
 SHADERC=f60bb80e255144e71776e2ad570d89b78ea2ab4f
 SPIRV_CROSS=vulkan-sdk-1.3.290.0
@@ -92,7 +92,7 @@ e1a1d8785fae67d16ad0a443b01d5f32663a6b68d275f1806ebab257485ce5d6  qtimageformats
 fb0d1286a35be3583fee34aeb5843c94719e07193bdf1d4d8b0dc14009caef01  qtsvg-everywhere-src-$QT.tar.xz
 58e855ad1b2533094726c8a425766b63a04a0eede2ed85086860e54593aa4b2a  qttools-everywhere-src-$QT.tar.xz
 9845780b5dc1b7279d57836db51aeaf2e4a1160c42be09750616f39157582ca9  qttranslations-everywhere-src-$QT.tar.xz
-e1351218d270db49c3dddcba04fb2153b09731ea3fa6830e423f5952f44585be  cpuinfo-$CPUINFO.tar.gz
+e3d09aa27ec50da6310da45d1ec6b2e903c367a1455d8ee350bda12b9dedf556  cpuinfo-$CPUINFO.tar.gz
 3eea5ccce6670c126282f1ba4d32c19d486db49a1a5cbfb8d6f48774784d310c  discord-rpc-$DISCORD_RPC.tar.gz
 49d5cfe772d3aa10cd4879f2f6e189f5083c08e4c8ea01bf3d5b87c97dfca7d2  plutosvg-$PLUTOSVG.tar.gz
 2b0d17a6e016f47b86f9c00e2cb82600041b1ea1f7d2a00c2d46ae542cbfed3c  plutovg-$PLUTOVG.tar.gz
@@ -114,7 +114,7 @@ curl -L \
 	-O "https://download.qt.io/archive/qt/${QT%.*}/$QT/submodules/qtsvg-everywhere-src-$QT.tar.xz" \
 	-O "https://download.qt.io/archive/qt/${QT%.*}/$QT/submodules/qttools-everywhere-src-$QT.tar.xz" \
 	-O "https://download.qt.io/archive/qt/${QT%.*}/$QT/submodules/qttranslations-everywhere-src-$QT.tar.xz" \
-	-o "cpuinfo-$CPUINFO.tar.gz" "https://github.com/stenzek/cpuinfo/archive/$CPUINFO.tar.gz" \
+	-o "cpuinfo-$CPUINFO.tar.gz" "https://github.com/pytorch/cpuinfo/archive/$CPUINFO.tar.gz" \
 	-o "discord-rpc-$DISCORD_RPC.tar.gz" "https://github.com/stenzek/discord-rpc/archive/$DISCORD_RPC.tar.gz" \
 	-o "plutosvg-$PLUTOSVG.tar.gz" "https://github.com/sammycage/plutosvg/archive/refs/tags/v$PLUTOSVG.tar.gz" \
 	-o "plutovg-$PLUTOVG.tar.gz" "https://github.com/sammycage/plutovg/archive/refs/tags/v$PLUTOVG.tar.gz" \
@@ -131,9 +131,18 @@ echo "Installing libpng..."
 rm -fr "libpng-$LIBPNG"
 tar xf "libpng-$LIBPNG.tar.xz"
 cd "libpng-$LIBPNG"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_X64" -DBUILD_SHARED_LIBS=ON -DPNG_TESTS=OFF -DPNG_FRAMEWORK=OFF -B build
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_X64" \
+	-DBUILD_SHARED_LIBS=ON \
+	-DPNG_TESTS=OFF \
+	-DPNG_FRAMEWORK=OFF \
+	-B build
 make -C build "-j$NPROCS"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_ARM64" -DBUILD_SHARED_LIBS=ON -DPNG_TESTS=OFF -DPNG_ARM_NEON=on -DPNG_FRAMEWORK=OFF -B build-arm64
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_ARM64" \
+	-DBUILD_SHARED_LIBS=ON \
+	-DPNG_TESTS=OFF \
+	-DPNG_ARM_NEON=on \
+	-DPNG_FRAMEWORK=OFF \
+	-B build-arm64
 make -C build-arm64 "-j$NPROCS"
 merge_binaries $(realpath build) $(realpath build-arm64)
 make -C build install
@@ -143,9 +152,15 @@ echo "Building libjpeg..."
 rm -fr "libjpeg-turbo-$LIBJPEGTURBO"
 tar xf "libjpeg-turbo-$LIBJPEGTURBO.tar.gz"
 cd "libjpeg-turbo-$LIBJPEGTURBO"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_X64" -DENABLE_STATIC=OFF -DENABLE_SHARED=ON -B build
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_X64" \
+	-DENABLE_STATIC=OFF \
+	-DENABLE_SHARED=ON \
+	-B build
 make -C build "-j$NPROCS"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_ARM64" -DENABLE_STATIC=OFF -DENABLE_SHARED=ON -B build-arm64
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_ARM64" \
+	-DENABLE_STATIC=OFF \
+	-DENABLE_SHARED=ON \
+	-B build-arm64
 make -C build-arm64 "-j$NPROCS"
 merge_binaries $(realpath build) $(realpath build-arm64)
 make -C build install
@@ -155,9 +170,15 @@ echo "Installing Zstd..."
 rm -fr "zstd-$ZSTD"
 tar xf "zstd-$ZSTD.tar.gz"
 cd "zstd-$ZSTD"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_X64" -DBUILD_SHARED_LIBS=ON -DZSTD_BUILD_PROGRAMS=OFF -B build-dir build/cmake
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_X64" \
+	-DBUILD_SHARED_LIBS=ON \
+	-DZSTD_BUILD_PROGRAMS=OFF \
+	-B build-dir build/cmake
 make -C build-dir "-j$NPROCS"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_ARM64" -DBUILD_SHARED_LIBS=ON -DZSTD_BUILD_PROGRAMS=OFF -B build-dir-arm64 build/cmake
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_ARM64" \
+	-DBUILD_SHARED_LIBS=ON \
+	-DZSTD_BUILD_PROGRAMS=OFF \
+	-B build-dir-arm64 build/cmake
 make -C build-dir-arm64 "-j$NPROCS"
 merge_binaries $(realpath build-dir) $(realpath build-dir-arm64)
 make -C build-dir install
@@ -167,7 +188,14 @@ echo "Building FreeType without HarfBuzz..."
 rm -fr "freetype-$FREETYPE"
 tar xf "freetype-$FREETYPE.tar.xz"
 cd "freetype-$FREETYPE"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" -DBUILD_SHARED_LIBS=ON -DFT_REQUIRE_ZLIB=ON -DFT_REQUIRE_PNG=ON -DFT_DISABLE_BZIP2=TRUE -DFT_DISABLE_BROTLI=TRUE -DFT_DISABLE_HARFBUZZ=TRUE -B build
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" \
+	-DBUILD_SHARED_LIBS=ON \
+	-DFT_REQUIRE_ZLIB=ON \
+	-DFT_REQUIRE_PNG=ON \
+	-DFT_DISABLE_BZIP2=TRUE \
+	-DFT_DISABLE_BROTLI=TRUE \
+	-DFT_DISABLE_HARFBUZZ=TRUE \
+	-B build
 cmake --build build --parallel
 cmake --install build
 cd ..
@@ -176,7 +204,10 @@ echo "Building HarfBuzz..."
 rm -fr "harfbuzz-$HARFBUZZ"
 tar xf "harfbuzz-$HARFBUZZ.tar.gz"
 cd "harfbuzz-$HARFBUZZ"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" -DBUILD_SHARED_LIBS=ON -DHB_BUILD_UTILS=OFF -B build
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" \
+	-DBUILD_SHARED_LIBS=ON \
+	-DHB_BUILD_UTILS=OFF \
+	-B build
 cmake --build build --parallel
 cmake --install build
 cd ..
@@ -185,7 +216,14 @@ echo "Building FreeType with HarfBuzz..."
 rm -fr "freetype-$FREETYPE"
 tar xf "freetype-$FREETYPE.tar.xz"
 cd "freetype-$FREETYPE"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" -DBUILD_SHARED_LIBS=ON -DFT_REQUIRE_ZLIB=ON -DFT_REQUIRE_PNG=ON -DFT_DISABLE_BZIP2=TRUE -DFT_DISABLE_BROTLI=TRUE -DFT_REQUIRE_HARFBUZZ=TRUE -B build
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" \
+	-DBUILD_SHARED_LIBS=ON \
+	-DFT_REQUIRE_ZLIB=ON \
+	-DFT_REQUIRE_PNG=ON \
+	-DFT_DISABLE_BZIP2=TRUE \
+	-DFT_DISABLE_BROTLI=TRUE \
+	-DFT_REQUIRE_HARFBUZZ=TRUE \
+	-B build
 cmake --build build --parallel
 cmake --install build
 cd ..
@@ -194,13 +232,31 @@ echo "Installing WebP..."
 rm -fr "libwebp-$LIBWEBP"
 tar xf "libwebp-$LIBWEBP.tar.gz"
 cd "libwebp-$LIBWEBP"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_X64" -B build \
-	-DWEBP_BUILD_ANIM_UTILS=OFF -DWEBP_BUILD_CWEBP=OFF -DWEBP_BUILD_DWEBP=OFF -DWEBP_BUILD_GIF2WEBP=OFF -DWEBP_BUILD_IMG2WEBP=OFF \
-	-DWEBP_BUILD_VWEBP=OFF -DWEBP_BUILD_WEBPINFO=OFF -DWEBP_BUILD_WEBPMUX=OFF -DWEBP_BUILD_EXTRAS=OFF -DBUILD_SHARED_LIBS=ON
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_X64" \
+	-DWEBP_BUILD_ANIM_UTILS=OFF \
+	-DWEBP_BUILD_CWEBP=OFF \
+	-DWEBP_BUILD_DWEBP=OFF \
+	-DWEBP_BUILD_GIF2WEBP=OFF \
+	-DWEBP_BUILD_IMG2WEBP=OFF \
+	-DWEBP_BUILD_VWEBP=OFF \
+	-DWEBP_BUILD_WEBPINFO=OFF \
+	-DWEBP_BUILD_WEBPMUX=OFF \
+	-DWEBP_BUILD_EXTRAS=OFF \
+	-DBUILD_SHARED_LIBS=ON \
+	-B build
 make -C build "-j$NPROCS"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_ARM64" -B build-arm64 \
-	-DWEBP_BUILD_ANIM_UTILS=OFF -DWEBP_BUILD_CWEBP=OFF -DWEBP_BUILD_DWEBP=OFF -DWEBP_BUILD_GIF2WEBP=OFF -DWEBP_BUILD_IMG2WEBP=OFF \
-	-DWEBP_BUILD_VWEBP=OFF -DWEBP_BUILD_WEBPINFO=OFF -DWEBP_BUILD_WEBPMUX=OFF -DWEBP_BUILD_EXTRAS=OFF -DBUILD_SHARED_LIBS=ON
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_ARM64" \
+	-DWEBP_BUILD_ANIM_UTILS=OFF \
+	-DWEBP_BUILD_CWEBP=OFF \
+	-DWEBP_BUILD_DWEBP=OFF \
+	-DWEBP_BUILD_GIF2WEBP=OFF \
+	-DWEBP_BUILD_IMG2WEBP=OFF \
+	-DWEBP_BUILD_VWEBP=OFF \
+	-DWEBP_BUILD_WEBPINFO=OFF \
+	-DWEBP_BUILD_WEBPMUX=OFF \
+	-DWEBP_BUILD_EXTRAS=OFF \
+	-DBUILD_SHARED_LIBS=ON \
+	-B build-arm64
 make -C build-arm64 "-j$NPROCS"
 merge_binaries $(realpath build) $(realpath build-arm64)
 make -C build install
@@ -210,7 +266,10 @@ echo "Installing SDL2..."
 rm -fr "SDL2-$SDL2"
 tar xf "SDL2-$SDL2.tar.gz"
 cd "SDL2-$SDL2"
-cmake -B build "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" -DSDL_X11=OFF -DBUILD_SHARED_LIBS=ON
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" \
+	-DSDL_X11=OFF \
+	-DBUILD_SHARED_LIBS=ON \
+	-B build
 make -C build "-j$NPROCS"
 make -C build install
 cd ..
@@ -339,7 +398,19 @@ patch -u src/tools/macdeployqt/shared/shared.cpp <<EOF
      // Platforminputcontext plugins if QtGui is in use
 EOF
 
-cmake -B build "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" -DFEATURE_dbus=OFF -DFEATURE_framework=OFF -DFEATURE_icu=OFF -DFEATURE_opengl=OFF -DFEATURE_sql=OFF -DFEATURE_gssapi=OFF -DFEATURE_system_png=ON -DFEATURE_system_jpeg=ON -DFEATURE_system_zlib=ON -DFEATURE_system_freetype=ON -DFEATURE_system_harfbuzz=ON
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" \
+	-DFEATURE_dbus=OFF \
+	-DFEATURE_framework=OFF \
+	-DFEATURE_icu=OFF \
+	-DFEATURE_opengl=OFF \
+	-DFEATURE_sql=OFF \
+	-DFEATURE_gssapi=OFF \
+	-DFEATURE_system_png=ON \
+	-DFEATURE_system_jpeg=ON \
+	-DFEATURE_system_zlib=ON \
+	-DFEATURE_system_freetype=ON \
+	-DFEATURE_system_harfbuzz=ON \
+	-B build
 make -C build "-j$NPROCS"
 make -C build install
 cd ..
@@ -392,7 +463,11 @@ echo "Building shaderc..."
 rm -fr "shaderc-$SHADERC"
 tar xf "shaderc-$SHADERC.tar.gz"
 cd "shaderc-$SHADERC"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" -DSHADERC_SKIP_TESTS=ON -DSHADERC_SKIP_EXAMPLES=ON -DSHADERC_SKIP_COPYRIGHT_CHECK=ON -B build
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" \
+	-DSHADERC_SKIP_TESTS=ON \
+	-DSHADERC_SKIP_EXAMPLES=ON \
+	-DSHADERC_SKIP_COPYRIGHT_CHECK=ON \
+	-B build
 make -C build "-j$NPROCS"
 make -C build install
 cd ..
@@ -400,7 +475,19 @@ cd ..
 echo "Building SPIRV-Cross..."
 cd SPIRV-Cross
 rm -fr build
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" -DSPIRV_CROSS_SHARED=ON -DSPIRV_CROSS_STATIC=OFF -DSPIRV_CROSS_CLI=OFF -DSPIRV_CROSS_ENABLE_TESTS=OFF -DSPIRV_CROSS_ENABLE_GLSL=ON -DSPIRV_CROSS_ENABLE_HLSL=OFF -DSPIRV_CROSS_ENABLE_MSL=ON -DSPIRV_CROSS_ENABLE_CPP=OFF -DSPIRV_CROSS_ENABLE_REFLECT=OFF -DSPIRV_CROSS_ENABLE_C_API=ON -DSPIRV_CROSS_ENABLE_UTIL=ON -B build
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" \
+	-DSPIRV_CROSS_SHARED=ON \
+	-DSPIRV_CROSS_STATIC=OFF \
+	-DSPIRV_CROSS_CLI=OFF \
+	-DSPIRV_CROSS_ENABLE_TESTS=OFF \
+	-DSPIRV_CROSS_ENABLE_GLSL=ON \
+	-DSPIRV_CROSS_ENABLE_HLSL=OFF \
+	-DSPIRV_CROSS_ENABLE_MSL=ON \
+	-DSPIRV_CROSS_ENABLE_CPP=OFF \
+	-DSPIRV_CROSS_ENABLE_REFLECT=OFF \
+	-DSPIRV_CROSS_ENABLE_C_API=ON \
+	-DSPIRV_CROSS_ENABLE_UTIL=ON \
+	-B build
 cmake --build build --parallel
 cmake --install build
 cd ..
@@ -409,9 +496,29 @@ echo "Building cpuinfo..."
 rm -fr "cpuinfo-$CPUINFO"
 tar xf "cpuinfo-$CPUINFO.tar.gz"
 cd "cpuinfo-$CPUINFO"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_X64" -DCPUINFO_LIBRARY_TYPE=shared -DCPUINFO_RUNTIME_TYPE=shared -DCPUINFO_LOG_LEVEL=error -DCPUINFO_LOG_TO_STDIO=ON -DCPUINFO_BUILD_TOOLS=OFF -DCPUINFO_BUILD_UNIT_TESTS=OFF -DCPUINFO_BUILD_MOCK_TESTS=OFF -DCPUINFO_BUILD_BENCHMARKS=OFF -DUSE_SYSTEM_LIBS=ON -B build
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_X64" \
+	-DCPUINFO_LIBRARY_TYPE=shared \
+	-DCPUINFO_RUNTIME_TYPE=shared \
+	-DCPUINFO_LOG_LEVEL=error \
+	-DCPUINFO_LOG_TO_STDIO=ON \
+	-DCPUINFO_BUILD_TOOLS=OFF \
+	-DCPUINFO_BUILD_UNIT_TESTS=OFF \
+	-DCPUINFO_BUILD_MOCK_TESTS=OFF \
+	-DCPUINFO_BUILD_BENCHMARKS=OFF \
+	-DUSE_SYSTEM_LIBS=ON \
+	-B build
 make -C build "-j$NPROCS"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_ARM64" -DCPUINFO_LIBRARY_TYPE=shared -DCPUINFO_RUNTIME_TYPE=shared -DCPUINFO_LOG_LEVEL=error -DCPUINFO_LOG_TO_STDIO=ON -DCPUINFO_BUILD_TOOLS=OFF -DCPUINFO_BUILD_UNIT_TESTS=OFF -DCPUINFO_BUILD_MOCK_TESTS=OFF -DCPUINFO_BUILD_BENCHMARKS=OFF -DUSE_SYSTEM_LIBS=ON -B build-arm64
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_ARM64" \
+	-DCPUINFO_LIBRARY_TYPE=shared \
+	-DCPUINFO_RUNTIME_TYPE=shared \
+	-DCPUINFO_LOG_LEVEL=error \
+	-DCPUINFO_LOG_TO_STDIO=ON \
+	-DCPUINFO_BUILD_TOOLS=OFF \
+	-DCPUINFO_BUILD_UNIT_TESTS=OFF \
+	-DCPUINFO_BUILD_MOCK_TESTS=OFF \
+	-DCPUINFO_BUILD_BENCHMARKS=OFF \
+	-DUSE_SYSTEM_LIBS=ON \
+	-B build-arm64
 make -C build-arm64 "-j$NPROCS"
 merge_binaries $(realpath build) $(realpath build-arm64)
 make -C build install
@@ -433,7 +540,11 @@ echo "Building plutovg..."
 rm -fr "plutovg-$PLUTOVG"
 tar xf "plutovg-$PLUTOVG.tar.gz"
 cd "plutovg-$PLUTOVG"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" -DBUILD_SHARED_LIBS=ON -DPLUTOVG_BUILD_EXAMPLES=OFF -B build -G Ninja
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" \
+	-DBUILD_SHARED_LIBS=ON \
+	-DPLUTOVG_BUILD_EXAMPLES=OFF \
+	-B build \
+	-G Ninja
 cmake --build build --parallel
 ninja -C build install
 cd ..
@@ -442,7 +553,11 @@ echo "Building plutosvg..."
 rm -fr "plutosvg-$PLUTOSVG"
 tar xf "plutosvg-$PLUTOSVG.tar.gz"
 cd "plutosvg-$PLUTOSVG"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" -DBUILD_SHARED_LIBS=ON -DPLUTOSVG_BUILD_EXAMPLES=OFF -B build -G Ninja
+cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" \
+	-DBUILD_SHARED_LIBS=ON \
+	-DPLUTOSVG_BUILD_EXAMPLES=OFF \
+	-B build \
+	-G Ninja
 cmake --build build --parallel
 ninja -C build install
 cd ..

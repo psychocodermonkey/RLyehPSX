@@ -80,7 +80,7 @@ SDL2=2.30.6
 QT=6.7.2
 ZSTD=1.5.6
 
-CPUINFO=7524ad504fdcfcf75a18a133da6abd75c5d48053
+CPUINFO=66ee79c038d70dad9f08705b2c9b3e58f6d8f512
 DISCORD_RPC=144f3a3f1209994d8d9e8a87964a989cb9911c1e
 PLUTOSVG=0.0.8
 # PlutoVG pin rationale:
@@ -98,7 +98,7 @@ if [ "$SKIP_DOWNLOAD" != true ]; then
 	curl -C - -L \
 		-O "https://github.com/ianlancetaylor/libbacktrace/archive/$LIBBACKTRACE.zip" \
 		-O "https://github.com/libsdl-org/SDL/releases/download/release-$SDL2/SDL2-$SDL2.tar.gz" \
-		-o "cpuinfo-$CPUINFO.tar.gz" "https://github.com/stenzek/cpuinfo/archive/$CPUINFO.tar.gz" \
+		-o "cpuinfo-$CPUINFO.tar.gz" "https://github.com/pytorch/cpuinfo/archive/$CPUINFO.tar.gz" \
 		-o "discord-rpc-$DISCORD_RPC.tar.gz" "https://github.com/stenzek/discord-rpc/archive/$DISCORD_RPC.tar.gz" \
 		-o "plutosvg-$PLUTOSVG.tar.gz" "https://github.com/sammycage/plutosvg/archive/refs/tags/v$PLUTOSVG.tar.gz" \
 		-o "plutovg-$PLUTOVG.tar.gz" "https://github.com/sammycage/plutovg/archive/refs/tags/v$PLUTOVG.tar.gz" \
@@ -108,7 +108,7 @@ fi
 cat > SHASUMS <<EOF
 fd6f417fe9e3a071cf1424a5152d926a34c4a3c5070745470be6cf12a404ed79  $LIBBACKTRACE.zip
 c6ef64ca18a19d13df6eb22df9aff19fb0db65610a74cc81dae33a82235cacd4  SDL2-$SDL2.tar.gz
-e1351218d270db49c3dddcba04fb2153b09731ea3fa6830e423f5952f44585be  cpuinfo-$CPUINFO.tar.gz
+e3d09aa27ec50da6310da45d1ec6b2e903c367a1455d8ee350bda12b9dedf556  cpuinfo-$CPUINFO.tar.gz
 3eea5ccce6670c126282f1ba4d32c19d486db49a1a5cbfb8d6f48774784d310c  discord-rpc-$DISCORD_RPC.tar.gz
 49d5cfe772d3aa10cd4879f2f6e189f5083c08e4c8ea01bf3d5b87c97dfca7d2  plutosvg-$PLUTOSVG.tar.gz
 2b0d17a6e016f47b86f9c00e2cb82600041b1ea1f7d2a00c2d46ae542cbfed3c  plutovg-$PLUTOVG.tar.gz
@@ -206,7 +206,16 @@ if [ "$SKIP_LIBPNG" != true ]; then
 	rm -fr "libpng-$LIBPNG"
 	tar xf "libpng-$LIBPNG.tar.xz"
 	cd "libpng-$LIBPNG"
-	cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -DBUILD_SHARED_LIBS=ON -DPNG_TESTS=OFF -DPNG_STATIC=OFF -DPNG_SHARED=ON -DPNG_TOOLS=OFF -B build -G Ninja
+	cmake -DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
+		-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
+		-DBUILD_SHARED_LIBS=ON \
+		-DPNG_TESTS=OFF \
+		-DPNG_STATIC=OFF \
+		-DPNG_SHARED=ON \
+		-DPNG_TOOLS=OFF \
+		-B build \
+		-G Ninja
 	cmake --build build --parallel
 	ninja -C build install
 	cd ..
@@ -217,7 +226,13 @@ if [ "$SKIP_LIBJPEG" != true ]; then
 	rm -fr "libjpeg-turbo-$LIBJPEGTURBO"
 	tar xf "libjpeg-turbo-$LIBJPEGTURBO.tar.gz"
 	cd "libjpeg-turbo-$LIBJPEGTURBO"
-	cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -DENABLE_STATIC=OFF -DENABLE_SHARED=ON -B build -G Ninja
+	cmake -DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
+		-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
+		-DENABLE_STATIC=OFF \
+		-DENABLE_SHARED=ON \
+		-B build \
+		-G Ninja
 	cmake --build build --parallel
 	ninja -C build install
 	cd ..
@@ -228,7 +243,15 @@ if [ "$SKIP_ZSTD" != true ]; then
 	rm -fr "zstd-$ZSTD"
 	tar xf "zstd-$ZSTD.tar.gz"
 	cd "zstd-$ZSTD"
-	cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -DBUILD_SHARED_LIBS=ON -DZSTD_BUILD_SHARED=ON -DZSTD_BUILD_STATIC=OFF -DZSTD_BUILD_PROGRAMS=OFF -B build -G Ninja build/cmake
+	cmake -DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
+		-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
+		-DBUILD_SHARED_LIBS=ON \
+		-DZSTD_BUILD_SHARED=ON \
+		-DZSTD_BUILD_STATIC=OFF \
+		-DZSTD_BUILD_PROGRAMS=OFF \
+		-B build \
+		-G Ninja build/cmake
 	cmake --build build --parallel
 	ninja -C build install
 	cd ..
@@ -239,9 +262,21 @@ if [ "$SKIP_LIBWEBP" != true ]; then
 	rm -fr "libwebp-$LIBWEBP"
 	tar xf "libwebp-$LIBWEBP.tar.gz"
 	cd "libwebp-$LIBWEBP"
-	cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -B build -G Ninja \
-		-DWEBP_BUILD_ANIM_UTILS=OFF -DWEBP_BUILD_CWEBP=OFF -DWEBP_BUILD_DWEBP=OFF -DWEBP_BUILD_GIF2WEBP=OFF -DWEBP_BUILD_IMG2WEBP=OFF \
-		-DWEBP_BUILD_VWEBP=OFF -DWEBP_BUILD_WEBPINFO=OFF -DWEBP_BUILD_WEBPMUX=OFF -DWEBP_BUILD_EXTRAS=OFF -DBUILD_SHARED_LIBS=ON
+	cmake -DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
+		-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
+		-DWEBP_BUILD_ANIM_UTILS=OFF \
+		-DWEBP_BUILD_CWEBP=OFF \
+		-DWEBP_BUILD_DWEBP=OFF \
+		-DWEBP_BUILD_GIF2WEBP=OFF \
+		-DWEBP_BUILD_IMG2WEBP=OFF \
+		-DWEBP_BUILD_VWEBP=OFF \
+		-DWEBP_BUILD_WEBPINFO=OFF \
+		-DWEBP_BUILD_WEBPMUX=OFF \
+		-DWEBP_BUILD_EXTRAS=OFF \
+		-DBUILD_SHARED_LIBS=ON \
+		-B build \
+		-G Ninja
 	cmake --build build --parallel
 	ninja -C build install
 	cd ..
@@ -253,7 +288,17 @@ if [ "$SKIP_FREETYPE" != true ]; then
 		rm -fr "freetype-$FREETYPE"
 		tar xf "freetype-$FREETYPE.tar.xz"
 		cd "freetype-$FREETYPE"
-		cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -DBUILD_SHARED_LIBS=ON -DFT_REQUIRE_ZLIB=ON -DFT_REQUIRE_PNG=ON -DFT_DISABLE_BZIP2=TRUE -DFT_DISABLE_BROTLI=TRUE -DFT_DISABLE_HARFBUZZ=TRUE -B build -G Ninja
+		cmake -DCMAKE_BUILD_TYPE=Release \
+			-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
+			-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
+			-DBUILD_SHARED_LIBS=ON \
+			-DFT_REQUIRE_ZLIB=ON \
+			-DFT_REQUIRE_PNG=ON \
+			-DFT_DISABLE_BZIP2=TRUE \
+			-DFT_DISABLE_BROTLI=TRUE \
+			-DFT_DISABLE_HARFBUZZ=TRUE \
+			-B build \
+			-G Ninja
 		cmake --build build --parallel
 		ninja -C build install
 		cd ..
@@ -262,7 +307,13 @@ if [ "$SKIP_FREETYPE" != true ]; then
 		rm -fr "harfbuzz-$HARFBUZZ"
 		tar xf "harfbuzz-$HARFBUZZ.tar.gz"
 		cd "harfbuzz-$HARFBUZZ"
-		cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -DBUILD_SHARED_LIBS=ON -DHB_BUILD_UTILS=OFF -B build -G Ninja
+		cmake -DCMAKE_BUILD_TYPE=Release \
+			-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
+			-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
+			-DBUILD_SHARED_LIBS=ON \
+			-DHB_BUILD_UTILS=OFF \
+			-B build \
+			-G Ninja
 		cmake --build build --parallel
 		ninja -C build install
 		cd ..
@@ -272,7 +323,17 @@ if [ "$SKIP_FREETYPE" != true ]; then
 	rm -fr "freetype-$FREETYPE"
 	tar xf "freetype-$FREETYPE.tar.xz"
 	cd "freetype-$FREETYPE"
-	cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -DBUILD_SHARED_LIBS=ON -DFT_REQUIRE_ZLIB=ON -DFT_REQUIRE_PNG=ON -DFT_DISABLE_BZIP2=TRUE -DFT_DISABLE_BROTLI=TRUE -DFT_REQUIRE_HARFBUZZ=TRUE -B build -G Ninja
+	cmake -DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
+		-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
+		-DBUILD_SHARED_LIBS=ON \
+		-DFT_REQUIRE_ZLIB=ON \
+		-DFT_REQUIRE_PNG=ON \
+		-DFT_DISABLE_BZIP2=TRUE \
+		-DFT_DISABLE_BROTLI=TRUE \
+		-DFT_REQUIRE_HARFBUZZ=TRUE \
+		-B build \
+		-G Ninja
 	cmake --build build --parallel
 	ninja -C build install
 	cd ..
@@ -285,7 +346,14 @@ cd "SDL2-$SDL2"
 # PipeWire 1.4+ requires its node API to receive a pw_node pointer.
 # SDL 2.30.6 predates the upstream compatibility fix.
 patch -p1 < "$SCRIPTDIR/sdl2-pipewire-compat.patch"
-cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -DBUILD_SHARED_LIBS=ON -DSDL_SHARED=ON -DSDL_STATIC=OFF -G Ninja
+cmake -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
+	-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
+	-DBUILD_SHARED_LIBS=ON \
+	-DSDL_SHARED=ON \
+	-DSDL_STATIC=OFF \
+	-B build \
+	-G Ninja
 cmake --build build --parallel
 ninja -C build install
 cd ..
@@ -392,7 +460,14 @@ echo "Building shaderc..."
 rm -fr "shaderc-$SHADERC"
 tar xf "shaderc-$SHADERC.tar.gz"
 cd "shaderc-$SHADERC"
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -DSHADERC_SKIP_TESTS=ON -DSHADERC_SKIP_EXAMPLES=ON -DSHADERC_SKIP_COPYRIGHT_CHECK=ON -B build -G Ninja
+cmake -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
+	-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
+	-DSHADERC_SKIP_TESTS=ON \
+	-DSHADERC_SKIP_EXAMPLES=ON \
+	-DSHADERC_SKIP_COPYRIGHT_CHECK=ON \
+	-B build \
+	-G Ninja
 cmake --build build --parallel
 ninja -C build install
 cd ..
@@ -400,7 +475,22 @@ cd ..
 echo "Building SPIRV-Cross..."
 cd SPIRV-Cross
 rm -fr build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -DSPIRV_CROSS_SHARED=ON -DSPIRV_CROSS_STATIC=OFF -DSPIRV_CROSS_CLI=OFF -DSPIRV_CROSS_ENABLE_TESTS=OFF -DSPIRV_CROSS_ENABLE_GLSL=ON -DSPIRV_CROSS_ENABLE_HLSL=OFF -DSPIRV_CROSS_ENABLE_MSL=OFF -DSPIRV_CROSS_ENABLE_CPP=OFF -DSPIRV_CROSS_ENABLE_REFLECT=OFF -DSPIRV_CROSS_ENABLE_C_API=ON -DSPIRV_CROSS_ENABLE_UTIL=ON -B build -G Ninja
+cmake -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
+	-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
+	-DSPIRV_CROSS_SHARED=ON \
+	-DSPIRV_CROSS_STATIC=OFF \
+	-DSPIRV_CROSS_CLI=OFF \
+	-DSPIRV_CROSS_ENABLE_TESTS=OFF \
+	-DSPIRV_CROSS_ENABLE_GLSL=ON \
+	-DSPIRV_CROSS_ENABLE_HLSL=OFF \
+	-DSPIRV_CROSS_ENABLE_MSL=OFF \
+	-DSPIRV_CROSS_ENABLE_CPP=OFF \
+	-DSPIRV_CROSS_ENABLE_REFLECT=OFF \
+	-DSPIRV_CROSS_ENABLE_C_API=ON \
+	-DSPIRV_CROSS_ENABLE_UTIL=ON \
+	-B build \
+	-G Ninja
 cmake --build build --parallel
 ninja -C build install
 cd ..
@@ -409,7 +499,20 @@ echo "Building cpuinfo..."
 rm -fr "cpuinfo-$CPUINFO"
 tar xf "cpuinfo-$CPUINFO.tar.gz"
 cd "cpuinfo-$CPUINFO"
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -DCPUINFO_LIBRARY_TYPE=shared -DCPUINFO_RUNTIME_TYPE=shared -DCPUINFO_LOG_LEVEL=error -DCPUINFO_LOG_TO_STDIO=ON -DCPUINFO_BUILD_TOOLS=OFF -DCPUINFO_BUILD_UNIT_TESTS=OFF -DCPUINFO_BUILD_MOCK_TESTS=OFF -DCPUINFO_BUILD_BENCHMARKS=OFF -DUSE_SYSTEM_LIBS=ON -B build -G Ninja
+cmake -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
+	-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
+	-DCPUINFO_LIBRARY_TYPE=shared \
+	-DCPUINFO_RUNTIME_TYPE=shared \
+	-DCPUINFO_LOG_LEVEL=error \
+	-DCPUINFO_LOG_TO_STDIO=ON \
+	-DCPUINFO_BUILD_TOOLS=OFF \
+	-DCPUINFO_BUILD_UNIT_TESTS=OFF \
+	-DCPUINFO_BUILD_MOCK_TESTS=OFF \
+	-DCPUINFO_BUILD_BENCHMARKS=OFF \
+	-DUSE_SYSTEM_LIBS=ON \
+	-B build \
+	-G Ninja
 cmake --build build --parallel
 ninja -C build install
 cd ..
@@ -422,7 +525,9 @@ cmake -DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
 	-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
 	-DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-	-DBUILD_SHARED_LIBS=ON -B build -G Ninja
+	-DBUILD_SHARED_LIBS=ON \
+	-B build \
+	-G Ninja
 cmake --build build --parallel
 ninja -C build install
 cd ..
@@ -431,7 +536,13 @@ echo "Building plutovg..."
 rm -fr "plutovg-$PLUTOVG"
 tar xf "plutovg-$PLUTOVG.tar.gz"
 cd "plutovg-$PLUTOVG"
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -DBUILD_SHARED_LIBS=ON -DPLUTOVG_BUILD_EXAMPLES=OFF -B build -G Ninja
+cmake -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
+	-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
+	-DBUILD_SHARED_LIBS=ON \
+	-DPLUTOVG_BUILD_EXAMPLES=OFF \
+	-B build \
+	-G Ninja
 cmake --build build --parallel
 ninja -C build install
 cd ..
@@ -440,7 +551,13 @@ echo "Building plutosvg..."
 rm -fr "plutosvg-$PLUTOSVG"
 tar xf "plutosvg-$PLUTOSVG.tar.gz"
 cd "plutosvg-$PLUTOSVG"
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$INSTALLDIR" -DCMAKE_INSTALL_PREFIX="$INSTALLDIR" -DBUILD_SHARED_LIBS=ON -DPLUTOSVG_BUILD_EXAMPLES=OFF -B build -G Ninja
+cmake -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
+	-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
+	-DBUILD_SHARED_LIBS=ON \
+	-DPLUTOSVG_BUILD_EXAMPLES=OFF \
+	-B build \
+	-G Ninja
 cmake --build build --parallel
 ninja -C build install
 cd ..
