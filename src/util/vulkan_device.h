@@ -1,5 +1,7 @@
+// 2026/08/05 - Modified by R'Lyeh PSX contributors.
+// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #pragma once
 
@@ -60,7 +62,6 @@ public:
     bool vk_khr_maintenance4 : 1;
     bool vk_khr_maintenance5 : 1;
     bool vk_khr_push_descriptor : 1;
-    bool vk_khr_shader_non_semantic_info : 1;
   };
 
   static GPUTexture::Format GetFormatForVkFormat(VkFormat format);

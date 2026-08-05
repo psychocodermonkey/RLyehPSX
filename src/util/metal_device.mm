@@ -1,5 +1,7 @@
+// 2026/08/05 - Modified by R'Lyeh PSX contributors.
+// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
 // SPDX-FileCopyrightText: 2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "metal_device.h"
 
@@ -652,7 +654,7 @@ std::unique_ptr<GPUShader> MetalDevice::CreateShaderFromSource(GPUShaderStage st
   static constexpr bool dump_shaders = false;
 
   DynamicHeapArray<u8> spv;
-  if (!CompileGLSLShaderToVulkanSpv(stage, language, source, entry_point, !m_debug_device, false, &spv, error))
+  if (!CompileGLSLShaderToVulkanSpv(stage, language, source, entry_point, !m_debug_device, &spv, error))
     return {};
 
   std::string msl;
