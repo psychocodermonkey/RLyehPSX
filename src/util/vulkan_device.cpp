@@ -1,5 +1,7 @@
+// 2026/08/05 - Modified by R'Lyeh PSX contributors.
+// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "vulkan_device.h"
 #include "vulkan_builders.h"
@@ -23,7 +25,6 @@
 #include "fmt/format.h"
 #include "xxhash.h"
 
-#include <cstdlib>
 #include <limits>
 #include <mutex>
 
@@ -452,17 +453,6 @@ bool VulkanDevice::SelectDeviceExtensions(ExtensionList* extension_list, bool en
     m_optional_extensions.vk_khr_dynamic_rendering &&
     SupportsExtension(VK_KHR_DYNAMIC_RENDERING_LOCAL_READ_EXTENSION_NAME, false);
   m_optional_extensions.vk_khr_push_descriptor = SupportsExtension(VK_KHR_PUSH_DESCRIPTOR_EXTENSION_NAME, false);
-
-  // glslang generates debug info instructions before phi nodes at the beginning of blocks when non-semantic debug info
-  // is enabled, triggering errors by spirv-val. Gate it by an environment variable if you want source debugging until
-  // this is fixed.
-  if (const char* val = std::getenv("USE_NON_SEMANTIC_DEBUG_INFO");
-      val && StringUtil::FromChars<bool>(val).value_or(false))
-  {
-    m_optional_extensions.vk_khr_shader_non_semantic_info =
-      SupportsExtension(VK_KHR_SHADER_NON_SEMANTIC_INFO_EXTENSION_NAME, false);
-  }
-
   m_optional_extensions.vk_ext_external_memory_host =
     SupportsExtension(VK_EXT_EXTERNAL_MEMORY_HOST_EXTENSION_NAME, false);
   m_optional_extensions.vk_ext_swapchain_maintenance1 =

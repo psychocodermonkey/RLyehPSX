@@ -1,5 +1,7 @@
+// 2026/08/05 - Modified by R'Lyeh PSX contributors.
+// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #pragma once
 
@@ -757,8 +759,7 @@ protected:
   void TrimTexturePool();
 
   bool CompileGLSLShaderToVulkanSpv(GPUShaderStage stage, GPUShaderLanguage source_language, std::string_view source,
-                                    const char* entry_point, bool optimization, bool nonsemantic_debug_info,
-                                    DynamicHeapArray<u8>* out_binary, Error* error);
+                                    const char* entry_point, bool optimization, DynamicHeapArray<u8>* out_binary, Error* error);
   bool TranslateVulkanSpvToLanguage(const std::span<const u8> spirv, GPUShaderStage stage,
                                     GPUShaderLanguage target_language, u32 target_version, std::string* output,
                                     Error* error);

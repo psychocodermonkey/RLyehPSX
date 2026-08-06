@@ -1,5 +1,8 @@
-// SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// 2026/08/05 - Modified by R'Lyeh PSX contributors.
+// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
+// SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin
+// <stenzek@gmail.com>
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "gpu_device.h"
 #include "compress_helpers.h"
@@ -1243,7 +1246,6 @@ std::unique_ptr<GPUDevice> GPUDevice::CreateDeviceForAPI(RenderAPI api)
   X(shaderc_compile_options_set_generate_debug_info)                                                                   \
   X(shaderc_compile_options_set_optimization_level)                                                                    \
   X(shaderc_compile_options_set_target_env)                                                                            \
-  X(shaderc_compilation_status_to_string)                                                                              \
   X(shaderc_compile_into_spv)                                                                                          \
   X(shaderc_result_release)                                                                                            \
   X(shaderc_result_get_length)                                                                                         \
@@ -1419,10 +1421,47 @@ void dyn_libs::CloseAll()
 #undef SPIRV_CROSS_FUNCTIONS
 #undef SHADERC_FUNCTIONS
 
+// Upstream shaderc no longer provides shaderc_compilation_status_to_string().
+// Preserve its former diagnostic strings for shader compilation errors and logging.
+static const char* ShadercCompilationStatusToString(shaderc_compilation_status status)
+{
+  switch (status)
+  {
+    case shaderc_compilation_status_success:
+      return "shaderc_compilation_status_success";
+
+    case shaderc_compilation_status_invalid_stage:
+      return "shaderc_compilation_status_invalid_stage";
+
+    case shaderc_compilation_status_compilation_error:
+      return "shaderc_compilation_status_compilation_error";
+
+    case shaderc_compilation_status_internal_error:
+      return "shaderc_compilation_status_internal_error";
+
+    case shaderc_compilation_status_null_result_object:
+      return "shaderc_compilation_status_null_result_object";
+
+    case shaderc_compilation_status_invalid_assembly:
+      return "shaderc_compilation_status_invalid_assembly";
+
+    case shaderc_compilation_status_validation_error:
+      return "shaderc_compilation_status_validation_error";
+
+    case shaderc_compilation_status_transformation_error:
+      return "shaderc_compilation_status_transformation_error";
+
+    case shaderc_compilation_status_configuration_error:
+      return "shaderc_compilation_status_configuration_error";
+
+    default:
+      return "shaderc_compilation_status_unknown";
+  }
+}
+
 bool GPUDevice::CompileGLSLShaderToVulkanSpv(GPUShaderStage stage, GPUShaderLanguage source_language,
                                              std::string_view source, const char* entry_point, bool optimization,
-                                             bool nonsemantic_debug_info, DynamicHeapArray<u8>* out_binary,
-                                             Error* error)
+                                             DynamicHeapArray<u8>* out_binary, Error* error)
 {
   static constexpr const std::array<shaderc_shader_kind, static_cast<size_t>(GPUShaderStage::MaxCount)> stage_kinds = {{
     shaderc_glsl_vertex_shader,
@@ -1446,8 +1485,8 @@ bool GPUDevice::CompileGLSLShaderToVulkanSpv(GPUShaderStage stage, GPUShaderLang
 
   dyn_libs::shaderc_compile_options_set_source_language(options, shaderc_source_language_glsl);
   dyn_libs::shaderc_compile_options_set_target_env(options, shaderc_target_env_vulkan, 0);
-  dyn_libs::shaderc_compile_options_set_generate_debug_info(options, m_debug_device,
-                                                            m_debug_device && nonsemantic_debug_info);
+  if (m_debug_device)
+    dyn_libs::shaderc_compile_options_set_generate_debug_info(options);
   dyn_libs::shaderc_compile_options_set_optimization_level(
     options, optimization ? shaderc_optimization_level_performance : shaderc_optimization_level_zero);
 
@@ -1459,10 +1498,8 @@ bool GPUDevice::CompileGLSLShaderToVulkanSpv(GPUShaderStage stage, GPUShaderLang
   if (status != shaderc_compilation_status_success)
   {
     const std::string_view errors(result ? dyn_libs::shaderc_result_get_error_message(result) : "null result object");
-    Error::SetStringFmt(error, "Failed to compile shader to SPIR-V: {}\n{}",
-                        dyn_libs::shaderc_compilation_status_to_string(status), errors);
-    ERROR_LOG("Failed to compile shader to SPIR-V: {}\n{}", dyn_libs::shaderc_compilation_status_to_string(status),
-              errors);
+    Error::SetStringFmt(error, "Failed to compile shader to SPIR-V: {}\n{}", ShadercCompilationStatusToString(status), errors);
+    ERROR_LOG("Failed to compile shader to SPIR-V: {}\n{}", ShadercCompilationStatusToString(status), errors);
     DumpBadShader(source, errors);
   }
   else
@@ -1748,7 +1785,7 @@ std::unique_ptr<GPUShader> GPUDevice::TranspileAndCreateShaderFromSource(
   const bool optimization =
     (target_language != GPUShaderLanguage::GLSL && target_language != GPUShaderLanguage::GLSLES);
   DynamicHeapArray<u8> spv;
-  if (!CompileGLSLShaderToVulkanSpv(stage, source_language, source, entry_point, optimization, false, &spv, error))
+  if (!CompileGLSLShaderToVulkanSpv(stage, source_language, source, entry_point, optimization, &spv, error))
     return {};
 
   std::string dest_source;

@@ -79,6 +79,7 @@ LIBWEBP=1.4.0
 SDL2=2.30.6
 QT=6.7.2
 ZSTD=1.5.6
+SHADERC=2026.3
 
 CPUINFO=66ee79c038d70dad9f08705b2c9b3e58f6d8f512
 DISCORD_RPC=144f3a3f1209994d8d9e8a87964a989cb9911c1e
@@ -88,7 +89,6 @@ PLUTOSVG=0.0.8
 # - satisfies PlutoSVG 0.0.8 CMake requirement: find_package(plutovg 1.0.0 ...)
 # - NOT a proven historical pin used during PlutoSVG 0.0.8 development
 PLUTOVG=1.3.3
-SHADERC=f60bb80e255144e71776e2ad570d89b78ea2ab4f
 SPIRV_CROSS=vulkan-sdk-1.3.290.0
 
 mkdir -p deps-build
@@ -102,7 +102,8 @@ if [ "$SKIP_DOWNLOAD" != true ]; then
 		-o "discord-rpc-$DISCORD_RPC.tar.gz" "https://github.com/stenzek/discord-rpc/archive/$DISCORD_RPC.tar.gz" \
 		-o "plutosvg-$PLUTOSVG.tar.gz" "https://github.com/sammycage/plutosvg/archive/refs/tags/v$PLUTOSVG.tar.gz" \
 		-o "plutovg-$PLUTOVG.tar.gz" "https://github.com/sammycage/plutovg/archive/refs/tags/v$PLUTOVG.tar.gz" \
-		-o "shaderc-$SHADERC.tar.gz" "https://github.com/stenzek/shaderc/archive/$SHADERC.tar.gz"
+		-o "shaderc-$SHADERC.tar.gz" "https://github.com/google/shaderc/archive/refs/tags/v$SHADERC.tar.gz"
+
 fi
 
 cat > SHASUMS <<EOF
@@ -112,7 +113,7 @@ e3d09aa27ec50da6310da45d1ec6b2e903c367a1455d8ee350bda12b9dedf556  cpuinfo-$CPUIN
 3eea5ccce6670c126282f1ba4d32c19d486db49a1a5cbfb8d6f48774784d310c  discord-rpc-$DISCORD_RPC.tar.gz
 49d5cfe772d3aa10cd4879f2f6e189f5083c08e4c8ea01bf3d5b87c97dfca7d2  plutosvg-$PLUTOSVG.tar.gz
 2b0d17a6e016f47b86f9c00e2cb82600041b1ea1f7d2a00c2d46ae542cbfed3c  plutovg-$PLUTOVG.tar.gz
-4c1780b6c65c27c4dcb109f08ab632241c98b77fe2e22be726c151ff514482bf  shaderc-$SHADERC.tar.gz
+ee493ccf1b3038b4ef2fe024664c5eb2dc4bcc1f6b05b33e3909de0e19c81024  shaderc-$SHADERC.tar.gz
 EOF
 
 if [ "$SKIP_FREETYPE" != true ]; then
@@ -460,6 +461,7 @@ echo "Building shaderc..."
 rm -fr "shaderc-$SHADERC"
 tar xf "shaderc-$SHADERC.tar.gz"
 cd "shaderc-$SHADERC"
+./utils/git-sync-deps
 cmake -DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
 	-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \

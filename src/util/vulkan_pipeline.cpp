@@ -1,5 +1,7 @@
+// 2026/08/05 - Modified by R'Lyeh PSX contributors.
+// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "vulkan_pipeline.h"
 #include "vulkan_builders.h"
@@ -58,8 +60,7 @@ std::unique_ptr<GPUShader> VulkanDevice::CreateShaderFromSource(GPUShaderStage s
 
   DynamicHeapArray<u8> local_binary;
   DynamicHeapArray<u8>* dest_binary = out_binary ? out_binary : &local_binary;
-  if (!CompileGLSLShaderToVulkanSpv(stage, language, source, entry_point, !m_debug_device,
-                                    m_optional_extensions.vk_khr_shader_non_semantic_info, dest_binary, error))
+  if (!CompileGLSLShaderToVulkanSpv(stage, language, source, entry_point, !m_debug_device, dest_binary, error))
   {
     return {};
   }
