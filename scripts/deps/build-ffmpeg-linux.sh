@@ -36,7 +36,7 @@ DEPSINSTALLDIR="$PWD/ffmpeg-deps"
 echo "Installation directory is $INSTALLDIR"
 echo "FFmpeg dependencies directory is $DEPSINSTALLDIR"
 
-FFMPEG=7.0.3
+FFMPEG=7.1.5
 LAME=3.100
 LIBVPX=1.14.1
 FDK_AAC=0fc0e0e0b89de3becd5f099eae725f13eeecc0d1
@@ -48,7 +48,7 @@ FLAC=1.4.3
 SPEEX=1.2.0
 AMF=1.4.34
 OPUS=1.5.2
-SVT_AV1=2.2.1
+SVT_AV1=3.1.2
 
 # Encoder list from freedesktop SDK, which apparently came from Fedora.
 # Disabled list: av1_qsv h264_qsv hevc_qsv mjpeg_qsv mpeg2_qsv vc1_qsv vp8_qsv vp9_qsv
@@ -146,7 +146,7 @@ fi
 cat > SHASUMS <<EOF
 5393759308f6d7bc9eb1ed8013c954e03aadb85f0ed6e96f969a5df447b0f79c  AMF-headers.tar.gz
 7322744f239a0d8460fde84e92cca77f2fe9d7e25a213789659df9e86b696b42  fdk-aac-stripped-$FDK_AAC.tar.gz
-bbb18f3cc5c1c34b21cf176c0168c4d9aa97697542a97f60d491a58a814dea65  ffmpeg-$FFMPEG.tar.xz
+de668509caf9e35e3cd162473441fdb29538c6d96ed080292b3cf9e6fc5d558f  ffmpeg-$FFMPEG.tar.xz
 6c58e69cd22348f441b861092b825e591d0b822e106de6eb0ee4d05d27205b70  flac-$FLAC.tar.xz
 ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e  lame-$LAME.tar.gz
 0eb4b4b9420a0f51db142ba3f9c64b333f826532dc0f48c6410ae51f4799b664  libogg-$LIBOGG.tar.gz
@@ -156,10 +156,10 @@ b6ae1ee2fa3d42ac489287d3ec34c5885730b1296f0801ae577a35193d3affbc  libtheora-$LIB
 901747254d80a7937c933d03bd7c5d41e8e6c883e0665fadcb172542167c7977  libvpx-$LIBVPX.tar.gz
 65c1d2f78b9f2fb20082c38cbe47c951ad5839345876e46941612ee87f9a7ce1  opus-$OPUS.tar.gz
 eaae8af0ac742dc7d542c9439ac72f1f385ce838392dc849cae4536af9210094  speex-$SPEEX.tar.gz
-66ba0c0c33329e776e363432cf9bdf22e78f10e3771c3e36a8af5bbef13f3356  SVT-AV1-$SVT_AV1.tar.gz
+084720e7818cec7cb38d31ab478478b910d643fe5b13fc2cfcbd9da9c9d5c84b  SVT-AV1-$SVT_AV1.tar.gz
 EOF
 
-shasum -a 256 --check SHASUMS
+sha256sum -c SHASUMS
 
 export PKG_CONFIG_PATH="$INSTALLDIR/lib/pkgconfig:$INSTALLDIR/lib64/pkgconfig:$DEPSINSTALLDIR/lib/pkgconfig:$DEPSINSTALLDIR/lib64/pkgconfig:$PKG_CONFIG_PATH"
 
