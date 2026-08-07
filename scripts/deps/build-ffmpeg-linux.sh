@@ -36,7 +36,7 @@ DEPSINSTALLDIR="$PWD/ffmpeg-deps"
 echo "Installation directory is $INSTALLDIR"
 echo "FFmpeg dependencies directory is $DEPSINSTALLDIR"
 
-FFMPEG=7.0.2
+FFMPEG=7.0.3
 LAME=3.100
 LIBVPX=1.14.1
 FDK_AAC=0fc0e0e0b89de3becd5f099eae725f13eeecc0d1
@@ -146,7 +146,7 @@ fi
 cat > SHASUMS <<EOF
 5393759308f6d7bc9eb1ed8013c954e03aadb85f0ed6e96f969a5df447b0f79c  AMF-headers.tar.gz
 7322744f239a0d8460fde84e92cca77f2fe9d7e25a213789659df9e86b696b42  fdk-aac-stripped-$FDK_AAC.tar.gz
-8646515b638a3ad303e23af6a3587734447cb8fc0a0c064ecdb8e95c4fd8b389  ffmpeg-$FFMPEG.tar.xz
+bbb18f3cc5c1c34b21cf176c0168c4d9aa97697542a97f60d491a58a814dea65  ffmpeg-$FFMPEG.tar.xz
 6c58e69cd22348f441b861092b825e591d0b822e106de6eb0ee4d05d27205b70  flac-$FLAC.tar.xz
 ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e  lame-$LAME.tar.gz
 0eb4b4b9420a0f51db142ba3f9c64b333f826532dc0f48c6410ae51f4799b664  libogg-$LIBOGG.tar.gz
