@@ -18,26 +18,21 @@ R'Lyeh PSX is an independent fork intended for long-term experimentation, mainte
 
 ### Recent development highlights
 
-#### macOS build-system migration
+#### Completed build-system and dependency work
 
-- Initial modern macOS/Xcode support.
-- Improved dependency retrieval and local builds.
-- Apple Clang 21 build validation.
-- Metal toolchain and deployment-target discoveries.
-
-#### Dependency modernization
-
-- ImGui 1.91.0 → 1.92.7
-- Replaced LunaSVG with PlutoSVG 0.0.8
-- Added PlutoVG 1.3.3 as a dependency for PlutoSVG.
-- {fmt} 10.1.1 → 12.2.0 migration.
-- Compatibility work required by newer APIs and compilers.
-- ~~Cubeb updated to current upstream, preserving project-specific behavior while adapting R’Lyeh to upstream API changes.~~
-- Established dependency provenance and version audit process for vendored source, including commit pinning where upstream releases are unavailable.
-- ~~Migrate CPUINFO from the Stenzek fork to upstream PyTorch cpuinfo, preserving CPU feature, cache, and topology detection.~~
-- ~~Remove the deprecated Discord RPC integration.~~
-- Migrate shaderc from the Stenzek fork to upstream Google shaderc, preserving runtime GLSL-to-SPIR-V compilation.
-- ~~Migrate SoundTouch from the Stenzek fork to the official Codeberg source, preserving audio time-stretching behavior and validating audio output.~~
+- Established modern macOS/Xcode build support, local dependency retrieval, and deployment-target guidance.
+- Upgraded ImGui from 1.91.0 to 1.92.7 and updated the texture and UI integration for the newer API.
+- Replaced LunaSVG with PlutoSVG 0.0.8 and added PlutoVG 1.3.3 as its dependency.
+- Upgraded {fmt} from 10.1.1 to 12.2.0 and applied required compiler compatibility fixes.
+- Updated Cubeb from current upstream while preserving project-specific behavior.
+- Added macOS and Linux CMake presets.
+- Updated the Qt 6.7.2 dependency build for Apple Clang 21.
+- Established working Linux dependency builds and recorded dependency provenance with pinned source revisions where releases are unavailable.
+- Vendored upstream SoundTouch and removed the separate macOS and Linux SoundTouch dependency builds.
+- Migrated CPUInfo from the Stenzek fork to upstream PyTorch CPUInfo on macOS and Linux.
+- Migrated Shaderc from the Stenzek fork to upstream 2026.3, including its CMake integration and runtime API updates.
+- Updated macOS and Linux FFmpeg dependencies and vendored FFmpeg headers to 7.1.5.
+- Removed the deprecated Discord RPC integration, dependency builds, and deployment references.
 
 #### Replacing restricted components
 
