@@ -6447,11 +6447,6 @@ Czy chcesz załadować ten zapis i kontynuować?</translation>
         <translation>Włącz osiągnięcia</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7329"/>
-        <source>Enable Discord Presence</source>
-        <translation>Włącz Discord Rich Presence</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7330"/>
         <source>Enable Fast Boot</source>
         <translation>Włącz szybki rozruch</translation>
@@ -8223,11 +8218,6 @@ Spowodowany błąd:</translation>
         <location filename="../../core/fullscreen_ui.cpp" line="7659"/>
         <source>Shows the current rendering resolution of the system in the top-right corner of the display.</source>
         <translation>Pokazuje bieżącą rozdzielczość renderowania systemu w prawym górnym rogu wyświetlacza.</translation>
-    </message>
-    <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7660"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Pokazuje grę, w którą aktualnie grasz, jako część Twojego profilu na Discordzie.</translation>
     </message>
     <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7661"/>
@@ -11626,12 +11616,6 @@ Skanowanie rekursywne zajmuje więcej czasu, ale identyfikuje pliki w podkatalog
         <translation>Potwierdź wyłączenie</translation>
     </message>
     <message>
-        <location filename="../interfacesettingswidget.ui" line="42"/>
-        <location filename="../interfacesettingswidget.cpp" line="104"/>
-        <source>Enable Discord Presence</source>
-        <translation>Włącz Discord Rich Presence</translation>
-    </message>
-    <message>
         <location filename="../interfacesettingswidget.ui" line="49"/>
         <location filename="../interfacesettingswidget.cpp" line="98"/>
         <source>Pause On Controller Disconnection</source>
@@ -11775,11 +11759,6 @@ Skanowanie rekursywne zajmuje więcej czasu, ale identyfikuje pliki w podkatalog
         <location filename="../interfacesettingswidget.cpp" line="103"/>
         <source>Backs up any previous save state when creating a new save state, with a .bak extension.</source>
         <translation>Tworzy kopię zapasową poprzedniego zapisu stanu podczas tworzenienia nowego (z rozszerzeniem pliku .bak).</translation>
-    </message>
-    <message>
-        <location filename="../interfacesettingswidget.cpp" line="105"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Pokazuje grę, w którą aktualnie grasz, jako część Twojego profilu na Discordzie.</translation>
     </message>
     <message>
         <location filename="../interfacesettingswidget.cpp" line="111"/>

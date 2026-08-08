@@ -6678,11 +6678,6 @@ Do you want to {0} anyway?</source>
         <translation>Nonaktifkan Screensaver</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7327"/>
-        <source>Enable Discord Presence</source>
-        <translation>Aktifkan Discord Rich Presence</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7518"/>
         <source>Pause On Start</source>
         <translation>Pause Saat Memulai</translation>
@@ -8512,11 +8507,6 @@ Error was:</source>
         <location filename="../../core/fullscreen_ui.cpp" line="7657"/>
         <source>Shows the current rendering resolution of the system in the top-right corner of the display.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7658"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation type="unfinished">Menunjukkan game yang sedang Anda mainkan sebagai status profil Discord.</translation>
     </message>
     <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7659"/>
@@ -11582,12 +11572,6 @@ Pemindaian rekursif akan membuat proses pencarian menjadi lebih lama, namun dapa
         <translation>Buat Backup Save State</translation>
     </message>
     <message>
-        <location filename="../interfacesettingswidget.ui" line="42"/>
-        <location filename="../interfacesettingswidget.cpp" line="104"/>
-        <source>Enable Discord Presence</source>
-        <translation>Aktifkan Kehadiran Discord</translation>
-    </message>
-    <message>
         <location filename="../interfacesettingswidget.ui" line="49"/>
         <location filename="../interfacesettingswidget.cpp" line="98"/>
         <source>Pause On Controller Disconnection</source>
@@ -11747,11 +11731,6 @@ Pemindaian rekursif akan membuat proses pencarian menjadi lebih lama, namun dapa
         <location filename="../interfacesettingswidget.cpp" line="85"/>
         <source>Hides the mouse pointer/cursor when the emulator is in fullscreen mode.</source>
         <translation>Menyembunyikan kursor mouse saat emulator sedang menggunakan mode layar penuh.</translation>
-    </message>
-    <message>
-        <location filename="../interfacesettingswidget.cpp" line="105"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Menunjukkan game yang sedang Anda mainkan sebagai status profil Discord.</translation>
     </message>
 </context>
 <context>

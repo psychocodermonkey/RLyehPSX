@@ -50,7 +50,6 @@
 
 #include "common/align.h"
 #include "common/binary_reader_writer.h"
-#include "common/dynamic_library.h"
 #include "common/error.h"
 #include "common/file_system.h"
 #include "common/layered_settings_interface.h"
@@ -91,7 +90,6 @@ Log_SetChannel(System);
 #endif
 
 #ifndef __ANDROID__
-#define ENABLE_DISCORD_PRESENCE 1
 #define ENABLE_PINE_SERVER 1
 #define ENABLE_GDB_SERVER 1
 #define ENABLE_SOCKET_MULTIPLEXER 1
@@ -221,11 +219,6 @@ static void UpdateSessionTime(const std::string& prev_serial);
 
 static void SetTimerResolutionIncreased(bool enabled);
 
-#ifdef ENABLE_DISCORD_PRESENCE
-static void InitializeDiscordPresence();
-static void ShutdownDiscordPresence();
-static void PollDiscordPresence();
-#endif
 } // namespace System
 
 static constexpr const float PERFORMANCE_COUNTER_UPDATE_INTERVAL = 1.0f;
@@ -338,11 +331,6 @@ static u64 s_session_start_time = 0;
 
 #ifdef ENABLE_SOCKET_MULTIPLEXER
 static std::unique_ptr<SocketMultiplexer> s_socket_multiplexer;
-#endif
-
-#ifdef ENABLE_DISCORD_PRESENCE
-static bool s_discord_presence_active = false;
-static time_t s_discord_presence_time_epoch;
 #endif
 
 static TinyString GetTimestampStringForFileName()
@@ -498,11 +486,6 @@ bool System::Internal::CPUThreadInitialize(Error* error)
   if (g_settings.achievements_enabled)
     Achievements::Initialize();
 
-#ifdef ENABLE_DISCORD_PRESENCE
-  if (g_settings.enable_discord_presence)
-    InitializeDiscordPresence();
-#endif
-
 #ifdef ENABLE_PINE_SERVER
   if (g_settings.pine_enable)
     PINEServer::Initialize(g_settings.pine_slot);
@@ -517,10 +500,6 @@ void System::Internal::CPUThreadShutdown()
   PINEServer::Shutdown();
 #endif
 
-#ifdef ENABLE_DISCORD_PRESENCE
-  ShutdownDiscordPresence();
-#endif
-
   Achievements::Shutdown(false);
 
   InputManager::CloseSources();
@@ -533,10 +512,6 @@ void System::Internal::CPUThreadShutdown()
 void System::Internal::IdlePollUpdate()
 {
   InputManager::PollSources();
-
-#ifdef ENABLE_DISCORD_PRESENCE
-  PollDiscordPresence();
-#endif
 
   Achievements::IdleUpdate();
 
@@ -1982,7 +1957,6 @@ void System::ClearRunningGame()
 
   Achievements::GameChanged(s_running_game_path, nullptr);
 
-  UpdateRichPresence(true);
 }
 
 void System::Execute()
@@ -2037,10 +2011,6 @@ void System::FrameDone()
 
   if (Achievements::IsActive())
     Achievements::FrameUpdate();
-
-#ifdef ENABLE_DISCORD_PRESENCE
-  PollDiscordPresence();
-#endif
 
 #ifdef ENABLE_SOCKET_MULTIPLEXER
   if (s_socket_multiplexer)
@@ -4026,8 +3996,6 @@ void System::UpdateRunningGame(const std::string_view path, CDImage* image, bool
   else
     SaveStateSelectorUI::ClearList();
 
-  UpdateRichPresence(booting);
-
   Host::OnGameChanged(s_running_game_path, s_running_game_serial, s_running_game_title);
 }
 
@@ -4465,16 +4433,6 @@ void System::CheckForSettingsChanges(const Settings& old_settings)
   Achievements::UpdateSettings(old_settings);
 
   FullscreenUI::CheckForConfigChanges(old_settings);
-
-#ifdef ENABLE_DISCORD_PRESENCE
-  if (g_settings.enable_discord_presence != old_settings.enable_discord_presence)
-  {
-    if (g_settings.enable_discord_presence)
-      InitializeDiscordPresence();
-    else
-      ShutdownDiscordPresence();
-  }
-#endif
 
 #ifdef ENABLE_PINE_SERVER
   if (g_settings.pine_enable != old_settings.pine_enable || g_settings.pine_slot != old_settings.pine_slot)
@@ -5773,148 +5731,3 @@ void System::ReleaseSocketMultiplexer()
   s_socket_multiplexer.reset();
 #endif
 }
-
-#ifdef ENABLE_DISCORD_PRESENCE
-
-#include "discord_rpc.h"
-
-#define DISCORD_RPC_FUNCTIONS(X)                                                                                       \
-  X(Discord_Initialize)                                                                                                \
-  X(Discord_Shutdown)                                                                                                  \
-  X(Discord_RunCallbacks)                                                                                              \
-  X(Discord_UpdatePresence)                                                                                            \
-  X(Discord_ClearPresence)
-
-namespace dyn_libs {
-static bool OpenDiscordRPC(Error* error);
-static void CloseDiscordRPC();
-
-static DynamicLibrary s_discord_rpc_library;
-
-#define ADD_FUNC(F) static decltype(&::F) F;
-DISCORD_RPC_FUNCTIONS(ADD_FUNC)
-#undef ADD_FUNC
-} // namespace dyn_libs
-
-bool dyn_libs::OpenDiscordRPC(Error* error)
-{
-  if (s_discord_rpc_library.IsOpen())
-    return true;
-
-  const std::string libname = DynamicLibrary::GetVersionedFilename("discord-rpc");
-  if (!s_discord_rpc_library.Open(libname.c_str(), error))
-  {
-    Error::AddPrefix(error, "Failed to load discord-rpc: ");
-    return false;
-  }
-
-#define LOAD_FUNC(F)                                                                                                   \
-  if (!s_discord_rpc_library.GetSymbol(#F, &F))                                                                        \
-  {                                                                                                                    \
-    Error::SetStringFmt(error, "Failed to find function {}", #F);                                                      \
-    CloseDiscordRPC();                                                                                                 \
-    return false;                                                                                                      \
-  }
-  DISCORD_RPC_FUNCTIONS(LOAD_FUNC)
-#undef LOAD_FUNC
-
-  return true;
-}
-
-void dyn_libs::CloseDiscordRPC()
-{
-  if (!s_discord_rpc_library.IsOpen())
-    return;
-
-#define UNLOAD_FUNC(F) F = nullptr;
-  DISCORD_RPC_FUNCTIONS(UNLOAD_FUNC)
-#undef UNLOAD_FUNC
-
-  s_discord_rpc_library.Close();
-}
-
-void System::InitializeDiscordPresence()
-{
-  if (s_discord_presence_active)
-    return;
-
-  Error error;
-  if (!dyn_libs::OpenDiscordRPC(&error))
-  {
-    ERROR_LOG("Failed to open discord-rpc: {}", error.GetDescription());
-    return;
-  }
-
-  DiscordEventHandlers handlers = {};
-  dyn_libs::Discord_Initialize("705325712680288296", &handlers, 0, nullptr);
-  s_discord_presence_active = true;
-
-  UpdateRichPresence(true);
-}
-
-void System::ShutdownDiscordPresence()
-{
-  if (!s_discord_presence_active)
-    return;
-
-  dyn_libs::Discord_ClearPresence();
-  dyn_libs::Discord_Shutdown();
-  dyn_libs::CloseDiscordRPC();
-
-  s_discord_presence_active = false;
-}
-
-void System::UpdateRichPresence(bool update_session_time)
-{
-  if (!s_discord_presence_active)
-    return;
-
-  if (update_session_time)
-    s_discord_presence_time_epoch = std::time(nullptr);
-
-  // https://discord.com/developers/docs/rich-presence/how-to#updating-presence-update-presence-payload-fields
-  DiscordRichPresence rp = {};
-  rp.largeImageKey = "duckstation_logo";
-  rp.largeImageText = "DuckStation PS1/PSX Emulator";
-  rp.startTimestamp = s_discord_presence_time_epoch;
-  rp.details = "No Game Running";
-  if (IsValidOrInitializing())
-  {
-    // Use disc set name if it's not a custom title.
-    if (s_running_game_entry && !s_running_game_entry->disc_set_name.empty() &&
-        s_running_game_title == s_running_game_entry->title)
-    {
-      rp.details = s_running_game_entry->disc_set_name.c_str();
-    }
-    else
-    {
-      rp.details = s_running_game_title.empty() ? "Unknown Game" : s_running_game_title.c_str();
-    }
-  }
-
-  std::string state_string;
-  if (Achievements::HasRichPresence())
-  {
-    const auto lock = Achievements::GetLock();
-    state_string = StringUtil::Ellipsise(Achievements::GetRichPresenceString(), 128);
-    rp.state = state_string.c_str();
-  }
-
-  dyn_libs::Discord_UpdatePresence(&rp);
-}
-
-void System::PollDiscordPresence()
-{
-  if (!s_discord_presence_active)
-    return;
-
-  dyn_libs::Discord_RunCallbacks();
-}
-
-#else
-
-void System::UpdateRichPresence(bool update_session_time)
-{
-}
-
-#endif
