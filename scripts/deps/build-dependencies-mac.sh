@@ -56,7 +56,6 @@ QT=6.7.2
 SHADERC=2026.3
 
 CPUINFO=66ee79c038d70dad9f08705b2c9b3e58f6d8f512
-DISCORD_RPC=144f3a3f1209994d8d9e8a87964a989cb9911c1e
 SPIRV_CROSS=vulkan-sdk-1.3.290.0
 
 mkdir -p deps-build
@@ -93,7 +92,6 @@ fb0d1286a35be3583fee34aeb5843c94719e07193bdf1d4d8b0dc14009caef01  qtsvg-everywhe
 58e855ad1b2533094726c8a425766b63a04a0eede2ed85086860e54593aa4b2a  qttools-everywhere-src-$QT.tar.xz
 9845780b5dc1b7279d57836db51aeaf2e4a1160c42be09750616f39157582ca9  qttranslations-everywhere-src-$QT.tar.xz
 e3d09aa27ec50da6310da45d1ec6b2e903c367a1455d8ee350bda12b9dedf556  cpuinfo-$CPUINFO.tar.gz
-3eea5ccce6670c126282f1ba4d32c19d486db49a1a5cbfb8d6f48774784d310c  discord-rpc-$DISCORD_RPC.tar.gz
 49d5cfe772d3aa10cd4879f2f6e189f5083c08e4c8ea01bf3d5b87c97dfca7d2  plutosvg-$PLUTOSVG.tar.gz
 2b0d17a6e016f47b86f9c00e2cb82600041b1ea1f7d2a00c2d46ae542cbfed3c  plutovg-$PLUTOVG.tar.gz
 ee493ccf1b3038b4ef2fe024664c5eb2dc4bcc1f6b05b33e3909de0e19c81024  shaderc-$SHADERC.tar.gz
@@ -115,7 +113,6 @@ curl -L \
 	-O "https://download.qt.io/archive/qt/${QT%.*}/$QT/submodules/qttools-everywhere-src-$QT.tar.xz" \
 	-O "https://download.qt.io/archive/qt/${QT%.*}/$QT/submodules/qttranslations-everywhere-src-$QT.tar.xz" \
 	-o "cpuinfo-$CPUINFO.tar.gz" "https://github.com/pytorch/cpuinfo/archive/$CPUINFO.tar.gz" \
-	-o "discord-rpc-$DISCORD_RPC.tar.gz" "https://github.com/stenzek/discord-rpc/archive/$DISCORD_RPC.tar.gz" \
 	-o "plutosvg-$PLUTOSVG.tar.gz" "https://github.com/sammycage/plutosvg/archive/refs/tags/v$PLUTOSVG.tar.gz" \
 	-o "plutovg-$PLUTOVG.tar.gz" "https://github.com/sammycage/plutovg/archive/refs/tags/v$PLUTOVG.tar.gz" \
 	-o "shaderc-$SHADERC.tar.gz" "https://github.com/google/shaderc/archive/refs/tags/v$SHADERC.tar.gz"
@@ -522,18 +519,6 @@ cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_ARM64" \
 make -C build-arm64 "-j$NPROCS"
 merge_binaries $(realpath build) $(realpath build-arm64)
 make -C build install
-cd ..
-
-echo "Building discord-rpc..."
-rm -fr "discord-rpc-$DISCORD_RPC"
-tar xf "discord-rpc-$DISCORD_RPC.tar.gz"
-cd "discord-rpc-$DISCORD_RPC"
-cmake "${CMAKE_COMMON[@]}" "$CMAKE_ARCH_UNIVERSAL" \
-  -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-  -DBUILD_SHARED_LIBS=ON \
-  -B build
-cmake --build build --parallel
-cmake --install build
 cd ..
 
 echo "Building plutovg..."

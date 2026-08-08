@@ -82,7 +82,6 @@ ZSTD=1.5.6
 SHADERC=2026.3
 
 CPUINFO=66ee79c038d70dad9f08705b2c9b3e58f6d8f512
-DISCORD_RPC=144f3a3f1209994d8d9e8a87964a989cb9911c1e
 PLUTOSVG=0.0.8
 # PlutoVG pin rationale:
 # - selected as current upstream release
@@ -99,7 +98,6 @@ if [ "$SKIP_DOWNLOAD" != true ]; then
 		-O "https://github.com/ianlancetaylor/libbacktrace/archive/$LIBBACKTRACE.zip" \
 		-O "https://github.com/libsdl-org/SDL/releases/download/release-$SDL2/SDL2-$SDL2.tar.gz" \
 		-o "cpuinfo-$CPUINFO.tar.gz" "https://github.com/pytorch/cpuinfo/archive/$CPUINFO.tar.gz" \
-		-o "discord-rpc-$DISCORD_RPC.tar.gz" "https://github.com/stenzek/discord-rpc/archive/$DISCORD_RPC.tar.gz" \
 		-o "plutosvg-$PLUTOSVG.tar.gz" "https://github.com/sammycage/plutosvg/archive/refs/tags/v$PLUTOSVG.tar.gz" \
 		-o "plutovg-$PLUTOVG.tar.gz" "https://github.com/sammycage/plutovg/archive/refs/tags/v$PLUTOVG.tar.gz" \
 		-o "shaderc-$SHADERC.tar.gz" "https://github.com/google/shaderc/archive/refs/tags/v$SHADERC.tar.gz"
@@ -110,7 +108,6 @@ cat > SHASUMS <<EOF
 fd6f417fe9e3a071cf1424a5152d926a34c4a3c5070745470be6cf12a404ed79  $LIBBACKTRACE.zip
 c6ef64ca18a19d13df6eb22df9aff19fb0db65610a74cc81dae33a82235cacd4  SDL2-$SDL2.tar.gz
 e3d09aa27ec50da6310da45d1ec6b2e903c367a1455d8ee350bda12b9dedf556  cpuinfo-$CPUINFO.tar.gz
-3eea5ccce6670c126282f1ba4d32c19d486db49a1a5cbfb8d6f48774784d310c  discord-rpc-$DISCORD_RPC.tar.gz
 49d5cfe772d3aa10cd4879f2f6e189f5083c08e4c8ea01bf3d5b87c97dfca7d2  plutosvg-$PLUTOSVG.tar.gz
 2b0d17a6e016f47b86f9c00e2cb82600041b1ea1f7d2a00c2d46ae542cbfed3c  plutovg-$PLUTOVG.tar.gz
 ee493ccf1b3038b4ef2fe024664c5eb2dc4bcc1f6b05b33e3909de0e19c81024  shaderc-$SHADERC.tar.gz
@@ -513,21 +510,6 @@ cmake -DCMAKE_BUILD_TYPE=Release \
 	-DCPUINFO_BUILD_MOCK_TESTS=OFF \
 	-DCPUINFO_BUILD_BENCHMARKS=OFF \
 	-DUSE_SYSTEM_LIBS=ON \
-	-B build \
-	-G Ninja
-cmake --build build --parallel
-ninja -C build install
-cd ..
-
-echo "Building discord-rpc..."
-rm -fr "discord-rpc-$DISCORD_RPC"
-tar xf "discord-rpc-$DISCORD_RPC.tar.gz"
-cd "discord-rpc-$DISCORD_RPC"
-cmake -DCMAKE_BUILD_TYPE=Release \
-	-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
-	-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
-	-DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
-	-DBUILD_SHARED_LIBS=ON \
 	-B build \
 	-G Ninja
 cmake --build build --parallel
