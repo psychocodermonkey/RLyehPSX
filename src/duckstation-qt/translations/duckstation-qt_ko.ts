@@ -6860,11 +6860,6 @@ Do you want to load this save and continue?</source>
         <translation>도전 과제 활성화</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="6943"/>
-        <source>Enable Discord Presence</source>
-        <translation>디스코드 참석 활성화</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="6944"/>
         <source>Enable Fast Boot</source>
         <translation>고속 부팅 활성화</translation>
@@ -8422,11 +8417,6 @@ Error was:</source>
         <translation>디스플레이 오른쪽 상단에 시스템의 현재 렌더링 해상도를 표시합니다.</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7244"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>현재 디스코드에서 프로필의 일부로 플레이 중인 게임을 표시합니다.</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7245"/>
         <source>Shows the host&apos;s CPU usage based on threads in the top-right corner of the display.</source>
         <translation>디스플레이 오른쪽 상단에 스레드를 기준으로 호스트의 CPU 사용량을 표시합니다.</translation>
@@ -9852,17 +9842,6 @@ Scanning recursively takes more time, but will identify files in subdirectories.
         <location filename="../generalsettingswidget.cpp" line="116"/>
         <source>%1 (%2)</source>
         <translation>%1(%2)</translation>
-    </message>
-    <message>
-        <location filename="../generalsettingswidget.ui" line="101"/>
-        <location filename="../generalsettingswidget.cpp" line="102"/>
-        <source>Enable Discord Presence</source>
-        <translation>디스코드 참석 활성화</translation>
-    </message>
-    <message>
-        <location filename="../generalsettingswidget.cpp" line="103"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>현재 디스코드에서 프로필의 일부로 플레이 중인 게임을 표시합니다.</translation>
     </message>
     <message>
         <location filename="../generalsettingswidget.ui" line="199"/>

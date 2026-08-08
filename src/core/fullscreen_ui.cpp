@@ -3147,11 +3147,6 @@ void FullscreenUI::DrawInterfaceSettingsPage()
     }
   }
 
-  MenuHeading(FSUI_CSTR("Integration"));
-  DrawToggleSetting(bsi, FSUI_ICONSTR(ICON_FA_CHARGING_STATION, "Enable Discord Presence"),
-                    FSUI_CSTR("Shows the game you are currently playing as part of your profile in Discord."), "Main",
-                    "EnableDiscordPresence", false);
-
   MenuHeading(FSUI_CSTR("On-Screen Display"));
   DrawIntSpinBoxSetting(bsi, FSUI_ICONSTR(ICON_FA_SEARCH, "OSD Scale"),
                         FSUI_CSTR("Determines how large the on-screen messages and monitor are."), "Display",
@@ -7397,7 +7392,6 @@ TRANSLATE_NOOP("FullscreenUI", "Emulation Speed");
 TRANSLATE_NOOP("FullscreenUI", "Enable 8MB RAM");
 TRANSLATE_NOOP("FullscreenUI", "Enable Achievements");
 TRANSLATE_NOOP("FullscreenUI", "Enable Cheats");
-TRANSLATE_NOOP("FullscreenUI", "Enable Discord Presence");
 TRANSLATE_NOOP("FullscreenUI", "Enable Fast Boot");
 TRANSLATE_NOOP("FullscreenUI", "Enable In-Game Overlays");
 TRANSLATE_NOOP("FullscreenUI", "Enable Overclocking");
@@ -7734,7 +7728,6 @@ TRANSLATE_NOOP("FullscreenUI", "Shows persistent icons when turbo is active or w
 TRANSLATE_NOOP("FullscreenUI", "Shows the current controller state of the system in the bottom-left corner of the display.");
 TRANSLATE_NOOP("FullscreenUI", "Shows the current emulation speed of the system in the top-right corner of the display as a percentage.");
 TRANSLATE_NOOP("FullscreenUI", "Shows the current rendering resolution of the system in the top-right corner of the display.");
-TRANSLATE_NOOP("FullscreenUI", "Shows the game you are currently playing as part of your profile in Discord.");
 TRANSLATE_NOOP("FullscreenUI", "Shows the host's CPU usage based on threads in the top-right corner of the display.");
 TRANSLATE_NOOP("FullscreenUI", "Shows the host's GPU usage in the top-right corner of the display.");
 TRANSLATE_NOOP("FullscreenUI", "Shows the number of frames (or v-syncs) displayed per second by the system in the top-right corner of the display.");

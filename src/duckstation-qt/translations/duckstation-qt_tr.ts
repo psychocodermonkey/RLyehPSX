@@ -6808,11 +6808,6 @@ Bu kayıdı yükleyip devam etmek istermisiniz?</translation>
         <translation>Başarımları Etkinleştir</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="6673"/>
-        <source>Enable Discord Presence</source>
-        <translation>Oyun bilgisini Discord&apos;a gönder</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="6674"/>
         <source>Enable Fast Boot</source>
         <translation>Hızlı Açılışı Aç</translation>
@@ -8321,11 +8316,6 @@ Hata şuydu:</translation>
         <translation>Şimdiki çizim çözünürlüğünü ekranın sağ üstünde gösterir.</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="6975"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Oynadığınız oyun ile ilgili bilgileri Discord hesabınızda gösterir.</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="6976"/>
         <source>Shows the host&apos;s CPU usage based on threads in the top-right corner of the display.</source>
         <translation>İşlemci kullanımınızı iş parçaları göz önüne alınarak ekranınızın sağ üstünde gösterir.</translation>
@@ -9792,17 +9782,6 @@ Alt klasörlerle birlikte aramak daha çok zaman alır ama alt klasörleride tar
         <location filename="../generalsettingswidget.cpp" line="102"/>
         <source>Automatically loads and applies cheats on game start.</source>
         <translation>Oyun başlangıcında otomatik olarak hileler yüklenir ve uygulanır.</translation>
-    </message>
-    <message>
-        <location filename="../generalsettingswidget.ui" line="98"/>
-        <location filename="../generalsettingswidget.cpp" line="103"/>
-        <source>Enable Discord Presence</source>
-        <translation>Oyun bilgisini Discord&apos;a gönder</translation>
-    </message>
-    <message>
-        <location filename="../generalsettingswidget.cpp" line="104"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Oynadığınız oyun ile ilgili bilgileri Discord hesabınızda gösterir.</translation>
     </message>
     <message>
         <location filename="../generalsettingswidget.cpp" line="110"/>

@@ -6836,11 +6836,6 @@ Error was:</source>
         <translation>游戏未加载或RetroAchievements不可用。</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7407"/>
-        <source>Enable Discord Presence</source>
-        <translation>启用Discord-Presence</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7405"/>
         <source>Enable Achievements</source>
         <translation>启用成就</translation>
@@ -8532,11 +8527,6 @@ Error was:</source>
         <location filename="../../core/fullscreen_ui.cpp" line="7738"/>
         <source>Shows information about the emulated GPU in the top-right corner of the display.</source>
         <translation>在显示右上角显示关于模拟的GPU的信息。</translation>
-    </message>
-    <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7744"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>显示您当前正在玩的游戏并将它们作为您在Discord的个人资料的一部分。</translation>
     </message>
     <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7751"/>
@@ -12585,12 +12575,6 @@ Scanning recursively takes more time, but will identify files in subdirectories.
         <translation>确认关机</translation>
     </message>
     <message>
-        <location filename="../interfacesettingswidget.ui" line="42"/>
-        <location filename="../interfacesettingswidget.cpp" line="110"/>
-        <source>Enable Discord Presence</source>
-        <translation>启用Discord-Presence</translation>
-    </message>
-    <message>
         <location filename="../interfacesettingswidget.ui" line="49"/>
         <location filename="../interfacesettingswidget.cpp" line="104"/>
         <source>Pause On Controller Disconnection</source>
@@ -12738,11 +12722,6 @@ Scanning recursively takes more time, but will identify files in subdirectories.
     <message>
         <source>When enabled, per-game settings will be applied, and incompatible enhancements will be disabled. You should leave this option enabled except when testing enhancements with incompatible games.</source>
         <translation type="vanished">启用后，每个游戏将会应用各自独立的设置，并且不兼容的增强将被禁用。您应当保持此选项处于启用状态，除非要用不兼容游戏去测试增强功能。</translation>
-    </message>
-    <message>
-        <location filename="../interfacesettingswidget.cpp" line="111"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>显示您当前正在玩的游戏并将它们作为您在Discord的个人资料的一部分。</translation>
     </message>
     <message>
         <location filename="../interfacesettingswidget.cpp" line="117"/>

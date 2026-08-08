@@ -91,7 +91,6 @@ struct Settings
   bool apply_game_settings : 1 = true;
   bool enable_cheats : 1 = false;
   bool disable_all_enhancements : 1 = false;
-  bool enable_discord_presence : 1 = false;
   bool pine_enable : 1 = false;
 
   bool rewind_enable : 1 = false;

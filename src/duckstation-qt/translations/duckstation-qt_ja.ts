@@ -7547,11 +7547,6 @@ Do you want to load this save and continue?</source>
         <translation type="unfinished">実績を有効にする</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7337"/>
-        <source>Enable Discord Presence</source>
-        <translation type="unfinished">Discord Presence を有効にする</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7338"/>
         <source>Enable Fast Boot</source>
         <translation type="unfinished"></translation>
@@ -9368,11 +9363,6 @@ Error was:</source>
         <location filename="../../core/fullscreen_ui.cpp" line="7667"/>
         <source>Shows the current rendering resolution of the system in the top-right corner of the display.</source>
         <translation type="unfinished">システムの現在のレンダリング解像度をディスプレイの右上に表示します。</translation>
-    </message>
-    <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7668"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation type="unfinished">Discord のプロフィールの一部として現在プレイしているゲームを表示します。</translation>
     </message>
     <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7669"/>
@@ -11206,14 +11196,6 @@ Scanning recursively takes more time, but will identify files in subdirectories.
     <message>
         <source>%1 (%2)</source>
         <translation type="vanished">%1 (%2)</translation>
-    </message>
-    <message>
-        <source>Enable Discord Presence</source>
-        <translation type="vanished">Discord Presence を有効にする</translation>
-    </message>
-    <message>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation type="vanished">Discord のプロフィールの一部として現在プレイしているゲームを表示します。</translation>
     </message>
     <message>
         <source>Enable Automatic Update Check</source>
@@ -13072,12 +13054,6 @@ Scanning recursively takes more time, but will identify files in subdirectories.
         <translation>ステートセーブのバックアップを作成する</translation>
     </message>
     <message>
-        <location filename="../interfacesettingswidget.ui" line="42"/>
-        <location filename="../interfacesettingswidget.cpp" line="104"/>
-        <source>Enable Discord Presence</source>
-        <translation>Discord Presence を有効にする</translation>
-    </message>
-    <message>
         <location filename="../interfacesettingswidget.ui" line="49"/>
         <location filename="../interfacesettingswidget.cpp" line="98"/>
         <source>Pause On Controller Disconnection</source>
@@ -13250,11 +13226,6 @@ Scanning recursively takes more time, but will identify files in subdirectories.
         <location filename="../interfacesettingswidget.cpp" line="103"/>
         <source>Backs up any previous save state when creating a new save state, with a .bak extension.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../interfacesettingswidget.cpp" line="105"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation type="unfinished">Discord のプロフィールの一部として現在プレイしているゲームを表示します。</translation>
     </message>
     <message>
         <location filename="../interfacesettingswidget.cpp" line="111"/>

@@ -6830,11 +6830,6 @@ Do you want to load this save and continue?</source>
         <translation type="unfinished">Achievements aktivieren</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="6943"/>
-        <source>Enable Discord Presence</source>
-        <translation type="unfinished">Zeige momentanes Spiel auf Discord</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="6944"/>
         <source>Enable Fast Boot</source>
         <translation type="unfinished"></translation>
@@ -8336,11 +8331,6 @@ Error was:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7244"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation type="unfinished">Zeigt das aktuell laufende Spiel im Discord-Profil an.</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7245"/>
         <source>Shows the host&apos;s CPU usage based on threads in the top-right corner of the display.</source>
         <translation type="unfinished"></translation>
@@ -9832,17 +9822,6 @@ Rekursives Durchsuchen benötigt mehr Zeit, erkennt allerdings auch Dateien in U
         <location filename="../generalsettingswidget.cpp" line="116"/>
         <source>%1 (%2)</source>
         <translation></translation>
-    </message>
-    <message>
-        <location filename="../generalsettingswidget.ui" line="101"/>
-        <location filename="../generalsettingswidget.cpp" line="102"/>
-        <source>Enable Discord Presence</source>
-        <translation>Zeige momentanes Spiel auf Discord</translation>
-    </message>
-    <message>
-        <location filename="../generalsettingswidget.cpp" line="103"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Zeigt das aktuell laufende Spiel im Discord-Profil an.</translation>
     </message>
 </context>
 <context>

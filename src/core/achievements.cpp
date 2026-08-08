@@ -174,7 +174,7 @@ static void ClientLoadGameCallback(int result, const char* error_message, rc_cli
 
 static void DisplayHardcoreDeferredMessage();
 static void DisplayAchievementSummary();
-static void UpdateRichPresence(std::unique_lock<std::recursive_mutex>& lock);
+static void UpdateRichPresence();
 
 static void LeaderboardFetchNearbyCallback(int result, const char* error_message,
                                            rc_client_leaderboard_entry_list_t* list, rc_client_t* client,
@@ -814,7 +814,7 @@ void Achievements::FrameUpdate()
   s_http_downloader->PollRequests();
   rc_client_do_frame(s_client);
 
-  UpdateRichPresence(lock);
+  UpdateRichPresence();
 }
 
 void Achievements::ClientEventHandler(const rc_client_event_t* event, rc_client_t* client)
@@ -904,7 +904,7 @@ void Achievements::UpdateGameSummary()
   rc_client_get_user_game_summary(s_client, &s_game_summary);
 }
 
-void Achievements::UpdateRichPresence(std::unique_lock<std::recursive_mutex>& lock)
+void Achievements::UpdateRichPresence()
 {
   // Limit rich presence updates to once per second, since it could change per frame.
   if (!s_has_rich_presence || !s_rich_presence_poll_time.ResetIfSecondsPassed(1.0))
@@ -921,9 +921,6 @@ void Achievements::UpdateRichPresence(std::unique_lock<std::recursive_mutex>& lo
   INFO_LOG("Rich presence updated: {}", s_rich_presence_string);
   Host::OnAchievementsRefreshed();
 
-  lock.unlock();
-  System::UpdateRichPresence(false);
-  lock.lock();
 }
 
 void Achievements::GameChanged(const std::string& path, CDImage* image)

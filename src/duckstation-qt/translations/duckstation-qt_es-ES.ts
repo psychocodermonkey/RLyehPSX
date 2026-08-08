@@ -6542,11 +6542,6 @@ Do you want to load this save and continue?</source>
         <translation>Habilitar trucos</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7421"/>
-        <source>Enable Discord Presence</source>
-        <translation>Habilitar presencia en Discord</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7422"/>
         <source>Enable Fast Boot</source>
         <translation>Habilitar arranque rápido</translation>
@@ -6847,11 +6842,6 @@ El error ha sido el siguiente:</translation>
         <location filename="../../core/fullscreen_ui.cpp" line="7749"/>
         <source>Shows information about input and audio latency in the top-right corner of the display.</source>
         <translation>Muestra información sobre la latencia de entrada y audio en la esquina superior derecha de la imagen.</translation>
-    </message>
-    <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7756"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Muestra el juego al que estés jugando actualmente en tu perfil de Discord.</translation>
     </message>
     <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7763"/>
@@ -11879,12 +11869,6 @@ La búsqueda recursiva llevará más tiempo, pero identificará todo archivo que
         <translation>Crear copias de seguridad de guardados rápidos</translation>
     </message>
     <message>
-        <location filename="../interfacesettingswidget.ui" line="42"/>
-        <location filename="../interfacesettingswidget.cpp" line="110"/>
-        <source>Enable Discord Presence</source>
-        <translation>Habilitar presencia en Discord</translation>
-    </message>
-    <message>
         <location filename="../interfacesettingswidget.ui" line="49"/>
         <location filename="../interfacesettingswidget.cpp" line="104"/>
         <source>Pause On Controller Disconnection</source>
@@ -12057,11 +12041,6 @@ La búsqueda recursiva llevará más tiempo, pero identificará todo archivo que
         <location filename="../interfacesettingswidget.cpp" line="109"/>
         <source>Backs up any previous save state when creating a new save state, with a .bak extension.</source>
         <translation>Guarda una copia del guardado rápido antiguo con la extensión .bak al crear otro nuevo.</translation>
-    </message>
-    <message>
-        <location filename="../interfacesettingswidget.cpp" line="111"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Muestra en tu perfil de Discord el nombre del juego al que estés jugando.</translation>
     </message>
     <message>
         <location filename="../interfacesettingswidget.cpp" line="117"/>

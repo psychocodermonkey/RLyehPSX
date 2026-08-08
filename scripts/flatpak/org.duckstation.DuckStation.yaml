@@ -32,7 +32,6 @@ modules:
   - "modules/22-shaderc.yaml"
   - "modules/23-spirv-cross.yaml"
   - "modules/24-cpuinfo.yaml"
-  - "modules/25-discord-rpc.yaml"
   - "modules/26-soundtouch.yaml"
   - "modules/27-plutosvg.yaml"
 

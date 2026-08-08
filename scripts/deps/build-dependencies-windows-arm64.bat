@@ -55,7 +55,6 @@ set ZLIBSHORT=131
 set ZSTD=1.5.6
 
 set CPUINFO=7524ad504fdcfcf75a18a133da6abd75c5d48053
-set DISCORD_RPC=144f3a3f1209994d8d9e8a87964a989cb9911c1e
 set PLUTOSVG=0.0.8
 REM PlutoVG pin rationale:
 REM - selected as current upstream release
@@ -82,7 +81,6 @@ call :downloadfile "zstd-%ZSTD%.zip" "https://github.com/facebook/zstd/archive/r
 call :downloadfile "zstd-fd5f8106a58601a963ee816e6a57aa7c61fafc53.patch" https://github.com/facebook/zstd/commit/fd5f8106a58601a963ee816e6a57aa7c61fafc53.patch 675f144b11f8ab2424b64bed8ccdca5d3f35b9326046fa7a883925dd180f0651 || goto error
 
 call :downloadfile "cpuinfo-%CPUINFO%.zip" "https://github.com/pytorch/cpuinfo/archive/%CPUINFO%.zip" 13146ae7983d767a678dd01b0d6af591e77cec82babd41264b9164ab808d7d41 || goto error
-call :downloadfile "discord-rpc-%DISCORD_RPC%.zip" "https://github.com/stenzek/discord-rpc/archive/%DISCORD_RPC%.zip" 61e185e75d37b360c314125bcdf4697192d15e2d5209db3306ed6cd736d508b3 || goto error
 call :downloadfile "plutosvg-v%PLUTOSVG%.zip" "https://github.com/sammycage/plutosvg/archive/refs/tags/v%PLUTOSVG%.zip" bf2223c3ae69b2dfc8d69b238e26d2d877a1315a9e355671ea937a970f1cacd0 || goto error
 call :downloadfile "plutovg-v%PLUTOVG%.zip" "https://github.com/sammycage/plutovg/archive/refs/tags/v%PLUTOVG%.zip" 030b656758a5d48bc82e931caba7e13f6b672345cebb9c2893c09223ac322ecf || goto error
 call :downloadfile "shaderc-%SHADERC%.zip" "https://github.com/stenzek/shaderc/archive/%SHADERC%.zip" d24760f3c20a0ca39dfa85b84b6cf65eee077cd168e7aa08502e60c168ef05f6 || goto error
@@ -269,15 +267,6 @@ rmdir /S /Q "cpuinfo-%CPUINFO%"
 %SEVENZIP% x "cpuinfo-%CPUINFO%.zip" || goto error
 cd "cpuinfo-%CPUINFO%" || goto error
 cmake %ARM64TOOLCHAIN% -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="%INSTALLDIR%" -DCMAKE_INSTALL_PREFIX="%INSTALLDIR%" -DCPUINFO_LIBRARY_TYPE=shared -DCPUINFO_RUNTIME_TYPE=shared -DCPUINFO_LOG_LEVEL=error -DCPUINFO_LOG_TO_STDIO=ON -DCPUINFO_BUILD_TOOLS=OFF -DCPUINFO_BUILD_UNIT_TESTS=OFF -DCPUINFO_BUILD_MOCK_TESTS=OFF -DCPUINFO_BUILD_BENCHMARKS=OFF -DUSE_SYSTEM_LIBS=ON -B build -G Ninja
-cmake --build build --parallel || goto error
-ninja -C build install || goto error
-cd .. || goto error
-
-echo Building discord-rpc...
-rmdir /S /Q "discord-rpc-%DISCORD_RPC%"
-%SEVENZIP% x "discord-rpc-%DISCORD_RPC%.zip" || goto error
-cd "discord-rpc-%DISCORD_RPC%" || goto error
-cmake %ARM64TOOLCHAIN% -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="%INSTALLDIR%" -DCMAKE_INSTALL_PREFIX="%INSTALLDIR%" -DBUILD_SHARED_LIBS=ON -B build -G Ninja
 cmake --build build --parallel || goto error
 ninja -C build install || goto error
 cd .. || goto error
