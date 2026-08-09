@@ -462,9 +462,6 @@ void SetRunaheadReplayFlag();
 SocketMultiplexer* GetSocketMultiplexer();
 void ReleaseSocketMultiplexer();
 
-/// Called when rich presence changes.
-void UpdateRichPresence(bool update_session_time);
-
 namespace Internal {
 /// Performs mandatory hardware checks.
 bool PerformEarlyHardwareChecks(Error* error);

@@ -160,7 +160,6 @@ void Settings::Load(SettingsInterface& si, SettingsInterface& controller_si)
   apply_game_settings = si.GetBoolValue("Main", "ApplyGameSettings", true);
   enable_cheats = si.GetBoolValue("Console", "EnableCheats", false);
   disable_all_enhancements = si.GetBoolValue("Main", "DisableAllEnhancements", false);
-  enable_discord_presence = si.GetBoolValue("Main", "EnableDiscordPresence", false);
   rewind_enable = si.GetBoolValue("Main", "RewindEnable", false);
   rewind_save_frequency = si.GetFloatValue("Main", "RewindFrequency", 10.0f);
   rewind_save_slots = static_cast<u32>(si.GetIntValue("Main", "RewindSaveSlots", 10));
@@ -477,7 +476,6 @@ void Settings::Save(SettingsInterface& si, bool ignore_base) const
     si.SetBoolValue("Main", "CreateSaveStateBackups", create_save_state_backups);
     si.SetStringValue("Main", "SaveStateCompression", GetSaveStateCompressionModeName(save_state_compression));
     si.SetBoolValue("Main", "ConfirmPowerOff", confim_power_off);
-    si.SetBoolValue("Main", "EnableDiscordPresence", enable_discord_presence);
   }
 
   si.SetBoolValue("Main", "LoadDevicesFromSaveStates", load_devices_from_save_states);

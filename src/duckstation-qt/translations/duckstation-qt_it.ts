@@ -7155,11 +7155,6 @@ Vuoi caricare questo stato e continuare?</translation>
         <translation>Abilita Obiettivi</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7152"/>
-        <source>Enable Discord Presence</source>
-        <translation>Abilita Presenza Discord</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7153"/>
         <source>Enable Fast Boot</source>
         <translation>Abilita Avvio Rapido</translation>
@@ -8943,11 +8938,6 @@ L&apos;errore è:</translation>
         <translation>Mostra l&apos;attuale risoluzione di rendering del sistema nell&apos;angolo in alto a destra del display.</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7473"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Mostra il gioco a cui stai attualmente giocando come parte del tuo profilo su Discord.</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7474"/>
         <source>Shows the host&apos;s CPU usage based on threads in the top-right corner of the display.</source>
         <translation>Mostra l&apos;utilizzo della CPU dell&apos;host basato sui thread nell&apos;angolo in alto a destra del display.</translation>
@@ -10381,14 +10371,6 @@ Scansionare ricorsivamente richiede più tempo, ma identificherà file anche nel
     <message>
         <source>%1 (%2)</source>
         <translation type="vanished">%1 (%2)</translation>
-    </message>
-    <message>
-        <source>Enable Discord Presence</source>
-        <translation type="vanished">Abilita Presenza Discord</translation>
-    </message>
-    <message>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation type="vanished">Mostra il gioco a cui stai attualmente giocando come parte del tuo profilo su Discord.</translation>
     </message>
     <message>
         <source>Enable Automatic Update Check</source>
@@ -12259,12 +12241,6 @@ Scansionare ricorsivamente richiede più tempo, ma identificherà file anche nel
         <translation>Conferma Spegnimento</translation>
     </message>
     <message>
-        <location filename="../interfacesettingswidget.ui" line="84"/>
-        <location filename="../interfacesettingswidget.cpp" line="92"/>
-        <source>Enable Discord Presence</source>
-        <translation>Abilita Presenza Discord</translation>
-    </message>
-    <message>
         <location filename="../interfacesettingswidget.ui" line="94"/>
         <source>Game Display</source>
         <translation>Visualizzazione Gioco</translation>
@@ -12396,11 +12372,6 @@ Scansionare ricorsivamente richiede più tempo, ma identificherà file anche nel
         <location filename="../interfacesettingswidget.cpp" line="90"/>
         <source>When enabled, per-game settings will be applied, and incompatible enhancements will be disabled. You should leave this option enabled except when testing enhancements with incompatible games.</source>
         <translation>Quando abilitato, saranno applicate le impostazioni per gioco, e i miglioramenti non compatibili verranno disabilitati. Dovresti lasciare questa opzione abilitata tranne quando testi miglioramenti con giochi incompatibili.</translation>
-    </message>
-    <message>
-        <location filename="../interfacesettingswidget.cpp" line="93"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Mostra il gioco a cui stai attualmente giocando come parte del tuo profilo su Discord.</translation>
     </message>
     <message>
         <location filename="../interfacesettingswidget.cpp" line="99"/>

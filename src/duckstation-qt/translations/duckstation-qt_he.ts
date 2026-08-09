@@ -6822,11 +6822,6 @@ Do you want to load this save and continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="6943"/>
-        <source>Enable Discord Presence</source>
-        <translation type="unfinished">Discord Presence הפעל</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="6944"/>
         <source>Enable Fast Boot</source>
         <translation type="unfinished"></translation>
@@ -8328,11 +8323,6 @@ Error was:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7244"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7245"/>
         <source>Shows the host&apos;s CPU usage based on threads in the top-right corner of the display.</source>
         <translation type="unfinished"></translation>
@@ -9810,17 +9800,6 @@ Scanning recursively takes more time, but will identify files in subdirectories.
     <message>
         <location filename="../generalsettingswidget.cpp" line="93"/>
         <source>When enabled, memory cards and controllers will be overwritten when save states are loaded. This can result in lost saves, and controller type mismatches. For deterministic save states, enable this option, otherwise leave disabled.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../generalsettingswidget.ui" line="101"/>
-        <location filename="../generalsettingswidget.cpp" line="102"/>
-        <source>Enable Discord Presence</source>
-        <translation>Discord Presence הפעל</translation>
-    </message>
-    <message>
-        <location filename="../generalsettingswidget.cpp" line="103"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
         <translation></translation>
     </message>
     <message>

@@ -6601,12 +6601,6 @@ Do you want to load this save and continue?</source>
         <translation>Включить читы</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7420"/>
-        <source>Enable Discord Presence</source>
-        <translatorcomment>Настройки интерфейса/(Интеграция)</translatorcomment>
-        <translation>Включить присутствие в Discord</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7421"/>
         <source>Enable Fast Boot</source>
         <translatorcomment>Настройки BIOS/(Патчи)</translatorcomment>
@@ -6888,12 +6882,6 @@ Error was:</source>
         <location filename="../../core/fullscreen_ui.cpp" line="7716"/>
         <source>Selects the view that the game list will open to.</source>
         <translation>Выбор вида, в котором откроется список игр.</translation>
-    </message>
-    <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7755"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translatorcomment>Настройки интерфейса/подсказка</translatorcomment>
-        <translation>Показать игру, в которую вы сейчас играете, как часть вашего профиля в Discord.</translation>
     </message>
     <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7765"/>
@@ -12216,12 +12204,6 @@ Scanning recursively takes more time, but will identify files in subdirectories.
         <translation>Подтверждать выключение питания</translation>
     </message>
     <message>
-        <location filename="../interfacesettingswidget.ui" line="42"/>
-        <location filename="../interfacesettingswidget.cpp" line="110"/>
-        <source>Enable Discord Presence</source>
-        <translation>Включить присутствие в Discord</translation>
-    </message>
-    <message>
         <location filename="../interfacesettingswidget.ui" line="49"/>
         <location filename="../interfacesettingswidget.cpp" line="104"/>
         <source>Pause On Controller Disconnection</source>
@@ -12367,11 +12349,6 @@ Scanning recursively takes more time, but will identify files in subdirectories.
         <location filename="../interfacesettingswidget.cpp" line="109"/>
         <source>Backs up any previous save state when creating a new save state, with a .bak extension.</source>
         <translation>Создает резервную копию любого предыдущего сохранения состояния при создании нового сохранения состояния с расширением .bak.</translation>
-    </message>
-    <message>
-        <location filename="../interfacesettingswidget.cpp" line="111"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Показывает игру, в которую вы сейчас играете, как часть вашего профиля в Discord.</translation>
     </message>
     <message>
         <location filename="../interfacesettingswidget.cpp" line="117"/>

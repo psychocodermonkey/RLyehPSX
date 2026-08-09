@@ -6527,11 +6527,6 @@ Deseja carregar e continuar a partir desde dado ?</translation>
         <translation>Ativar conquistas</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7407"/>
-        <source>Enable Discord Presence</source>
-        <translation>Ativar presença rica do Discord</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7408"/>
         <source>Enable Fast Boot</source>
         <translation>Ativar inicialização rápida</translation>
@@ -8425,11 +8420,6 @@ Error was:</source>
         <location filename="../../core/fullscreen_ui.cpp" line="7743"/>
         <source>Shows the current rendering resolution of the system in the top-right corner of the display.</source>
         <translation>Mostra a resolução de renderização atual do sistema no canto superior direito da tela.</translation>
-    </message>
-    <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7744"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Mostra o jogo que estiver jogando no seu perfil no Discord quando conectado.</translation>
     </message>
     <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7745"/>
@@ -12228,12 +12218,6 @@ Escanear o diretório desta forma demora mais tempo porém, identificará arquiv
         <translation>Pausar ao iniciar</translation>
     </message>
     <message>
-        <location filename="../interfacesettingswidget.ui" line="42"/>
-        <location filename="../interfacesettingswidget.cpp" line="119"/>
-        <source>Enable Discord Presence</source>
-        <translation>Ativar presença rica do Discord</translation>
-    </message>
-    <message>
         <location filename="../interfacesettingswidget.ui" line="49"/>
         <location filename="../interfacesettingswidget.cpp" line="113"/>
         <source>Pause On Controller Disconnection</source>
@@ -12392,11 +12376,6 @@ Escanear o diretório desta forma demora mais tempo porém, identificará arquiv
         <location filename="../interfacesettingswidget.cpp" line="118"/>
         <source>Backs up any previous save state when creating a new save state, with a .bak extension.</source>
         <translation>Faz cópia de segurança de qualquer estado salvo anterior ao criar um novo estado salvo, com a extensão .bak.</translation>
-    </message>
-    <message>
-        <location filename="../interfacesettingswidget.cpp" line="120"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Mostra o jogo que estiver jogando no seu perfil no Discord quando conectado.</translation>
     </message>
     <message>
         <location filename="../interfacesettingswidget.cpp" line="123"/>

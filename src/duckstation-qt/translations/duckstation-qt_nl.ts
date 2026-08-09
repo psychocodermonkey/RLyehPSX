@@ -6829,11 +6829,6 @@ Do you want to load this save and continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="6943"/>
-        <source>Enable Discord Presence</source>
-        <translation type="unfinished">Schakel Discord Aanzwezigheid In</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="6944"/>
         <source>Enable Fast Boot</source>
         <translation type="unfinished"></translation>
@@ -8335,11 +8330,6 @@ Error was:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7244"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation type="unfinished">Toont het spel dat je nu aan het spelen bent als deel van je profiel op Discord.</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7245"/>
         <source>Shows the host&apos;s CPU usage based on threads in the top-right corner of the display.</source>
         <translation type="unfinished"></translation>
@@ -9820,17 +9810,6 @@ Recursief doorzoeken kost meer tijd, maar zal bestanden in subfolders vinden.</t
         <location filename="../generalsettingswidget.cpp" line="98"/>
         <source>When enabled, per-game settings will be applied, and incompatible enhancements will be disabled. You should leave this option enabled except when testing enhancements with incompatible games.</source>
         <translation>Wanneer dit ingeschakeld is, zullen per-spel instellingen worden toegepast, en incompatibele verbeteringen worden uitgeschakeld. Je kan deze optie het best aan laten, behalve als je verbeteringen wilt testen met incompatiebele spellen.</translation>
-    </message>
-    <message>
-        <location filename="../generalsettingswidget.ui" line="101"/>
-        <location filename="../generalsettingswidget.cpp" line="102"/>
-        <source>Enable Discord Presence</source>
-        <translation>Schakel Discord Aanzwezigheid In</translation>
-    </message>
-    <message>
-        <location filename="../generalsettingswidget.cpp" line="103"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Toont het spel dat je nu aan het spelen bent als deel van je profiel op Discord.</translation>
     </message>
     <message>
         <location filename="../generalsettingswidget.ui" line="199"/>

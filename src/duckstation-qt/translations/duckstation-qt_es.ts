@@ -6428,11 +6428,6 @@ Do you want to load this save and continue?</source>
         <translation>Habilitar logros</translation>
     </message>
     <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7402"/>
-        <source>Enable Discord Presence</source>
-        <translation>Habilitar Discord Presence</translation>
-    </message>
-    <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7403"/>
         <source>Enable Fast Boot</source>
         <translation>Habilitar inicio rápido</translation>
@@ -8312,11 +8307,6 @@ Error:</translation>
         <location filename="../../core/fullscreen_ui.cpp" line="7738"/>
         <source>Shows the current rendering resolution of the system in the top-right corner of the display.</source>
         <translation>Muestra la resolución de renderizado actual del sistema en la esquina superior derecha de la pantalla.</translation>
-    </message>
-    <message>
-        <location filename="../../core/fullscreen_ui.cpp" line="7739"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Muestra el juego que estás jugando actualmente en tu perfil de Discord.</translation>
     </message>
     <message>
         <location filename="../../core/fullscreen_ui.cpp" line="7740"/>
@@ -11910,12 +11900,6 @@ Buscar recursivamente lleva más tiempo, pero identifica archivos en subdirector
         <translation>Crear copias de seguridad de los estados guardados</translation>
     </message>
     <message>
-        <location filename="../interfacesettingswidget.ui" line="42"/>
-        <location filename="../interfacesettingswidget.cpp" line="110"/>
-        <source>Enable Discord Presence</source>
-        <translation>Habilitar Discord Presence</translation>
-    </message>
-    <message>
         <location filename="../interfacesettingswidget.ui" line="49"/>
         <location filename="../interfacesettingswidget.cpp" line="104"/>
         <source>Pause On Controller Disconnection</source>
@@ -12088,11 +12072,6 @@ Buscar recursivamente lleva más tiempo, pero identifica archivos en subdirector
         <location filename="../interfacesettingswidget.cpp" line="109"/>
         <source>Backs up any previous save state when creating a new save state, with a .bak extension.</source>
         <translation>Realiza una copia de seguridad del estado guardado previo al crear uno nuevo, con la extensión .bak.</translation>
-    </message>
-    <message>
-        <location filename="../interfacesettingswidget.cpp" line="111"/>
-        <source>Shows the game you are currently playing as part of your profile in Discord.</source>
-        <translation>Muestra el juego que estás jugando actualmente en tu perfil de Discord.</translation>
     </message>
     <message>
         <location filename="../interfacesettingswidget.cpp" line="117"/>
