@@ -1,5 +1,7 @@
+// 2026/08/09 - Modified by R'Lyeh PSX contributors.
+// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "system.h"
 #include "achievements.h"
@@ -1242,7 +1244,7 @@ LayeredSettingsInterface System::GetControllerSettingsLayers(std::unique_lock<st
   // Select input profile _or_ game settings, not both.
   if (SettingsInterface* isi = Host::Internal::GetInputSettingsLayer())
   {
-    ret.SetLayer(LayeredSettingsInterface::Layer::LAYER_INPUT, Host::Internal::GetInputSettingsLayer());
+    ret.SetLayer(LayeredSettingsInterface::Layer::LAYER_INPUT, isi);
   }
   else if (SettingsInterface* gsi = Host::Internal::GetGameSettingsLayer();
            gsi && gsi->GetBoolValue("ControllerPorts", "UseGameSettingsForController", false))
