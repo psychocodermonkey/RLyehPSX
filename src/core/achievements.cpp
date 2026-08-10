@@ -1,5 +1,7 @@
+// 2026/08/09 - Modified by R'Lyeh PSX contributors.
+// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR PolyForm-Strict-1.0.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 // TODO: Don't poll when booting the game, e.g. Crash Warped freaks out.
 
