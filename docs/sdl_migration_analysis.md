@@ -92,11 +92,15 @@ Risk areas:
 - Pause and resume are separate operations in SDL3.
 - Latency behavior must be tested, because emulator audio glitches are user-visible quickly.
 
+Decision:
+
+- Preserve the current SDL backend latency-setting control. Derive the requested device frame count from the existing latency-setting logic and set `SDL_HINT_AUDIO_DEVICE_SAMPLE_FRAMES` before opening the SDL3 audio device. This deliberately retains the setting's intent rather than silently allowing SDL3 defaults to make it ineffective. Validate the resulting real latency and underrun behavior on supported platforms.
+
 Recommended migration approach:
 
 - Port this file as an independently reviewable unit from input, while keeping it in the same migration branch if that is more practical.
 - Preserve the existing `AudioStream` interface if possible.
-- Preserve the current latency-setting intent, rather than assuming SDL2's device-buffer request has an exact SDL3 equivalent.
+- Preserve the current latency-setting control through `SDL_HINT_AUDIO_DEVICE_SAMPLE_FRAMES`, rather than assuming SDL3 defaults are an adequate replacement for SDL2's device-buffer request.
 - Compare against the cubeb backend so regressions are easier to isolate.
 
 ### SDL input backend
