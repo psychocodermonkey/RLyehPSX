@@ -1,12 +1,27 @@
 # SDL2 to SDL3 Migration Analysis
 
-This document summarizes where SDL2 is used in this project and highlights the areas that are likely to matter when migrating to SDL3.
+This document is the implementation guide for migrating the project from SDL2 to SDL3. Its source-tree claims were reviewed on the `migration/sdl3` baseline; SDL3 API claims were checked against the official migration guide. Select and record the exact SDL3 release and archive checksum before changing dependency scripts.
 
 The current SDL2 version is pinned to 2.30.6. The main runtime usage is concentrated in `src/util/sdl_audio_stream.cpp` and `src/util/sdl_input_source.cpp`; SDL is not the primary desktop windowing or UI layer.
 
-Primary SDL3 reference:
+Primary SDL3 references:
 
 - SDL3 migration guide: https://wiki.libsdl.org/SDL3/README-migration
+- SDL3 CMake integration: https://wiki.libsdl.org/SDL3/README-cmake
+
+## Scope and compatibility boundaries
+
+SDL is used for the optional SDL audio backend and the non-Android SDL input source. It is not this project's primary desktop windowing or UI layer.
+
+The migration must preserve, unless an explicit settings migration is separately approved:
+
+- `SDL-<player>/...` input-binding strings and their current project-level meanings.
+- Input source names and user-visible settings keys.
+- The user controller database override (`gamecontrollerdb.txt`).
+
+`SDL-0` through `SDL-3` in UI labels denote player slots, not the SDL library version. Do not rename those labels or their translations as part of this migration.
+
+Flatpak and AppImage packaging are intentionally out of scope and will be addressed by a separate packaging update. The Flatpak manifest currently pins an SDL2 module; the AppImage script has no SDL2-specific reference. Their current packaging status is not assumed by this migration.
 
 ## Current SDL2 Integration
 
@@ -31,18 +46,16 @@ SDL2 is also pinned in platform dependency scripts:
 - `scripts/deps/build-dependencies-linux.sh`
 - `scripts/deps/build-dependencies-windows-x64.bat`
 - `scripts/deps/build-dependencies-windows-arm64.bat`
-- `scripts/flatpak/modules/20-sdl2.yaml`
+- `scripts/deps/sdl2-pipewire-compat.patch`
 
-Windows project files also reference SDL2 directly:
+Windows build/deployment files also reference SDL2 directly:
 
 - `src/util/util.props`
-- `src/util/util.vcxproj`
-- `src/util/util.vcxproj.filters`
 - `src/duckstation-qt/CMakeLists.txt`
 
 Migration implication:
 
-The dependency/build side is not just a source edit. The migration needs coordinated updates to CMake package discovery, dependency download/build scripts, Flatpak metadata, Windows props/project files, and copied runtime DLL names.
+The dependency/build side is not just a source edit. The migration needs coordinated updates to CMake package discovery, dependency download/build scripts, Windows props, and copied runtime DLL names. The SDL2 PipeWire compatibility patch must be removed or replaced only after confirming that the selected SDL3 release does not need an equivalent workaround.
 
 ## Runtime Usage Summary
 
@@ -70,20 +83,20 @@ Current SDL2 APIs used:
 
 SDL3 migration concern:
 
-SDL3 audio is one of the larger API changes. The SDL3 migration guide describes audio as substantially redesigned around audio streams. This backend should be treated as a real port, not a mechanical rename.
+SDL3 audio is substantially redesigned around audio streams. A callback path still exists, but it is attached to an `SDL_AudioStream`, not directly to an `SDL_AudioDeviceID`. This backend is a focused port, not a mechanical rename.
 
 Risk areas:
 
-- The current backend pulls frames from the emulator through an SDL callback. SDL3 prefers `SDL_AudioStream`-based flow.
-- Device opening and playback control APIs changed.
-- Pause/resume behavior and callback ownership need to be revalidated.
+- The current backend pulls frames from the emulator through an SDL callback. In SDL3, preserve that producer model with an `SDL_AudioStream` callback, or deliberately adopt a push model; do not mix the two accidentally.
+- `SDL_AudioSpec` no longer has `samples`, and `SDL_AUDIO_ALLOW_SAMPLES_CHANGE` is gone. The current requested-buffer and obtained-buffer logging therefore needs a deliberate SDL3 replacement; SDL3 normally manages this itself, while `SDL_HINT_AUDIO_DEVICE_SAMPLE_FRAMES` is available only when an explicit request is justified.
+- Pause and resume are separate operations in SDL3.
 - Latency behavior must be tested, because emulator audio glitches are user-visible quickly.
 
 Recommended migration approach:
 
-- Port this file separately from input.
+- Port this file as an independently reviewable unit from input, while keeping it in the same migration branch if that is more practical.
 - Preserve the existing `AudioStream` interface if possible.
-- Validate latency and underrun behavior with the same buffer settings currently used by SDL2.
+- Preserve the current latency-setting intent, rather than assuming SDL2's device-buffer request has an exact SDL3 equivalent.
 - Compare against the cubeb backend so regressions are easier to isolate.
 
 ### SDL input backend
@@ -127,7 +140,6 @@ Current SDL2 API groups used:
   - `SDL_GameControllerGetJoystick()`
   - `SDL_GameControllerName()`
   - `SDL_GameControllerGetPlayerIndex()`
-  - `SDL_GameControllerNumMappings()`
   - `SDL_GameControllerGetBindForAxis()`
   - `SDL_GameControllerGetBindForButton()`
   - `SDL_GameControllerRumble()`
@@ -185,6 +197,14 @@ This is the largest migration surface. SDL2's `GameController` API was renamed/r
 
 ## SDL3-Specific Breakpoints
 
+### Return-value semantics must be audited
+
+SDL3 changes many camel-case APIs that returned `0` on success or a negative value on failure to return `bool`: `true` on success and `false` on failure. This is not a mechanical type change.
+
+The current source contains SDL2-style checks for subsystem initialization, gamepad rumble probing, and haptic-rumble initialization. Each must be reviewed when its API is ported. In particular, a condition such as `result != 0` can invert success under SDL3 and leave the source compiling while disabling a subsystem or capability.
+
+Do not bulk-rewrite comparisons. For every changed API, verify its SDL3 return contract and make the success path explicit.
+
 ### GameController becomes Gamepad
 
 Current code uses SDL2 `SDL_GameController*` throughout `SDLInputSource::ControllerData` and the open/event paths.
@@ -206,14 +226,15 @@ SDL3 impact:
 - Types and functions move from `GameController` naming to `Gamepad` naming.
 - Constants and event names move from `SDL_CONTROLLER*` naming to `SDL_GAMEPAD*` naming.
 - Binding structures and mapping APIs need review, not just search-and-replace.
+- `SDL_GameControllerGetBindForAxis()` and `SDL_GameControllerGetBindForButton()` are removed in favor of `SDL_GetGamepadBindings()`. The duplicate-event suppression logic therefore needs an intentional adaptation.
 
 Risk:
 
-The saved binding names in this project are user-facing strings like `SDL-0/+LeftX`, `SDL-0/A`, `SDL-0/LargeMotor`. Those should probably remain stable even if the underlying SDL3 names change, otherwise existing controller mappings may break.
+The saved binding names in this project are user-facing strings like `SDL-0/+LeftX`, `SDL-0/A`, `SDL-0/LargeMotor`. SDL3 uses positional face-button names (South/East/West/North), and its paddle enum naming/order differs from SDL2. The existing name and generic-binding tables must therefore be audited by semantic meaning, not enum ordinal.
 
 Recommendation:
 
-Preserve the project's existing binding string format unless there is a deliberate settings migration.
+Preserve the project's existing binding string format and meanings unless there is a deliberate settings migration. Validate an existing configuration after migration, as well as newly generated bindings.
 
 ### Joystick device IDs and open semantics
 
@@ -233,11 +254,11 @@ Relevant code:
 
 SDL3 impact:
 
-SDL3 changes joystick identification semantics. The migration guide notes that joystick instance IDs are now used more consistently, including in device add events.
+SDL3 add events provide joystick instance IDs, not device indexes, for both gamepads and raw joysticks. `SDL_JoystickID` is now an unsigned type whose invalid value is zero.
 
 Risk:
 
-This can silently break hotplug if the code continues treating add-event IDs as SDL2-style device indices.
+This can silently break startup enumeration and hotplug if `OpenDevice()` continues treating add-event IDs as SDL2-style device indices. The stored ID and lookup parameter types should become `SDL_JoystickID` rather than `int`.
 
 Recommendation:
 
@@ -252,11 +273,11 @@ Current code filters and handles SDL2 event constants directly:
 
 SDL3 impact:
 
-Many event constants were renamed. Controller events become gamepad events. Some event structures and field names also changed.
+Many event constants were renamed. Controller events become gamepad events, and their union members become `gaxis`, `gbutton`, and `gdevice`. Button events use a boolean `down` field; `SDL_PRESSED` and `SDL_RELEASED` are removed.
 
 Risk:
 
-A compile fix may still leave behavioral bugs if the wrong field is used for device lookup.
+A compile fix may still leave behavioral bugs if the wrong event field is used for device lookup or if the old `state` interpretation is retained.
 
 Recommendation:
 
@@ -272,6 +293,10 @@ Port event handling around the meaning of each event:
 
 Avoid treating this as only a textual rename.
 
+### Logging API rename
+
+The custom SDL log callback is part of the input-source initialization path. Port `SDL_LogSetOutputFunction()` to `SDL_SetLogOutputFunction()`, `SDL_LogSetAllPriority()` to `SDL_SetLogPriorities()`, and `SDL_NUM_LOG_PRIORITIES` to `SDL_LOG_PRIORITY_COUNT`. Keep the existing project log-level mapping, then verify its array bounds against the SDL3 enum.
+
 ### Hints and controller database
 
 Current code uses SDL2 hint names, including controller mapping and HIDAPI behavior:
@@ -285,17 +310,22 @@ Current code uses SDL2 hint names, including controller mapping and HIDAPI behav
 - `SDL_HINT_JOYSTICK_IOKIT`
 - `SDL_HINT_JOYSTICK_MFI`
 
-SDL3 impact:
+Verified built-in-hint disposition:
 
-Several hints were renamed, removed, or changed. The controller database terminology also moved from controller to gamepad.
+| SDL2 hint | SDL3 disposition |
+| --- | --- |
+| `SDL_HINT_GAMECONTROLLERCONFIG_FILE` | Retained; set it before SDL initializes. |
+| `SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE` | Replace with `SDL_HINT_JOYSTICK_ENHANCED_REPORTS`. |
+| `SDL_HINT_JOYSTICK_HIDAPI_PS5_RUMBLE` | Replace with `SDL_HINT_JOYSTICK_ENHANCED_REPORTS`. |
+| `SDL_HINT_JOYSTICK_HIDAPI_PS5_PLAYER_LED` | Retained. |
+| `SDL_HINT_JOYSTICK_HIDAPI_WII` | Retained. |
+| `SDL_HINT_JOYSTICK_HIDAPI_PS3` | Retained. |
+| `SDL_HINT_JOYSTICK_IOKIT` | Retained. |
+| `SDL_HINT_JOYSTICK_MFI` | Retained. |
 
-Risk:
+The two old PlayStation rumble hints collapse into the single enhanced-reports hint. Keep the existing setting's intended enabled/disabled behavior; do not silently change it to SDL3's `auto` mode. SDL3 notes that enabling enhanced reports affects Bluetooth PlayStation behavior and cannot be undone without power-cycling the controller.
 
-If hints are wrong or ignored, controllers may still appear to work while enhanced rumble, PS5 LEDs, IOKit/MFi behavior, or custom mappings regress.
-
-Recommendation:
-
-Make a table of each current hint and its SDL3 equivalent before implementation. Treat unknown user-provided `SDLHints` as pass-through, but audit built-in hints.
+User-provided `SDLHints` are an externally configurable compatibility surface. Continue passing them through, but do not automatically rewrite their names without a documented settings migration. Record any changed or removed user-facing hints in release notes.
 
 ### Rumble and haptics
 
@@ -315,11 +345,11 @@ Relevant code:
 
 SDL3 impact:
 
-SDL3 still has haptic support, but gamepad rumble should be reviewed through the SDL3 gamepad APIs. Haptic support may not map identically across platforms.
+SDL3 retains haptic effects with mostly renamed APIs, but simple-rumble gamepads no longer appear in the haptics interface. Gamepad rumble must use `SDL_RumbleGamepad()`; retain a haptic fallback only for raw joysticks where it is actually available.
 
 Risk:
 
-Rumble can compile and still feel wrong: swapped motors, weak intensity, stuck rumble, no stop on disconnect, or no enhanced controller behavior.
+Rumble can compile and still feel wrong: swapped motors, weak intensity, stuck rumble, no stop on disconnect, a missing raw-joystick fallback, or no enhanced controller behavior.
 
 Recommendation:
 
@@ -354,7 +384,7 @@ This is likely the most behavior-sensitive non-input area. A naive port can comp
 
 Recommendation:
 
-Port after input or as a separate branch. Keep testing focused on:
+Port as an independently reviewable unit. Keep testing focused on:
 
 - clean startup
 - pause/resume
@@ -375,11 +405,11 @@ Current target:
 
 SDL3 impact:
 
-SDL3 installs different CMake package and target names. Include layout may also differ depending on package configuration.
+SDL3 uses `#include <SDL3/SDL.h>`. Its documented CMake package/target is `SDL3` / `SDL3::SDL3`; use config-mode package discovery so every local dependency build produces the same package layout.
 
 Risk:
 
-The source may compile locally against one package layout but fail in Flatpak, Windows dependency builds, or CI.
+The source may compile locally against one package layout but fail in Windows dependency builds or CI.
 
 Recommendation:
 
@@ -398,28 +428,38 @@ High confidence:
 - `scripts/deps/build-dependencies-linux.sh`
 - `scripts/deps/build-dependencies-windows-x64.bat`
 - `scripts/deps/build-dependencies-windows-arm64.bat`
-- `scripts/flatpak/modules/20-sdl2.yaml`
+- `scripts/deps/sdl2-pipewire-compat.patch` (remove or replace after verification)
 - `src/util/util.props`
 - `src/duckstation-qt/CMakeLists.txt`
 
 Possible secondary updates:
 
-- UI labels containing `SDL2`, such as `controllerledsettingsdialog.ui`.
 - Documentation and README dependency notes.
-- User-facing settings names only if the project deliberately wants to rename them.
+- User-facing settings names only if the project deliberately approves a settings migration.
 
 ## Migration Strategy
 
 Recommended order:
 
-1. Update dependency scripts and CMake discovery for SDL3 in a branch.
-2. Port `sdl_input_source` compile errors first, preserving existing project binding strings.
-3. Validate device add/remove semantics with real controllers.
-4. Validate controller mappings, raw joystick fallback, rumble, haptics, LEDs, and platform-specific hints.
-5. Port `sdl_audio_stream` separately and compare behavior against the existing SDL2 backend and cubeb.
-6. Clean up labels/docs after runtime behavior is validated.
+1. Select and record the SDL3 release, source URL, checksum, and platform build options. Confirm whether the SDL2 PipeWire patch is obsolete before deleting it.
+2. Update build plumbing, headers, CMake package discovery, and Windows library/DLL names together.
+3. Port `sdl_input_source`, explicitly addressing return values, instance IDs, gamepad binding queries, event fields, and the built-in hint table. Preserve project binding strings.
+4. Validate device add/remove semantics and existing bindings with real controllers before treating the input port as complete.
+5. Port `sdl_audio_stream` as a separate reviewable unit, using an SDL3 audio stream and preserving the existing latency-setting intent. Compare it with cubeb.
+6. Validate the supported core build paths and update dependency documentation. Do not rename player-slot labels such as `SDL-2 LED`.
 
 The most important engineering choice is to avoid mixing semantic changes with rename churn. Keep the project-level input binding format stable unless a settings migration is intentionally planned.
+
+## Completion checklist
+
+- [ ] All in-scope dependency sources, package names, import libraries, and runtime DLL names use SDL3.
+- [ ] The selected SDL3 package is discovered through one canonical CMake configuration on every supported platform.
+- [ ] Input initialization and all changed SDL return-value checks use SDL3's boolean contracts.
+- [ ] Gamepad and joystick add events open devices by instance ID; removal and input events use the same ID type.
+- [ ] Existing saved bindings continue to resolve and newly generated bindings retain their established strings and meanings.
+- [ ] The controller database override and every built-in hint have their documented SDL3 behavior.
+- [ ] Gamepad rumble, raw-joystick haptics, LEDs, and disconnect cleanup are independently tested.
+- [ ] The SDL audio backend supports startup, pause/resume, device close/reopen, and sustained playback without a latency regression.
 
 ## Test Matrix
 
@@ -430,6 +470,7 @@ Minimum practical validation:
   - controller connected before launch
   - hotplug after launch
   - unplug/replug
+  - existing saved binding and `gamecontrollerdb.txt` override
   - rumble
   - DualShock/DualSense LED behavior if available
   - SDL audio backend playback
@@ -438,12 +479,13 @@ Minimum practical validation:
   - gamepad hotplug
   - raw joystick fallback
   - rumble/haptic fallback
-  - Flatpak build
 - Windows:
   - dependency build script
   - runtime DLL packaging
   - XInput plus SDL source interaction
   - rumble
+
+For every platform with hardware available, also test two simultaneous controllers and clean disconnect while rumble is active. This specifically exercises player-slot assignment, instance-ID handling, and cleanup.
 
 ## Roadmap Recommendation
 
@@ -452,4 +494,3 @@ SDL3 is a meaningful migration for this project, but the impact is concentrated.
 Suggested roadmap wording:
 
 > Migrate SDL2 2.30.6 to SDL3, preserving existing input binding strings and validating gamepad, joystick, rumble, haptic, LED, hotplug, and SDL audio behavior across macOS, Linux, and Windows.
-
