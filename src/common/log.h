@@ -1,5 +1,7 @@
+// 2026/08/09 - Modified by R'Lyeh PSX contributors.
+// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
 // SPDX-FileCopyrightText: 2019-2023 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #pragma once
 
@@ -85,14 +87,14 @@ template<typename... T>
 ALWAYS_INLINE static void FastWrite(const char* channelName, LOGLEVEL level, fmt::format_string<T...> fmt, T&&... args)
 {
   if (level <= GetLogLevel()) [[unlikely]]
-    WriteFmtArgs(channelName, level, fmt, fmt::make_format_args(args...));
+    WriteFmtArgs(channelName, level, fmt.get(), fmt::make_format_args(args...));
 }
 template<typename... T>
 ALWAYS_INLINE static void FastWrite(const char* channelName, const char* functionName, LOGLEVEL level,
                                     fmt::format_string<T...> fmt, T&&... args)
 {
   if (level <= GetLogLevel()) [[unlikely]]
-    WriteFmtArgs(channelName, functionName, level, fmt, fmt::make_format_args(args...));
+    WriteFmtArgs(channelName, functionName, level, fmt.get(), fmt::make_format_args(args...));
 }
 } // namespace Log
 

@@ -1,5 +1,7 @@
+// 2026/08/09 - Modified by R'Lyeh PSX contributors.
+// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR PolyForm-Strict-1.0.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #pragma once
 #include "types.h"
@@ -374,7 +376,7 @@ template<typename... T>
 ALWAYS_INLINE SmallStackString<L> SmallStackString<L>::from_format(fmt::format_string<T...> fmt, T&&... args)
 {
   SmallStackString<L> ret;
-  fmt::vformat_to(std::back_inserter(ret), fmt, fmt::make_format_args(args...));
+  fmt::vformat_to(std::back_inserter(ret), fmt.get(), fmt::make_format_args(args...));
   return ret;
 }
 
@@ -394,14 +396,14 @@ using LargeString = SmallStackString<512>;
 template<typename... T>
 ALWAYS_INLINE void SmallStringBase::append_format(fmt::format_string<T...> fmt, T&&... args)
 {
-  fmt::vformat_to(std::back_inserter(*this), fmt, fmt::make_format_args(args...));
+  fmt::vformat_to(std::back_inserter(*this), fmt.get(), fmt::make_format_args(args...));
 }
 
 template<typename... T>
 ALWAYS_INLINE void SmallStringBase::prepend_format(fmt::format_string<T...> fmt, T&&... args)
 {
   TinyString str;
-  fmt::vformat_to(std::back_inserter(str), fmt, fmt::make_format_args(args...));
+  fmt::vformat_to(std::back_inserter(str), fmt.get(), fmt::make_format_args(args...));
   prepend(str);
 }
 
@@ -409,7 +411,7 @@ template<typename... T>
 ALWAYS_INLINE void SmallStringBase::format(fmt::format_string<T...> fmt, T&&... args)
 {
   clear();
-  fmt::vformat_to(std::back_inserter(*this), fmt, fmt::make_format_args(args...));
+  fmt::vformat_to(std::back_inserter(*this), fmt.get(), fmt::make_format_args(args...));
 }
 
 #ifdef _MSC_VER

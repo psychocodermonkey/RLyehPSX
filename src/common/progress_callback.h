@@ -1,5 +1,7 @@
+// 2026/08/09 - Modified by R'Lyeh PSX contributors.
+// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #pragma once
 
@@ -44,7 +46,7 @@ public:
   void from(fmt::format_string<T...> fmt, T&&... args)                                                                 \
   {                                                                                                                    \
     TinyString str;                                                                                                    \
-    fmt::vformat_to(std::back_inserter(str), fmt, fmt::make_format_args(args...));                                     \
+    fmt::vformat_to(std::back_inserter(str), fmt.get(), fmt::make_format_args(args...));                               \
     to(str.view());                                                                                                    \
   }
 
