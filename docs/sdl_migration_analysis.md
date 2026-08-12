@@ -13,11 +13,12 @@ Primary SDL3 references:
 
 SDL is used for the optional SDL audio backend and the non-Android SDL input source. It is not this project's primary desktop windowing or UI layer.
 
-The migration must preserve, unless an explicit settings migration is separately approved:
+The migration must preserve:
 
-- `SDL-<player>/...` input-binding strings and their current project-level meanings.
 - Input source names and user-visible settings keys.
 - The user controller database override (`gamecontrollerdb.txt`).
+
+The saved SDL2-named `SDL-<player>/...` bindings are intentionally incompatible with the SDL3-native binding format. Do not translate, import, rewrite, or automatically delete them. Users can explicitly clear controller settings and remap; newly generated bindings use SDL3-native PascalCase names while retaining their direct PlayStation action meanings.
 
 `SDL-0` through `SDL-3` in UI labels denote player slots, not the SDL library version. Do not rename those labels or their translations as part of this migration.
 
@@ -234,11 +235,11 @@ SDL3 impact:
 
 Risk:
 
-The saved binding names in this project are user-facing strings like `SDL-0/+LeftX`, `SDL-0/A`, `SDL-0/LargeMotor`. SDL3 uses positional face-button names (South/East/West/North), and its paddle enum naming/order differs from SDL2. The existing name and generic-binding tables must therefore be audited by semantic meaning, not enum ordinal.
+The saved SDL2 binding names in this project include strings like `SDL-0/+LeftX`, `SDL-0/A`, and `SDL-0/LargeMotor`. SDL3 uses positional face-button names (South/East/West/North), and its paddle enum naming/order differs from SDL2. The existing name and generic-binding tables must therefore be audited by semantic meaning, not enum ordinal.
 
 Recommendation:
 
-Preserve the project's existing binding string format and meanings unless there is a deliberate settings migration. Validate an existing configuration after migration, as well as newly generated bindings.
+Adopt SDL3-native binding strings and validate newly mapped controls. Do not retain an SDL2 translation layer or validate stale saved SDL2 bindings as a compatibility requirement.
 
 ### Joystick device IDs and open semantics
 
@@ -447,12 +448,12 @@ Recommended order:
 
 1. Select and record the SDL3 release, source URL, checksum, and platform build options. Confirm whether the SDL2 PipeWire patch is obsolete before deleting it.
 2. Update build plumbing, headers, CMake package discovery, and Windows library/DLL names together.
-3. Port `sdl_input_source`, explicitly addressing return values, instance IDs, gamepad binding queries, event fields, and the built-in hint table. Preserve project binding strings.
-4. Validate device add/remove semantics and existing bindings with real controllers before treating the input port as complete.
+3. Port `sdl_input_source`, explicitly addressing return values, instance IDs, gamepad binding queries, event fields, the built-in hint table, and SDL3-native binding names.
+4. Validate device add/remove semantics and newly mapped SDL3 bindings with real controllers before treating the input port as complete.
 5. Port `sdl_audio_stream` as a separate reviewable unit, using an SDL3 audio stream and preserving the existing latency-setting intent. Compare it with cubeb.
 6. Validate the supported core build paths and update dependency documentation. Do not rename player-slot labels such as `SDL-2 LED`.
 
-The most important engineering choice is to avoid mixing semantic changes with rename churn. Keep the project-level input binding format stable unless a settings migration is intentionally planned.
+The most important engineering choice is to adopt one coherent SDL3 input model: use SDL3 names and semantics for newly generated bindings while preserving their PlayStation action meanings, without retaining an SDL2 compatibility layer.
 
 ## Completion checklist
 
@@ -460,7 +461,7 @@ The most important engineering choice is to avoid mixing semantic changes with r
 - [ ] The selected SDL3 package is discovered through one canonical CMake configuration on every supported platform.
 - [ ] Input initialization and all changed SDL return-value checks use SDL3's boolean contracts.
 - [ ] Gamepad and joystick add events open devices by instance ID; removal and input events use the same ID type.
-- [ ] Existing saved bindings continue to resolve and newly generated bindings retain their established strings and meanings.
+- [ ] Newly generated bindings use SDL3-native PascalCase names and retain their intended PlayStation action meanings; stale SDL2-named bindings are intentionally unsupported.
 - [ ] The controller database override and every built-in hint have their documented SDL3 behavior.
 - [ ] Gamepad rumble, raw-joystick haptics, LEDs, and disconnect cleanup are independently tested.
 - [ ] The SDL audio backend supports startup, pause/resume, device close/reopen, and sustained playback without a latency regression.
@@ -474,7 +475,7 @@ Minimum practical validation:
   - controller connected before launch
   - hotplug after launch
   - unplug/replug
-  - existing saved binding and `gamecontrollerdb.txt` override
+  - newly mapped SDL3 bindings and `gamecontrollerdb.txt` override
   - rumble
   - DualShock/DualSense LED behavior if available
   - SDL audio backend playback
@@ -497,4 +498,4 @@ SDL3 is a meaningful migration for this project, but the impact is concentrated.
 
 Suggested roadmap wording:
 
-> Migrate SDL2 2.30.6 to SDL3, preserving existing input binding strings and validating gamepad, joystick, rumble, haptic, LED, hotplug, and SDL audio behavior across macOS, Linux, and Windows.
+> Migrate SDL2 2.30.6 to SDL3 with SDL3-native input bindings, validating gamepad, joystick, rumble, haptic, LED, hotplug, and SDL audio behavior across macOS, Linux, and Windows.
