@@ -15,6 +15,15 @@ The analysis document describes the source-tree impact, SDL3 API changes, risks,
 
 SDL 3.4.14 is the selected starting point because it is a stable release and includes a macOS fix for the 8BitDo Pro 3 being reported twice. The controller is part of the available real-hardware test set.
 
+## Completed milestones
+
+- Linux dependency build: `build-dependencies-linux.sh` downloads, verifies, builds, and installs shared SDL 3.4.14 without SDL test targets. The SDL2-only PipeWire compatibility patch was removed after this build succeeded.
+- macOS dependency build: `build-dependencies-mac.sh` downloads, verifies, builds, and installs shared SDL 3.4.14 without SDL test targets. The installed `libSDL3.dylib` was verified as universal with `x86_64` and `arm64` slices.
+- CMake build configuration: SDL is discovered through the installed SDL3 config package and `util` links `SDL3::SDL3`. The Windows runtime deployment list uses `SDL3.dll`.
+- CMake configuration succeeded against the installed SDL3 package on macOS and Linux. Linux resolved `SDL3_DIR` from the project dependency prefix.
+
+Windows dependency scripts, Visual Studio project properties, and Windows build validation are deferred pending the planned Windows toolchain replacement. Do not treat the existing Windows SDL2 path as a supported or verified baseline.
+
 ## Migration principle
 
 Adopt SDL3-native APIs, terminology, and persisted binding names while preserving emulator runtime behavior after controllers are remapped. Configuration compatibility is intentionally dropped; functional compatibility is not.
@@ -61,10 +70,8 @@ This choice favors one coherent SDL3 model over support for configuration files 
 5. SDL3 uses gamepad capability properties for RGB LED and rumble capability checks. Simple-rumble gamepads no longer appear in the haptics interface.
 6. SDL 3.4.14's PipeWire implementation has been built and installed successfully through the Linux dependency script. The SDL2-only PipeWire compatibility patch is obsolete and should be removed from the dependency flow.
 
-## First implementation-session checklist
+## Remaining implementation-session checklist
 
-- Confirm the SDL3 shared-library CMake installation layout on each supported dependency build path.
-- Update dependency/build plumbing and Windows DLL/import-library names as one coherent change.
 - Port the SDL input source using SDL3-native binding names and test the 8BitDo Pro 3 first on macOS.
 - Port the SDL audio backend separately, then validate its latency and long-running playback behavior.
 
