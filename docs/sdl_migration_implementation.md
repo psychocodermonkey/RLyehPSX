@@ -61,6 +61,16 @@ This choice favors one coherent SDL3 model over support for configuration files 
 - Do not use SDL3 old-name compatibility aliases as the migration strategy. Port changed APIs according to their SDL3 contracts.
 - Flatpak and AppImage packaging remain separate work unless explicitly brought into scope.
 
+## Compartmentalized implementation sequence
+
+Implement and review the migration as the following narrow change sets. Do not combine later change sets into an earlier one merely because they touch the same source files. Each set must have a defined behavioral check before starting the next.
+
+1. **Input identity and lifecycle** — Restrict changes to `src/util/sdl_input_source.h` and `src/util/sdl_input_source.cpp`. Port device identity, startup enumeration, add/remove events, open/close paths, and lookup types to use `SDL_JoystickID` consistently. Do not rename bindings or alter haptics, rumble, LEDs, or audio in this set. Verify controllers connected before launch and basic plug/unplug/replug behavior.
+2. **Input API and binding semantics** — Restrict changes to the SDL input source. Port GameController types and events to SDL3 Gamepad APIs; produce the decided SDL3-native binding names; and rebuild duplicate raw-joystick-event suppression with `SDL_GetGamepadBindings()`. Verify newly mapped buttons, axes, D-pad, and raw-joystick fallback controls retain their intended PlayStation actions.
+3. **Input capabilities and SDL3 contracts** — Restrict changes to the SDL input source. Port hints, rumble, haptics, LEDs, and every affected success/failure check to their SDL3 contracts. Verify supported rumble and LED behavior, raw-joystick haptic fallback, and disconnect cleanup while rumble is active.
+4. **Audio backend** — Restrict changes to `src/util/sdl_audio_stream.cpp` and directly required build declarations. Replace the SDL2 device callback arrangement with SDL3's audio-stream callback model while preserving the emulator's pull producer model. Verify startup, pause/resume, close/reopen, latency, underrun behavior, and sustained playback.
+5. **Deferred Windows integration** — Do not begin until the Windows toolchain replacement is in scope. Then update the Windows dependency scripts and Visual Studio properties from SDL2 to SDL3 and validate dependency build, runtime DLL deployment, and XInput/SDL interaction.
+
 ## High-risk items to address during implementation
 
 1. SDL3 gamepad/joystick add events provide instance IDs, not SDL2 device indexes. Open, lookup, removal, and event handling must use `SDL_JoystickID` consistently.
