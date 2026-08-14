@@ -309,8 +309,14 @@ bool SDLInputSource::InitializeSubsystem()
   SDL_LogSetAllPriority(SDL_LOG_PRIORITY_INFO);
 #endif
 
-  // we should open the controllers as the connected events come in, so no need to do any more here
   m_sdl_subsystem_initialized = true;
+
+  int joystick_count = 0;
+  SDL_JoystickID* joystick_ids = SDL_GetJoysticks(&joystick_count);
+  for (int i = 0; i < joystick_count; i++)
+    OpenDevice(joystick_ids[i], SDL_IsGamepad(joystick_ids[i]));
+  SDL_free(joystick_ids);
+
   INFO_LOG("{} controller mappings are loaded.", SDL_GameControllerNumMappings());
   return true;
 }
@@ -561,10 +567,10 @@ bool SDLInputSource::IsHandledInputEvent(const SDL_Event* ev)
 {
   switch (ev->type)
   {
-    case SDL_CONTROLLERDEVICEADDED:
-    case SDL_CONTROLLERDEVICEREMOVED:
-    case SDL_JOYDEVICEADDED:
-    case SDL_JOYDEVICEREMOVED:
+    case SDL_EVENT_GAMEPAD_ADDED:
+    case SDL_EVENT_GAMEPAD_REMOVED:
+    case SDL_EVENT_JOYSTICK_ADDED:
+    case SDL_EVENT_JOYSTICK_REMOVED:
     case SDL_CONTROLLERAXISMOTION:
     case SDL_CONTROLLERBUTTONDOWN:
     case SDL_CONTROLLERBUTTONUP:
@@ -583,40 +589,40 @@ bool SDLInputSource::ProcessSDLEvent(const SDL_Event* event)
 {
   switch (event->type)
   {
-    case SDL_CONTROLLERDEVICEADDED:
+    case SDL_EVENT_GAMEPAD_ADDED:
     {
-      INFO_LOG("Controller {} inserted", event->cdevice.which);
-      OpenDevice(event->cdevice.which, true);
+      INFO_LOG("Controller {} inserted", event->gdevice.which);
+      OpenDevice(event->gdevice.which, true);
       return true;
     }
 
-    case SDL_CONTROLLERDEVICEREMOVED:
+    case SDL_EVENT_GAMEPAD_REMOVED:
     {
-      INFO_LOG("Controller {} removed", event->cdevice.which);
-      CloseDevice(event->cdevice.which);
+      INFO_LOG("Controller {} removed", event->gdevice.which);
+      CloseDevice(event->gdevice.which);
       return true;
     }
 
-    case SDL_JOYDEVICEADDED:
+    case SDL_EVENT_JOYSTICK_ADDED:
     {
       // Let game controller handle.. well.. game controllers.
-      if (SDL_IsGameController(event->jdevice.which))
+      if (SDL_IsGamepad(event->jdevice.which))
         return false;
 
       INFO_LOG("Joystick {} inserted", event->jdevice.which);
-      OpenDevice(event->cdevice.which, false);
+      OpenDevice(event->jdevice.which, false);
       return true;
     }
     break;
 
-    case SDL_JOYDEVICEREMOVED:
+    case SDL_EVENT_JOYSTICK_REMOVED:
     {
-      if (auto it = GetControllerDataForJoystickId(event->cdevice.which);
+      if (auto it = GetControllerDataForJoystickId(event->jdevice.which);
           it != m_controllers.end() && it->game_controller)
         return false;
 
       INFO_LOG("Joystick {} removed", event->jdevice.which);
-      CloseDevice(event->cdevice.which);
+      CloseDevice(event->jdevice.which);
       return true;
     }
 
@@ -658,7 +664,7 @@ SDL_Joystick* SDLInputSource::GetJoystickForDevice(std::string_view device)
   return it->joystick;
 }
 
-SDLInputSource::ControllerDataVector::iterator SDLInputSource::GetControllerDataForJoystickId(int id)
+SDLInputSource::ControllerDataVector::iterator SDLInputSource::GetControllerDataForJoystickId(SDL_JoystickID id)
 {
   return std::find_if(m_controllers.begin(), m_controllers.end(),
                       [id](const ControllerData& cd) { return cd.joystick_id == id; });
@@ -687,47 +693,50 @@ int SDLInputSource::GetFreePlayerId() const
   return 0;
 }
 
-bool SDLInputSource::OpenDevice(int index, bool is_gamecontroller)
+bool SDLInputSource::OpenDevice(SDL_JoystickID instance_id, bool is_gamecontroller)
 {
-  SDL_GameController* gcontroller;
+  if (GetControllerDataForJoystickId(instance_id) != m_controllers.end())
+    return true;
+
+  SDL_Gamepad* gcontroller;
   SDL_Joystick* joystick;
 
   if (is_gamecontroller)
   {
-    gcontroller = SDL_GameControllerOpen(index);
-    joystick = gcontroller ? SDL_GameControllerGetJoystick(gcontroller) : nullptr;
+    gcontroller = SDL_OpenGamepad(instance_id);
+    joystick = gcontroller ? SDL_GetGamepadJoystick(gcontroller) : nullptr;
   }
   else
   {
     gcontroller = nullptr;
-    joystick = SDL_JoystickOpen(index);
+    joystick = SDL_OpenJoystick(instance_id);
   }
 
   if (!gcontroller && !joystick)
   {
-    ERROR_LOG("Failed to open controller {}", index);
+    ERROR_LOG("Failed to open controller {}", instance_id);
     if (gcontroller)
-      SDL_GameControllerClose(gcontroller);
+      SDL_CloseGamepad(gcontroller);
 
     return false;
   }
 
-  const int joystick_id = SDL_JoystickInstanceID(joystick);
-  int player_id = gcontroller ? SDL_GameControllerGetPlayerIndex(gcontroller) : SDL_JoystickGetPlayerIndex(joystick);
+  const SDL_JoystickID joystick_id = SDL_GetJoystickID(joystick);
+  int player_id = gcontroller ? SDL_GetGamepadPlayerIndex(gcontroller) : SDL_GetJoystickPlayerIndex(joystick);
   if (player_id < 0 || GetControllerDataForPlayerId(player_id) != m_controllers.end())
   {
     const int free_player_id = GetFreePlayerId();
     WARNING_LOG("Controller {} (joystick {}) returned player ID {}, which is invalid or in use. Using ID {} instead.",
-                index, joystick_id, player_id, free_player_id);
+                instance_id, joystick_id, player_id, free_player_id);
     player_id = free_player_id;
   }
 
-  const char* name = gcontroller ? SDL_GameControllerName(gcontroller) : SDL_JoystickName(joystick);
+  const char* name = gcontroller ? SDL_GetGamepadName(gcontroller) : SDL_GetJoystickName(joystick);
   if (!name)
     name = "Unknown Device";
 
   VERBOSE_LOG("Opened {} {} (instance id {}, player id {}): {}", is_gamecontroller ? "game controller" : "joystick",
-              index, joystick_id, player_id, name);
+              instance_id, joystick_id, player_id, name);
 
   ControllerData cd = {};
   cd.player_id = player_id;
@@ -820,9 +829,9 @@ bool SDLInputSource::OpenDevice(int index, bool is_gamecontroller)
   return true;
 }
 
-bool SDLInputSource::CloseDevice(int joystick_index)
+bool SDLInputSource::CloseDevice(SDL_JoystickID instance_id)
 {
-  auto it = GetControllerDataForJoystickId(joystick_index);
+  auto it = GetControllerDataForJoystickId(instance_id);
   if (it == m_controllers.end())
     return false;
 
@@ -834,9 +843,9 @@ bool SDLInputSource::CloseDevice(int joystick_index)
     SDL_HapticClose(it->haptic);
 
   if (it->game_controller)
-    SDL_GameControllerClose(it->game_controller);
+    SDL_CloseGamepad(it->game_controller);
   else
-    SDL_JoystickClose(it->joystick);
+    SDL_CloseJoystick(it->joystick);
 
   m_controllers.erase(it);
   return true;

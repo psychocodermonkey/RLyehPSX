@@ -4,7 +4,7 @@
 #pragma once
 #include "input_source.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include <array>
 #include <functional>
@@ -53,11 +53,11 @@ private:
   struct ControllerData
   {
     SDL_Haptic* haptic;
-    SDL_GameController* game_controller;
+    SDL_Gamepad* game_controller;
     SDL_Joystick* joystick;
     u16 rumble_intensity[2];
     int haptic_left_right_effect;
-    int joystick_id;
+    SDL_JoystickID joystick_id;
     int player_id;
     bool use_game_controller_rumble;
 
@@ -76,12 +76,12 @@ private:
   void LoadSettings(SettingsInterface& si);
   void SetHints();
 
-  ControllerDataVector::iterator GetControllerDataForJoystickId(int id);
+  ControllerDataVector::iterator GetControllerDataForJoystickId(SDL_JoystickID id);
   ControllerDataVector::iterator GetControllerDataForPlayerId(int id);
   int GetFreePlayerId() const;
 
-  bool OpenDevice(int index, bool is_gamecontroller);
-  bool CloseDevice(int joystick_index);
+  bool OpenDevice(SDL_JoystickID instance_id, bool is_gamecontroller);
+  bool CloseDevice(SDL_JoystickID instance_id);
   bool HandleControllerAxisEvent(const SDL_ControllerAxisEvent* ev);
   bool HandleControllerButtonEvent(const SDL_ControllerButtonEvent* ev);
   bool HandleJoystickAxisEvent(const SDL_JoyAxisEvent* ev);
