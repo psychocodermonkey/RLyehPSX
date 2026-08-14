@@ -1,5 +1,7 @@
+// 2026/08/14 - Modified by R'Lyeh PSX contributors.
+// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/RlyehPSX>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "sdl_input_source.h"
 #include "input_manager.h"
@@ -1016,12 +1018,14 @@ bool SDLInputSource::GetGenericBindingMapping(std::string_view device, GenericIn
         mapping->emplace_back(binding, fmt::format("SDL-{}/{}", pid, s_sdl_button_names[i]));
     }
 
-    if (it->use_gamepad_rumble || it->haptic_left_right_effect)
+    if (it->use_gamepad_rumble || it->haptic_left_right_effect >= 0)
     {
       mapping->emplace_back(GenericInputBinding::SmallMotor, fmt::format("SDL-{}/SmallMotor", pid));
       mapping->emplace_back(GenericInputBinding::LargeMotor, fmt::format("SDL-{}/LargeMotor", pid));
     }
-    else
+    // R'Lyeh Contributors: SDL3 gamepad rumble and raw joystick haptics are separate capabilities.
+    // Do not offer haptic bindings to a gamepad unless it has an opened haptic device.
+    else if (it->haptic)
     {
       mapping->emplace_back(GenericInputBinding::SmallMotor, fmt::format("SDL-{}/Haptic", pid));
       mapping->emplace_back(GenericInputBinding::LargeMotor, fmt::format("SDL-{}/Haptic", pid));
