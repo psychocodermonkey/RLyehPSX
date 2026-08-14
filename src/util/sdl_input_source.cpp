@@ -136,14 +136,19 @@ static constexpr const char* s_sdl_default_led_colors[] = {
   "ffff00", // SDL-3
 };
 
-static void SetControllerRGBLED(SDL_Gamepad* gamepad, u32 color)
+static void SetGamepadRGBLED(SDL_Gamepad* gamepad, u32 color)
 {
-  SDL_GameControllerSetLED(gamepad, (color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff);
+  SDL_SetGamepadLED(gamepad, (color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff);
+}
+
+static bool GamepadHasCapability(SDL_Gamepad* gamepad, const char* property)
+{
+  return SDL_GetBooleanProperty(SDL_GetGamepadProperties(gamepad), property, false);
 }
 
 static void SDLLogCallback(void* userdata, int category, SDL_LogPriority priority, const char* message)
 {
-  static constexpr LOGLEVEL priority_map[SDL_NUM_LOG_PRIORITIES] = {
+  static constexpr LOGLEVEL priority_map[SDL_LOG_PRIORITY_COUNT] = {
     LOGLEVEL_DEBUG,
     LOGLEVEL_DEBUG,   // SDL_LOG_PRIORITY_VERBOSE
     LOGLEVEL_DEBUG,   // SDL_LOG_PRIORITY_DEBUG
@@ -229,10 +234,11 @@ void SDLInputSource::LoadSettings(SettingsInterface& si)
     m_led_colors[i] = color;
 
     const auto it = GetControllerDataForPlayerId(i);
-    if (it == m_controllers.end() || !it->gamepad || !SDL_GameControllerHasLED(it->gamepad))
+    if (it == m_controllers.end() || !it->gamepad ||
+        !GamepadHasCapability(it->gamepad, SDL_PROP_GAMEPAD_CAP_RGB_LED_BOOLEAN))
       continue;
 
-    SetControllerRGBLED(it->gamepad, color);
+    SetGamepadRGBLED(it->gamepad, color);
   }
 
   m_controller_enhanced_mode = si.GetBoolValue("InputSources", "SDLControllerEnhancedMode", false);
@@ -282,8 +288,7 @@ void SDLInputSource::SetHints()
     ERROR_LOG("Controller DB not found, it should be named '{}'", CONTROLLER_DB_FILENAME);
   }
 
-  SDL_SetHint(SDL_HINT_JOYSTICK_HIDAPI_PS4_RUMBLE, m_controller_enhanced_mode ? "1" : "0");
-  SDL_SetHint(SDL_HINT_JOYSTICK_HIDAPI_PS5_RUMBLE, m_controller_enhanced_mode ? "1" : "0");
+  SDL_SetHint(SDL_HINT_JOYSTICK_ENHANCED_REPORTS, m_controller_enhanced_mode ? "1" : "0");
   SDL_SetHint(SDL_HINT_JOYSTICK_HIDAPI_PS5_PLAYER_LED, m_controller_ps5_player_led ? "1" : "0");
   SDL_SetHint(SDL_HINT_JOYSTICK_HIDAPI_WII, "1");
   SDL_SetHint(SDL_HINT_JOYSTICK_HIDAPI_PS3, "1");
@@ -301,17 +306,17 @@ void SDLInputSource::SetHints()
 
 bool SDLInputSource::InitializeSubsystem()
 {
-  if (SDL_InitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMEPAD | SDL_INIT_HAPTIC) < 0)
+  if (!SDL_InitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMEPAD | SDL_INIT_HAPTIC))
   {
     ERROR_LOG("SDL_InitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMEPAD | SDL_INIT_HAPTIC) failed");
     return false;
   }
 
-  SDL_LogSetOutputFunction(SDLLogCallback, nullptr);
+  SDL_SetLogOutputFunction(SDLLogCallback, nullptr);
 #ifdef _DEBUG
-  SDL_LogSetAllPriority(SDL_LOG_PRIORITY_VERBOSE);
+  SDL_SetLogPriorities(SDL_LOG_PRIORITY_VERBOSE);
 #else
-  SDL_LogSetAllPriority(SDL_LOG_PRIORITY_INFO);
+  SDL_SetLogPriorities(SDL_LOG_PRIORITY_INFO);
 #endif
 
   m_sdl_subsystem_initialized = true;
@@ -785,21 +790,22 @@ bool SDLInputSource::OpenDevice(SDL_JoystickID instance_id, bool is_gamepad)
                 SDL_GetNumJoystickButtons(joystick), num_hats);
   }
 
-  cd.use_game_controller_rumble = (gcontroller && SDL_GameControllerRumble(gcontroller, 0, 0, 0) == 0);
-  if (cd.use_game_controller_rumble)
+  cd.use_gamepad_rumble =
+    (gcontroller && GamepadHasCapability(gcontroller, SDL_PROP_GAMEPAD_CAP_RUMBLE_BOOLEAN));
+  if (cd.use_gamepad_rumble)
   {
-    VERBOSE_LOG("Rumble is supported on '{}' via gamecontroller", name);
+    VERBOSE_LOG("Rumble is supported on '{}' via gamepad", name);
   }
-  else
+  else if (!gcontroller)
   {
-    SDL_Haptic* haptic = SDL_HapticOpenFromJoystick(joystick);
+    SDL_Haptic* haptic = SDL_OpenHapticFromJoystick(joystick);
     if (haptic)
     {
       SDL_HapticEffect ef = {};
       ef.leftright.type = SDL_HAPTIC_LEFTRIGHT;
       ef.leftright.length = 1000;
 
-      int ef_id = SDL_HapticNewEffect(haptic, &ef);
+      const SDL_HapticEffectID ef_id = SDL_CreateHapticEffect(haptic, &ef);
       if (ef_id >= 0)
       {
         cd.haptic = haptic;
@@ -808,14 +814,14 @@ bool SDLInputSource::OpenDevice(SDL_JoystickID instance_id, bool is_gamepad)
       else
       {
         ERROR_LOG("Failed to create haptic left/right effect: {}", SDL_GetError());
-        if (SDL_HapticRumbleSupported(haptic) && SDL_HapticRumbleInit(haptic) != 0)
+        if (SDL_HapticRumbleSupported(haptic) && SDL_InitHapticRumble(haptic))
         {
           cd.haptic = haptic;
         }
         else
         {
           ERROR_LOG("No haptic rumble supported: {}", SDL_GetError());
-          SDL_HapticClose(haptic);
+          SDL_CloseHaptic(haptic);
         }
       }
     }
@@ -824,13 +830,13 @@ bool SDLInputSource::OpenDevice(SDL_JoystickID instance_id, bool is_gamepad)
       VERBOSE_LOG("Rumble is supported on '{}' via haptic", name);
   }
 
-  if (!cd.haptic && !cd.use_game_controller_rumble)
+  if (!cd.haptic && !cd.use_gamepad_rumble)
     VERBOSE_LOG("Rumble is not supported on '{}'", name);
 
   if (player_id >= 0 && static_cast<u32>(player_id) < MAX_LED_COLORS && gcontroller &&
-      SDL_GameControllerHasLED(gcontroller))
+      GamepadHasCapability(gcontroller, SDL_PROP_GAMEPAD_CAP_RGB_LED_BOOLEAN))
   {
-    SetControllerRGBLED(gcontroller, m_led_colors[player_id]);
+    SetGamepadRGBLED(gcontroller, m_led_colors[player_id]);
   }
 
   m_controllers.push_back(std::move(cd));
@@ -850,7 +856,7 @@ bool SDLInputSource::CloseDevice(SDL_JoystickID instance_id)
     fmt::format("SDL-{}", it->player_id));
 
   if (it->haptic)
-    SDL_HapticClose(it->haptic);
+    SDL_CloseHaptic(it->haptic);
 
   if (it->gamepad)
     SDL_CloseGamepad(it->gamepad);
@@ -955,7 +961,7 @@ std::vector<InputBindingKey> SDLInputSource::EnumerateMotors()
   {
     key.source_index = cd.player_id;
 
-    if (cd.use_game_controller_rumble || cd.haptic_left_right_effect)
+    if (cd.use_gamepad_rumble || cd.haptic_left_right_effect)
     {
       // two motors
       key.source_subtype = InputSubclass::ControllerMotor;
@@ -1010,7 +1016,7 @@ bool SDLInputSource::GetGenericBindingMapping(std::string_view device, GenericIn
         mapping->emplace_back(binding, fmt::format("SDL-{}/{}", pid, s_sdl_button_names[i]));
     }
 
-    if (it->use_game_controller_rumble || it->haptic_left_right_effect)
+    if (it->use_gamepad_rumble || it->haptic_left_right_effect)
     {
       mapping->emplace_back(GenericInputBinding::SmallMotor, fmt::format("SDL-{}/SmallMotor", pid));
       mapping->emplace_back(GenericInputBinding::LargeMotor, fmt::format("SDL-{}/LargeMotor", pid));
@@ -1069,9 +1075,9 @@ void SDLInputSource::SendRumbleUpdate(ControllerData* cd)
   // we'll update before this duration is elapsed
   static constexpr u32 DURATION = 65535; // SDL_MAX_RUMBLE_DURATION_MS
 
-  if (cd->use_game_controller_rumble)
+  if (cd->use_gamepad_rumble)
   {
-    SDL_GameControllerRumble(cd->gamepad, cd->rumble_intensity[0], cd->rumble_intensity[1], DURATION);
+    SDL_RumbleGamepad(cd->gamepad, cd->rumble_intensity[0], cd->rumble_intensity[1], DURATION);
     return;
   }
 
@@ -1084,12 +1090,12 @@ void SDLInputSource::SendRumbleUpdate(ControllerData* cd)
       ef.leftright.large_magnitude = cd->rumble_intensity[0];
       ef.leftright.small_magnitude = cd->rumble_intensity[1];
       ef.leftright.length = DURATION;
-      SDL_HapticUpdateEffect(cd->haptic, cd->haptic_left_right_effect, &ef);
-      SDL_HapticRunEffect(cd->haptic, cd->haptic_left_right_effect, SDL_HAPTIC_INFINITY);
+      SDL_UpdateHapticEffect(cd->haptic, cd->haptic_left_right_effect, &ef);
+      SDL_RunHapticEffect(cd->haptic, cd->haptic_left_right_effect, SDL_HAPTIC_INFINITY);
     }
     else
     {
-      SDL_HapticStopEffect(cd->haptic, cd->haptic_left_right_effect);
+      SDL_StopHapticEffect(cd->haptic, cd->haptic_left_right_effect);
     }
   }
   else
@@ -1097,9 +1103,9 @@ void SDLInputSource::SendRumbleUpdate(ControllerData* cd)
     const float strength =
       static_cast<float>(std::max(cd->rumble_intensity[0], cd->rumble_intensity[1])) * (1.0f / 65535.0f);
     if (strength > 0.0f)
-      SDL_HapticRumblePlay(cd->haptic, strength, DURATION);
+      SDL_PlayHapticRumble(cd->haptic, strength, DURATION);
     else
-      SDL_HapticRumbleStop(cd->haptic);
+      SDL_StopHapticRumble(cd->haptic);
   }
 }
 

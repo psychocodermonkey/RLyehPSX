@@ -59,7 +59,7 @@ private:
     int haptic_left_right_effect;
     SDL_JoystickID joystick_id;
     int player_id;
-    bool use_game_controller_rumble;
+    bool use_gamepad_rumble;
 
     // Used to disable joystick controls that are used in gamepad inputs so we don't get double events.
     std::vector<bool> joy_button_used_in_gamepad;
