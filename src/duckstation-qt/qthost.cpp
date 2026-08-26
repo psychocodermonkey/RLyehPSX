@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 RlyehPSX <https://github.com/RlyehPSX>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "qthost.h"
 #include "autoupdaterdialog.h"
@@ -194,7 +195,7 @@ bool QtHost::InNoGUIMode()
 
 QString QtHost::GetAppNameAndVersion()
 {
-  return QStringLiteral("DuckStation %1").arg(QLatin1StringView(g_scm_tag_str));
+  return QStringLiteral("R'Lyeh PSX %1").arg(QLatin1StringView(g_scm_tag_str));
 }
 
 QString QtHost::GetAppConfigSuffix()

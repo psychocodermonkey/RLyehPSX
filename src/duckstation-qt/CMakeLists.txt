@@ -168,6 +168,7 @@ set(TS_FILES
 )
 
 add_executable(duckstation-qt ${SRCS} ${QM_FILES})
+set_target_properties(duckstation-qt PROPERTIES OUTPUT_NAME RLyehPSX)
 target_precompile_headers(duckstation-qt PRIVATE "pch.h")
 target_include_directories(duckstation-qt PRIVATE "${Qt6Gui_PRIVATE_INCLUDE_DIRS}" "${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(duckstation-qt PRIVATE core common imgui minizip scmversion Qt6::Core Qt6::Gui Qt6::Widgets)
@@ -227,11 +228,10 @@ elseif(APPLE)
   # Don't generate a bundle for XCode, it makes code signing fail...
   if(NOT CMAKE_GENERATOR MATCHES "Xcode")
     get_scm_version()
-    set(BUNDLE_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/DuckStation.app)
+    set(BUNDLE_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/RLyehPSX.app)
     set_target_properties(duckstation-qt PROPERTIES
       MACOSX_BUNDLE true
       MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in
-      OUTPUT_NAME DuckStation
     )
 
     # Inject Qt Libraries into bundle.

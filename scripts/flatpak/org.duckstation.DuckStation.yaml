@@ -11,7 +11,7 @@ add-extensions:
     add-ld-path: "."
     autodownload: true
 
-command: "duckstation-qt"
+command: "RLyehPSX"
 
 finish-args:
   - "--device=all"

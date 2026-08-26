@@ -142,7 +142,7 @@ EXTRA_PLATFORM_PLUGINS="libqwayland-egl.so;libqwayland-generic.so" \
 DEPLOY_PLATFORM_THEMES="1" \
 QMAKE="$DEPSDIR/bin/qmake" \
 NO_STRIP="1" \
-$LINUXDEPLOY --plugin qt --appdir="$OUTDIR" --executable="$BUILDDIR/bin/duckstation-qt" ${EXTRA_LIBS_ARGS[@]} \
+$LINUXDEPLOY --plugin qt --appdir="$OUTDIR" --executable="$BUILDDIR/bin/RLyehPSX" ${EXTRA_LIBS_ARGS[@]} \
 --desktop-file="$ROOTDIR/scripts/org.duckstation.DuckStation.desktop" \
 --icon-file="$ROOTDIR/scripts/dev.rlyeh.rlyehpsx.png" \
 
