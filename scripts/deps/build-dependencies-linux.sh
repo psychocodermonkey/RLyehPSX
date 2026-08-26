@@ -76,7 +76,7 @@ LIBBACKTRACE=ad106d5fdd5d960bd33fae1c48a351af567fd075
 LIBJPEGTURBO=3.0.3
 LIBPNG=1.6.43
 LIBWEBP=1.4.0
-SDL2=2.30.6
+SDL3=3.4.14
 QT=6.7.2
 ZSTD=1.5.6
 SHADERC=2026.3
@@ -96,7 +96,7 @@ cd deps-build
 if [ "$SKIP_DOWNLOAD" != true ]; then
 	curl -C - -L \
 		-O "https://github.com/ianlancetaylor/libbacktrace/archive/$LIBBACKTRACE.zip" \
-		-O "https://github.com/libsdl-org/SDL/releases/download/release-$SDL2/SDL2-$SDL2.tar.gz" \
+		-O "https://github.com/libsdl-org/SDL/releases/download/release-$SDL3/SDL3-$SDL3.tar.gz" \
 		-o "cpuinfo-$CPUINFO.tar.gz" "https://github.com/pytorch/cpuinfo/archive/$CPUINFO.tar.gz" \
 		-o "plutosvg-$PLUTOSVG.tar.gz" "https://github.com/sammycage/plutosvg/archive/refs/tags/v$PLUTOSVG.tar.gz" \
 		-o "plutovg-$PLUTOVG.tar.gz" "https://github.com/sammycage/plutovg/archive/refs/tags/v$PLUTOVG.tar.gz" \
@@ -106,7 +106,7 @@ fi
 
 cat > SHASUMS <<EOF
 fd6f417fe9e3a071cf1424a5152d926a34c4a3c5070745470be6cf12a404ed79  $LIBBACKTRACE.zip
-c6ef64ca18a19d13df6eb22df9aff19fb0db65610a74cc81dae33a82235cacd4  SDL2-$SDL2.tar.gz
+30d4aa2b3037718142b32dffd4e72f917ebb6cc5227150e7bb9c45efb2153aeb  SDL3-$SDL3.tar.gz
 e3d09aa27ec50da6310da45d1ec6b2e903c367a1455d8ee350bda12b9dedf556  cpuinfo-$CPUINFO.tar.gz
 49d5cfe772d3aa10cd4879f2f6e189f5083c08e4c8ea01bf3d5b87c97dfca7d2  plutosvg-$PLUTOSVG.tar.gz
 2b0d17a6e016f47b86f9c00e2cb82600041b1ea1f7d2a00c2d46ae542cbfed3c  plutovg-$PLUTOVG.tar.gz
@@ -337,19 +337,18 @@ if [ "$SKIP_FREETYPE" != true ]; then
 	cd ..
 fi
 
-echo "Building SDL2..."
-rm -fr "SDL2-$SDL2"
-tar xf "SDL2-$SDL2.tar.gz"
-cd "SDL2-$SDL2"
-# PipeWire 1.4+ requires its node API to receive a pw_node pointer.
-# SDL 2.30.6 predates the upstream compatibility fix.
-patch -p1 < "$SCRIPTDIR/sdl2-pipewire-compat.patch"
+echo "Building SDL3..."
+rm -fr "SDL3-$SDL3"
+tar xf "SDL3-$SDL3.tar.gz"
+cd "SDL3-$SDL3"
 cmake -DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_PREFIX_PATH="$INSTALLDIR" \
 	-DCMAKE_INSTALL_PREFIX="$INSTALLDIR" \
 	-DBUILD_SHARED_LIBS=ON \
 	-DSDL_SHARED=ON \
 	-DSDL_STATIC=OFF \
+	-DSDL_TESTS=OFF \
+	-DSDL_TEST_LIBRARY=OFF \
 	-B build \
 	-G Ninja
 cmake --build build --parallel

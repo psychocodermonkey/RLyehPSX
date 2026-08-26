@@ -1,10 +1,12 @@
+// 2026/08/14 - Modified by R'Lyeh PSX contributors.
+// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/RlyehPSX>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #pragma once
 #include "input_source.h"
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include <array>
 #include <functional>
@@ -53,17 +55,17 @@ private:
   struct ControllerData
   {
     SDL_Haptic* haptic;
-    SDL_GameController* game_controller;
+    SDL_Gamepad* gamepad;
     SDL_Joystick* joystick;
     u16 rumble_intensity[2];
     int haptic_left_right_effect;
-    int joystick_id;
+    SDL_JoystickID joystick_id;
     int player_id;
-    bool use_game_controller_rumble;
+    bool use_gamepad_rumble;
 
-    // Used to disable Joystick controls that are used in GameController inputs so we don't get double events
-    std::vector<bool> joy_button_used_in_gc;
-    std::vector<bool> joy_axis_used_in_gc;
+    // Used to disable joystick controls that are used in gamepad inputs so we don't get double events.
+    std::vector<bool> joy_button_used_in_gamepad;
+    std::vector<bool> joy_axis_used_in_gamepad;
 
     // Track last hat state so we can send "unpressed" events.
     std::vector<u8> last_hat_state;
@@ -76,14 +78,14 @@ private:
   void LoadSettings(SettingsInterface& si);
   void SetHints();
 
-  ControllerDataVector::iterator GetControllerDataForJoystickId(int id);
+  ControllerDataVector::iterator GetControllerDataForJoystickId(SDL_JoystickID id);
   ControllerDataVector::iterator GetControllerDataForPlayerId(int id);
   int GetFreePlayerId() const;
 
-  bool OpenDevice(int index, bool is_gamecontroller);
-  bool CloseDevice(int joystick_index);
-  bool HandleControllerAxisEvent(const SDL_ControllerAxisEvent* ev);
-  bool HandleControllerButtonEvent(const SDL_ControllerButtonEvent* ev);
+  bool OpenDevice(SDL_JoystickID instance_id, bool is_gamepad);
+  bool CloseDevice(SDL_JoystickID instance_id);
+  bool HandleGamepadAxisEvent(const SDL_GamepadAxisEvent* ev);
+  bool HandleGamepadButtonEvent(const SDL_GamepadButtonEvent* ev);
   bool HandleJoystickAxisEvent(const SDL_JoyAxisEvent* ev);
   bool HandleJoystickButtonEvent(const SDL_JoyButtonEvent* ev);
   bool HandleJoystickHatEvent(const SDL_JoyHatEvent* ev);
