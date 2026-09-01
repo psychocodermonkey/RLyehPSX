@@ -114,6 +114,12 @@ Only run builds when explicitly asked to test or build.
 
    - Use `release-linux` here too when building the release preset.
 
+### Windows build boundary
+
+- Windows builds are intentionally unsupported until a dedicated CMake/Ninja Windows toolchain implementation is in scope and Linux/macOS builds are stable.
+- The legacy Visual Studio solution was deliberately removed. Do not restore, update, validate, or treat remaining `.vcxproj`, `.props`, or Windows dependency-script files as an active build path during unrelated work, including rebranding.
+- Preserve those remaining files as migration inputs unless the Windows toolchain work explicitly includes their removal or replacement.
+
 ## Refactoring Guidelines
 
 - Replace Duckstation branding with R'Lyeh PSX branding in all assets and comments when generating comments and notes.
