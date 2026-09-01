@@ -190,12 +190,13 @@ Owns work specific to:
 
 Purpose:
 
-Windows platform integration.
+Future Windows platform integration. Windows builds are intentionally unsupported while the Linux and macOS build paths are stabilized.
 
-Owns work specific to:
+When this work is in scope, it will establish a CMake/Ninja-based Windows toolchain. The legacy Visual Studio solution was intentionally retired and must not be restored or maintained.
 
-- Windows build
-- Visual Studio
+It will own work specific to:
+
+- Windows CMake/Ninja build
 - Installer
 - Windows-specific APIs
 
