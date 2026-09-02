@@ -6,7 +6,7 @@ import os
 import glob
 import re
 
-#src_file = "src/duckstation-qt/qttranslations.cpp"
+#src_file = "src/RLyehPSX-qt/qttranslations.cpp"
 src_dir = os.path.join(os.path.dirname(__file__), "..", "src")
 fa_file = os.path.join(os.path.dirname(__file__), "..", "dep", "imgui", "include", "IconsFontAwesome5.h")
 pf_file = os.path.join(os.path.dirname(__file__), "..", "dep", "imgui", "include", "IconsPromptFont.h")
@@ -27,7 +27,7 @@ for filename in all_source_files:
             data = f.read()
         except:
             continue
-    
+
     tokens = tokens.union(set(re.findall("(ICON_FA_[a-zA-Z0-9_]+)", data)))
     pf_tokens = pf_tokens.union(set(re.findall("(ICON_PF_[a-zA-Z0-9_]+)", data)))
     emoji_tokens = emoji_tokens.union(set(re.findall("(ICON_EMOJI_[a-zA-Z0-9_]+)", data)))
@@ -101,4 +101,3 @@ with open(dst_file, "r") as f:
             print("Updated {}".format(dst_file))
     else:
         print("Skipping updating {}".format(dst_file))
-

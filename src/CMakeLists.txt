@@ -12,7 +12,7 @@ if(BUILD_NOGUI_FRONTEND)
 endif()
 
 if(BUILD_QT_FRONTEND)
-  add_subdirectory(duckstation-qt)
+  add_subdirectory(RLyehPSX-qt)
 endif()
 
 if(BUILD_REGTEST)

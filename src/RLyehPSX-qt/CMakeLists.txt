@@ -167,25 +167,25 @@ set(TS_FILES
   translations/duckstation-qt_zh-CN.ts
 )
 
-add_executable(duckstation-qt ${SRCS} ${QM_FILES})
-set_target_properties(duckstation-qt PROPERTIES OUTPUT_NAME RLyehPSX)
-target_precompile_headers(duckstation-qt PRIVATE "pch.h")
-target_include_directories(duckstation-qt PRIVATE "${Qt6Gui_PRIVATE_INCLUDE_DIRS}" "${CMAKE_CURRENT_SOURCE_DIR}")
-target_link_libraries(duckstation-qt PRIVATE core common imgui minizip scmversion Qt6::Core Qt6::Gui Qt6::Widgets)
+add_executable(RLyehPSX-qt ${SRCS} ${QM_FILES})
+set_target_properties(RLyehPSX-qt PROPERTIES OUTPUT_NAME RLyehPSX)
+target_precompile_headers(RLyehPSX-qt PRIVATE "pch.h")
+target_include_directories(RLyehPSX-qt PRIVATE "${Qt6Gui_PRIVATE_INCLUDE_DIRS}" "${CMAKE_CURRENT_SOURCE_DIR}")
+target_link_libraries(RLyehPSX-qt PRIVATE core common imgui minizip scmversion Qt6::Core Qt6::Gui Qt6::Widgets)
 
 # Our Qt builds may have exceptions on, so force them off.
-target_compile_definitions(duckstation-qt PRIVATE QT_NO_EXCEPTIONS)
+target_compile_definitions(RLyehPSX-qt PRIVATE QT_NO_EXCEPTIONS)
 
-add_core_resources(duckstation-qt)
+add_core_resources(RLyehPSX-qt)
 
 if(WIN32)
-  target_sources(duckstation-qt PRIVATE
+  target_sources(RLyehPSX-qt PRIVATE
     duckstation-qt.rc
     vcruntimecheck.cpp
   )
 
   # We want a Windows subsystem application not console.
-  set_target_properties(duckstation-qt PROPERTIES
+  set_target_properties(RLyehPSX-qt PROPERTIES
     WIN32_EXECUTABLE TRUE
     DEBUG_POSTFIX "-debug")
 
@@ -193,7 +193,7 @@ if(WIN32)
   get_target_property(MOC_EXECUTABLE_LOCATION Qt6::moc IMPORTED_LOCATION)
   get_filename_component(QT_BINARY_DIRECTORY "${MOC_EXECUTABLE_LOCATION}" DIRECTORY)
   find_program(WINDEPLOYQT_EXE windeployqt HINTS "${QT_BINARY_DIRECTORY}")
-  add_custom_command(TARGET duckstation-qt POST_BUILD
+  add_custom_command(TARGET RLyehPSX-qt POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E env PATH="${QT_BINARY_DIRECTORY}"
             "${WINDEPLOYQT_EXE}" --libdir="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
                                  --plugindir="${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/QtPlugins"
@@ -202,9 +202,9 @@ if(WIN32)
                                  --no-system-d3d-compiler
                                  --no-system-dxc-compiler
                                  --no-translations
-                                 "$<TARGET_FILE:duckstation-qt>"
+                                 "$<TARGET_FILE:RLyehPSX-qt>"
   )
-  add_custom_command(TARGET duckstation-qt POST_BUILD
+  add_custom_command(TARGET RLyehPSX-qt POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/qt.conf.win" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/qt.conf"
   )
   #set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations")
@@ -214,13 +214,13 @@ if(WIN32)
   foreach(DEP ${DEPS_TO_COPY})
     list(APPEND DEP_BINS "${CMAKE_PREFIX_PATH}/bin/${DEP}")
   endforeach()
-  add_custom_command(TARGET duckstation-qt POST_BUILD
+  add_custom_command(TARGET RLyehPSX-qt POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${DEP_BINS} "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
   )
   if(CMAKE_BUILD_TYPE MATCHES "Debug")
     get_property(WINPIXEVENTRUNTIME_DLL TARGET WinPixEventRuntime::WinPixEventRuntime PROPERTY IMPORTED_LOCATION)
     message(STATUS WP "${WINPIXEVENTRUNTIME_DLL}")
-    add_custom_command(TARGET duckstation-qt POST_BUILD
+    add_custom_command(TARGET RLyehPSX-qt POST_BUILD
       COMMAND ${CMAKE_COMMAND} -E copy_if_different "${WINPIXEVENTRUNTIME_DLL}" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
     )
   endif()
@@ -229,7 +229,7 @@ elseif(APPLE)
   if(NOT CMAKE_GENERATOR MATCHES "Xcode")
     get_scm_version()
     set(BUNDLE_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/RLyehPSX.app)
-    set_target_properties(duckstation-qt PROPERTIES
+    set_target_properties(RLyehPSX-qt PROPERTIES
       MACOSX_BUNDLE true
       MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in
     )
@@ -240,50 +240,50 @@ elseif(APPLE)
       add_custom_target(duckstation-postprocess-bundle ALL
         COMMAND "${MACDEPLOYQT_EXE}" "${BUNDLE_PATH}" -no-strip
       )
-      add_dependencies(duckstation-postprocess-bundle duckstation-qt)
+      add_dependencies(duckstation-postprocess-bundle RLyehPSX-qt)
     endif()
   endif()
 
   # Copy icon into the bundle
-  target_sources(duckstation-qt PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/RLyehPSX.icns")
+  target_sources(RLyehPSX-qt PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/RLyehPSX.icns")
   set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/RLyehPSX.icns" PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 endif()
 
 if(ALLOW_INSTALL)
   # Install main binary.
-  install(TARGETS duckstation-qt RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}")
+  install(TARGETS RLyehPSX-qt RUNTIME DESTINATION "${CMAKE_INSTALL_PREFIX}")
 endif()
 
 # Compile qrc to a binary file.
 if(NOT APPLE)
   set(RCC_FILE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources/duckstation-qt.rcc")
   qt_add_binary_resources(duckstation-qt-rcc resources/duckstation-qt.qrc DESTINATION ${RCC_FILE} OPTIONS -no-compress)
-  add_dependencies(duckstation-qt duckstation-qt-rcc)
+  add_dependencies(RLyehPSX-qt duckstation-qt-rcc)
 else()
   set(RCC_FILE "${CMAKE_CURRENT_BINARY_DIR}/duckstation-qt.rcc")
   qt_add_binary_resources(duckstation-qt-rcc resources/duckstation-qt.qrc DESTINATION ${RCC_FILE} OPTIONS -no-compress)
-  add_dependencies(duckstation-qt duckstation-qt-rcc)
-  target_sources(duckstation-qt PRIVATE ${RCC_FILE})
+  add_dependencies(RLyehPSX-qt duckstation-qt-rcc)
+  target_sources(RLyehPSX-qt PRIVATE ${RCC_FILE})
   set_source_files_properties(${RCC_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 endif()
 
 
 # Translation setup.
-qt_add_lrelease(duckstation-qt TS_FILES ${TS_FILES} QM_FILES_OUTPUT_VARIABLE QM_FILES)
+qt_add_lrelease(RLyehPSX-qt TS_FILES ${TS_FILES} QM_FILES_OUTPUT_VARIABLE QM_FILES)
 if(NOT APPLE)
-  set(QM_OUTPUT_DIR "$<TARGET_FILE_DIR:duckstation-qt>/translations")
-  add_custom_command(TARGET duckstation-qt POST_BUILD COMMAND "${CMAKE_COMMAND}" -E make_directory "${QM_OUTPUT_DIR}")
+  set(QM_OUTPUT_DIR "$<TARGET_FILE_DIR:RLyehPSX-qt>/translations")
+  add_custom_command(TARGET RLyehPSX-qt POST_BUILD COMMAND "${CMAKE_COMMAND}" -E make_directory "${QM_OUTPUT_DIR}")
   foreach (QM_FILE IN LISTS QM_FILES)
     get_filename_component(QM_FILE_NAME ${QM_FILE} NAME)
-    add_custom_command(TARGET duckstation-qt POST_BUILD COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${QM_FILE}" "${QM_OUTPUT_DIR}/${QM_FILE_NAME}")
+    add_custom_command(TARGET RLyehPSX-qt POST_BUILD COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${QM_FILE}" "${QM_OUTPUT_DIR}/${QM_FILE_NAME}")
     if(ALLOW_INSTALL)
       install(FILES "${QM_FILE}" DESTINATION "${CMAKE_INSTALL_PREFIX}/translations")
     endif()
   endforeach()
 else()
   foreach (QM_FILE IN LISTS QM_FILES)
-    target_sources(duckstation-qt PRIVATE ${QM_FILE})
+    target_sources(RLyehPSX-qt PRIVATE ${QM_FILE})
     set_source_files_properties(${QM_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources/translations)
   endforeach()
 endif()
-copy_base_translations(duckstation-qt)
+copy_base_translations(RLyehPSX-qt)
