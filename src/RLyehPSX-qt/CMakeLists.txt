@@ -237,10 +237,10 @@ elseif(APPLE)
     # Inject Qt Libraries into bundle.
     if(NOT SKIP_POSTPROCESS_BUNDLE)
       find_program(MACDEPLOYQT_EXE macdeployqt HINTS "${QT_BINARY_DIRECTORY}")
-      add_custom_target(duckstation-postprocess-bundle ALL
+      add_custom_target(RLyehPSX-postprocess-bundle ALL
         COMMAND "${MACDEPLOYQT_EXE}" "${BUNDLE_PATH}" -no-strip
       )
-      add_dependencies(duckstation-postprocess-bundle RLyehPSX-qt)
+      add_dependencies(RLyehPSX-postprocess-bundle RLyehPSX-qt)
     endif()
   endif()
 

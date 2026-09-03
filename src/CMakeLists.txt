@@ -8,7 +8,7 @@ if(WIN32 OR APPLE)
 endif()
 
 if(BUILD_NOGUI_FRONTEND)
-  add_subdirectory(duckstation-nogui)
+  add_subdirectory(RLyehPSX-nogui)
 endif()
 
 if(BUILD_QT_FRONTEND)
@@ -16,7 +16,7 @@ if(BUILD_QT_FRONTEND)
 endif()
 
 if(BUILD_REGTEST)
-  add_subdirectory(duckstation-regtest)
+  add_subdirectory(RLyehPSX-regtest)
 endif()
 
 if(BUILD_TESTS)
