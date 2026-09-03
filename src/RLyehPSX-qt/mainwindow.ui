@@ -17,7 +17,7 @@
    <string>DuckStation</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources/duckstation-qt.qrc">
+      <iconset resource="resources/RLyehPSX-qt.qrc">
     <normaloff>:/icons/vaulketh.png</normaloff>:/icons/vaulketh.png</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
@@ -425,7 +425,7 @@
   </action>
   <action name="actionGitHubRepository">
    <property name="icon">
-    <iconset resource="resources/duckstation-qt.qrc">
+        <iconset resource="resources/RLyehPSX-qt.qrc">
      <normaloff>:/icons/github.png</normaloff>:/icons/github.png</iconset>
    </property>
    <property name="text">
@@ -434,7 +434,7 @@
   </action>
   <action name="actionIssueTracker">
    <property name="icon">
-    <iconset resource="resources/duckstation-qt.qrc">
+        <iconset resource="resources/RLyehPSX-qt.qrc">
      <normaloff>:/icons/IssueTracker.png</normaloff>:/icons/IssueTracker.png</iconset>
    </property>
    <property name="text">
@@ -443,7 +443,7 @@
   </action>
   <action name="actionDiscordServer">
    <property name="icon">
-    <iconset resource="resources/duckstation-qt.qrc">
+        <iconset resource="resources/RLyehPSX-qt.qrc">
      <normaloff>:/icons/discord.png</normaloff>:/icons/discord.png</iconset>
    </property>
    <property name="text">
@@ -465,7 +465,7 @@
   </action>
   <action name="actionAboutQt">
    <property name="icon">
-    <iconset resource="resources/duckstation-qt.qrc">
+        <iconset resource="resources/RLyehPSX-qt.qrc">
      <normaloff>:/icons/QT.png</normaloff>:/icons/QT.png</iconset>
    </property>
    <property name="text">
@@ -474,7 +474,7 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset resource="resources/duckstation-qt.qrc">
+        <iconset resource="resources/RLyehPSX-qt.qrc">
      <normaloff>:/icons/vaulketh_64.png</normaloff>:/icons/vaulketh_64.png</iconset>
    </property>
    <property name="text">
@@ -929,7 +929,7 @@
   </action>
  </widget>
  <resources>
-  <include location="resources/duckstation-qt.qrc"/>
+  <include location="resources/RLyehPSX-qt.qrc" />
  </resources>
  <connections/>
 </ui>

@@ -67,7 +67,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="resources/duckstation-qt.qrc">:/controllers/mouse.svg</pixmap>
+      <pixmap resource="resources/RLyehPSX-qt.qrc">:/controllers/mouse.svg</pixmap>
      </property>
      <property name="scaledContents">
       <bool>false</bool>
@@ -272,8 +272,8 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources/duckstation-qt.qrc"/>
-  <include location="resources/duckstation-qt.qrc"/>
+  <include location="resources/RLyehPSX-qt.qrc" />
+  <include location="resources/RLyehPSX-qt.qrc" />
  </resources>
  <connections/>
 </ui>

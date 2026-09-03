@@ -20,7 +20,7 @@
    <string>DuckStation Controller Settings</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources/duckstation-qt.qrc">
+      <iconset resource="resources/RLyehPSX-qt.qrc">
     <normaloff>:/icons/vaulketh.png</normaloff>:/icons/vaulketh.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -140,7 +140,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="resources/duckstation-qt.qrc"/>
+  <include location="resources/RLyehPSX-qt.qrc" />
  </resources>
  <connections/>
 </ui>

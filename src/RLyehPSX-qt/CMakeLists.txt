@@ -180,7 +180,7 @@ add_core_resources(RLyehPSX-qt)
 
 if(WIN32)
   target_sources(RLyehPSX-qt PRIVATE
-    duckstation-qt.rc
+    RLyehPSX-qt.rc
     vcruntimecheck.cpp
   )
 
@@ -256,13 +256,13 @@ endif()
 
 # Compile qrc to a binary file.
 if(NOT APPLE)
-  set(RCC_FILE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources/duckstation-qt.rcc")
-  qt_add_binary_resources(duckstation-qt-rcc resources/duckstation-qt.qrc DESTINATION ${RCC_FILE} OPTIONS -no-compress)
-  add_dependencies(RLyehPSX-qt duckstation-qt-rcc)
+  set(RCC_FILE "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources/RLyehPSX-qt.rcc")
+  qt_add_binary_resources(RLyehPSX-qt-rcc resources/RLyehPSX-qt.qrc DESTINATION ${RCC_FILE} OPTIONS -no-compress)
+  add_dependencies(RLyehPSX-qt RLyehPSX-qt-rcc)
 else()
-  set(RCC_FILE "${CMAKE_CURRENT_BINARY_DIR}/duckstation-qt.rcc")
-  qt_add_binary_resources(duckstation-qt-rcc resources/duckstation-qt.qrc DESTINATION ${RCC_FILE} OPTIONS -no-compress)
-  add_dependencies(RLyehPSX-qt duckstation-qt-rcc)
+  set(RCC_FILE "${CMAKE_CURRENT_BINARY_DIR}/RLyehPSX-qt.rcc")
+  qt_add_binary_resources(RLyehPSX-qt-rcc resources/RLyehPSX-qt.qrc DESTINATION ${RCC_FILE} OPTIONS -no-compress)
+  add_dependencies(RLyehPSX-qt RLyehPSX-qt-rcc)
   target_sources(RLyehPSX-qt PRIVATE ${RCC_FILE})
   set_source_files_properties(${RCC_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 endif()

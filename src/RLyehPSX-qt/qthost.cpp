@@ -499,7 +499,7 @@ bool QtHost::SetCriticalFolders()
   CrashHandler::SetWriteDirectory(EmuFolders::DataRoot);
 
   // the resources directory should exist, bail out if not
-  const std::string rcc_path = Path::Combine(EmuFolders::Resources, "duckstation-qt.rcc");
+  const std::string rcc_path = Path::Combine(EmuFolders::Resources, "RLyehPSX-qt.rcc");
   if (!FileSystem::FileExists(rcc_path.c_str()) || !QResource::registerResource(QString::fromStdString(rcc_path)) ||
 #ifdef _WIN32
       !FileSystem::DirectoryExists(EmuFolders::Resources.c_str())
