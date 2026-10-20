@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 RlyehPSX <https://github.com/RlyehPSX>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "core/achievements.h"
 #include "core/controller.h"
@@ -61,7 +62,7 @@ bool RegTestHost::SetFolders()
   EmuFolders::DataRoot = EmuFolders::AppRoot;
 
 #ifdef __APPLE__
-  static constexpr char MAC_DATA_DIR[] = "Library/Application Support/DuckStation";
+  static constexpr char MAC_DATA_DIR[] = "Library/Application Support/RLyehPSX";
   const char* home_dir = getenv("HOME");
   if (home_dir)
     EmuFolders::DataRoot = Path::Combine(home_dir, MAC_DATA_DIR);
@@ -496,7 +497,7 @@ void RegTestHost::InitializeEarlyConsole()
 void RegTestHost::PrintCommandLineVersion()
 {
   InitializeEarlyConsole();
-  std::fprintf(stderr, "DuckStation Regression Test Runner Version %s (%s)\n", g_scm_tag_str, g_scm_branch_str);
+  std::fprintf(stderr, "R'Lyeh PSX Regression Test Runner Version %s (%s)\n", g_scm_tag_str, g_scm_branch_str);
   std::fprintf(stderr, "https://github.com/psychocodermonkey/RLyehPSX\n");
   std::fprintf(stderr, "\n");
 }

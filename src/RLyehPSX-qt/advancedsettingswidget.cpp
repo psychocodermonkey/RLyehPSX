@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 RlyehPSX <https://github.com/RlyehPSX>
 // SPDX-FileCopyrightText: 2019-2022 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "advancedsettingswidget.h"
 #include "core/gpu_types.h"
@@ -195,7 +196,7 @@ AdvancedSettingsWidget::AdvancedSettingsWidget(SettingsWindow* dialog, QWidget* 
   dialog->registerWidgetHelp(m_ui.logToWindow, tr("Log To Window"), tr("User Preference"),
                              tr("Logs messages to the window."));
   dialog->registerWidgetHelp(m_ui.logToFile, tr("Log To File"), tr("User Preference"),
-                             tr("Logs messages to duckstation.log in the user directory."));
+                             tr("Logs messages to rlyehpsx.log in the user directory."));
   dialog->registerWidgetHelp(m_ui.showDebugMenu, tr("Show Debug Menu"), tr("Unchecked"),
                              tr("Shows a debug menu bar with additional statistics and quick settings."));
 }

@@ -454,10 +454,10 @@ bool QtHost::InitializeConfig(std::string settings_filename)
     if (!s_base_settings_interface->Save(&error))
     {
       QMessageBox::critical(
-        nullptr, QStringLiteral("DuckStation"),
+        nullptr, QStringLiteral("R'Lyeh PSX"),
         QStringLiteral(
           "Failed to save configuration to\n\n%1\n\nThe error was: %2\n\nPlease ensure this directory is writable. You "
-          "can also try portable mode by creating portable.txt in the same directory you installed DuckStation into.")
+          "can also try portable mode by creating portable.txt in the same directory you installed R'Lyeh PSX into.")
           .arg(QString::fromStdString(s_base_settings_interface->GetFileName()))
           .arg(QString::fromStdString(error.GetDescription())));
       return false;
@@ -555,24 +555,24 @@ bool QtHost::SetDataDirectory()
   }
 
 #if defined(_WIN32)
-  // On Windows, use My Documents\DuckStation.
+  // On Windows, use My Documents\RLyehPSX.
   PWSTR documents_directory;
   if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_Documents, 0, NULL, &documents_directory)))
   {
     if (std::wcslen(documents_directory) > 0)
-      EmuFolders::DataRoot = Path::Combine(StringUtil::WideStringToUTF8String(documents_directory), "DuckStation");
+      EmuFolders::DataRoot = Path::Combine(StringUtil::WideStringToUTF8String(documents_directory), "RLyehPSX");
     CoTaskMemFree(documents_directory);
   }
 #elif defined(__linux__) || defined(__FreeBSD__)
-  // Use $XDG_CONFIG_HOME/duckstation if it exists.
+  // Use $XDG_CONFIG_HOME/RLyehPSX if it exists.
   const char* xdg_config_home = getenv("XDG_CONFIG_HOME");
   if (xdg_config_home && Path::IsAbsolute(xdg_config_home))
   {
-    EmuFolders::DataRoot = Path::RealPath(Path::Combine(xdg_config_home, "duckstation"));
+    EmuFolders::DataRoot = Path::RealPath(Path::Combine(xdg_config_home, "RLyehPSX"));
   }
   else
   {
-    // Use ~/.local/share/duckstation otherwise.
+    // Use ~/.local/share/RLyehPSX otherwise.
     const char* home_dir = getenv("HOME");
     if (home_dir)
     {
@@ -581,11 +581,11 @@ bool QtHost::SetDataDirectory()
       const std::string share_dir(Path::Combine(local_dir, "share"));
       FileSystem::EnsureDirectoryExists(local_dir.c_str(), false);
       FileSystem::EnsureDirectoryExists(share_dir.c_str(), false);
-      EmuFolders::DataRoot = Path::RealPath(Path::Combine(share_dir, "duckstation"));
+      EmuFolders::DataRoot = Path::RealPath(Path::Combine(share_dir, "RLyehPSX"));
     }
   }
 #elif defined(__APPLE__)
-  static constexpr char MAC_DATA_DIR[] = "Library/Application Support/DuckStation";
+  static constexpr char MAC_DATA_DIR[] = "Library/Application Support/RLyehPSX";
   const char* home_dir = getenv("HOME");
   if (home_dir)
     EmuFolders::DataRoot = Path::RealPath(Path::Combine(home_dir, MAC_DATA_DIR));
@@ -600,10 +600,10 @@ bool QtHost::SetDataDirectory()
     {
       // no point translating, config isn't loaded
       QMessageBox::critical(
-        nullptr, QStringLiteral("DuckStation"),
+        nullptr, QStringLiteral("R'Lyeh PSX"),
         QStringLiteral("Failed to create data directory at path\n\n%1\n\nThe error was: %2\nPlease ensure this "
                        "directory is writable. You can also try portable mode by creating portable.txt in the same "
-                       "directory you installed DuckStation into.")
+                       "directory you installed R'Lyeh PSX into.")
           .arg(QString::fromStdString(EmuFolders::DataRoot))
           .arg(QString::fromStdString(error.GetDescription())));
       return false;
@@ -2259,7 +2259,7 @@ void QtHost::PrintCommandLineVersion()
 {
   InitializeEarlyConsole();
 
-  std::fprintf(stderr, "DuckStation Version %s (%s)\n", g_scm_tag_str, g_scm_branch_str);
+  std::fprintf(stderr, "R'Lyeh PSX Version %s (%s)\n", g_scm_tag_str, g_scm_branch_str);
   std::fprintf(stderr, "https://github.com/psychocodermonkey/RLyehPSX\n");
   std::fprintf(stderr, "\n");
 }
