@@ -30,7 +30,7 @@
     <key>CFBundleIconFile</key>
     <string>RLyehPSX.icns</string>
     <key>CFBundleIdentifier</key>
-    <string>com.github.psychocodermonkey.rlyehpsx</string>
+    <string>dev.rlyeh.rlyehpsx</string>
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
     <key>CFBundlePackageType</key>
