@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 RlyehPSX <https://github.com/RlyehPSX>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "autoupdaterdialog.h"
 #include "mainwindow.h"
@@ -55,9 +56,9 @@ static constexpr u32 HTTP_POLL_INTERVAL = 10;
 
 #ifdef AUTO_UPDATER_SUPPORTED
 
-static const char* LATEST_TAG_URL = "https://api.github.com/repos/stenzek/duckstation/tags";
-static const char* LATEST_RELEASE_URL = "https://api.github.com/repos/stenzek/duckstation/releases/tags/{}";
-static const char* CHANGES_URL = "https://api.github.com/repos/stenzek/duckstation/compare/{}...{}";
+static const char* LATEST_TAG_URL = "https://api.github.com/repos/psychocodermonkey/RLyehPSX/tags";
+static const char* LATEST_RELEASE_URL = "https://api.github.com/repos/psychocodermonkey/RLyehPSX/releases/tags/{}";
+static const char* CHANGES_URL = "https://api.github.com/repos/psychocodermonkey/RLyehPSX/compare/{}...{}";
 static const char* UPDATE_ASSET_FILENAME = SCM_RELEASE_ASSET;
 static const char* UPDATE_TAGS[] = SCM_RELEASE_TAGS;
 static const char* THIS_RELEASE_TAG = SCM_RELEASE_TAG;
@@ -116,7 +117,7 @@ bool AutoUpdaterDialog::isOfficialBuild()
 bool AutoUpdaterDialog::warnAboutUnofficialBuild()
 {
   //
-  // To those distributing their own builds or packages of DuckStation, and seeing this message:
+  // To those distributing their own builds or packages of R'Lyeh PSX, and seeing this message:
   //
   // This message is here for a reason. Under the terms of the license, you are within your rights to distribute your
   // own builds of my application. However, it is a headache for me, as users run into broken functionality, or end up
@@ -145,7 +146,7 @@ bool AutoUpdaterDialog::warnAboutUnofficialBuild()
     "<h1>You are not using an official release!</h1><h3>If you continue to use this build, expect to run into "
     "issues.</h3><p><strong>No assistance will be provided by the developers or community</strong>, as we cannot fix "
     "broken functionality in builds we do not control.</p><p>We <strong>strongly recommend</strong> downloading an "
-    "official release from <a href=\"https://rlyeh.dev\">duckstation.org</a>.</p><p>Do you want to exit and "
+    "official release from <a href=\"https://rlyeh.dev\">rlyeh.dev</a>.</p><p>Do you want to exit and "
     "open this page now?</p>");
 
   QMessageBox mbox;
