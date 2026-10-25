@@ -1,6 +1,6 @@
-// SPDX-FileCopyrightText: 2026 RlyehPSX <https://github.com/RlyehPSX>
+// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/psychocodermonkey/RLyehPSX>
 // SPDX-FileCopyrightText: 2019-2023 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "cocoa_progress_callback.h"
 #include "updater.h"

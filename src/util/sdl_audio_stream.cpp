@@ -1,7 +1,7 @@
 // 2026/08/14 - Modified by R'Lyeh PSX contributors.
-// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/RlyehPSX>
+// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/psychocodermonkey/RLyehPSX>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "audio_stream.h"
 

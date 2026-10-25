@@ -1,5 +1,5 @@
-// SPDX-FileCopyrightText: 2026 RlyehPSX <https://github.com/RlyehPSX>
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/psychocodermonkey/RLyehPSX>
+// SPDX-License-Identifier: GPL-3.0-only
 //
 // This implementation was developed for Project R'lyehPSX as an independent
 // implementation of the software rasterizer.
