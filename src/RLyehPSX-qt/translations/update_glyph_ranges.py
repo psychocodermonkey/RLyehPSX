@@ -62,7 +62,7 @@ def update_src_file(ts_file, chars):
 
 if __name__ == "__main__":
     for language in languages_to_update:
-        ts_file = os.path.join(ts_dir, f"duckstation-qt_{language}.ts")
+        ts_file = os.path.join(ts_dir, f"rlyehpsx-qt_{language}.ts")
         chars = parse_xml(ts_file)
         print(f"{language}: {len(chars)} character(s) detected.")
         update_src_file(ts_file, chars)

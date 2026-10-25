@@ -1,9 +1,9 @@
 @ECHO OFF
-REM Script to provide and easy way to update and edit .ts files for Duckstation.
-REM Usage: drag and drop a duckstation .ts file on this batch file
+REM Script to provide and easy way to update and edit .ts files for R'Lyeh PSX.
+REM Usage: drag and drop a rlyehpsx .ts file on this batch file
 REM Author: RaydenX93
 REM Credits to Stenzek, Sam Pearman
-TITLE Duckstation - Create, and Edit .ts files (Drag n Drop)
+TITLE R'Lyeh PSX - Create, and Edit .ts files (Drag n Drop)
 
 REM Check if an argument is provided
 SET arg1="%~1"
@@ -21,15 +21,15 @@ IF %ext%==.ts GOTO goodfile
 REM The wrong or no file has been passed
 :noarg
 ECHO ===================================================================
-ECHO Duckstation - Create, Update and Edit .ts files (Drag n Drop)
+ECHO R'Lyeh PSX - Create, Update and Edit .ts files (Drag n Drop)
 ECHO ===================================================================
 ECHO If you want to update and edit an EXISTING translation, drag and drop a .ts file on this batch file.
 ECHO.
 ECHO If you want to create a NEW translation, input (y) to start the process.
-ECHO. 
-SET /P answ=Do you want to create a new translation? (y/n)... 
+ECHO.
+SET /P answ=Do you want to create a new translation? (y/n)...
 
-IF %answ%==y (GOTO newlang) ELSE EXIT 
+IF %answ%==y (GOTO newlang) ELSE EXIT
 
 :newlang
 CLS
@@ -49,7 +49,7 @@ ECHO   en    ^<-- English
 ECHO   en-au ^<-- Australian English
 ECHO.
 
-SET /P langcode=Insert your language code... 
+SET /P langcode=Insert your language code...
 
 CLS
 IF NOT DEFINED langcode (
@@ -58,7 +58,7 @@ IF NOT DEFINED langcode (
 	PAUSE
 	GOTO newlang
 ) ELSE (
-	SET filename=duckstation-qt_%langcode%.ts
+	SET filename=rlyehpsx-qt_%langcode%.ts
 )
 
 REM A good .ts file has been passed

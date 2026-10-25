@@ -148,23 +148,7 @@ set(SRCS
 )
 
 set(TS_FILES
-  translations/duckstation-qt_de.ts
-  translations/duckstation-qt_en.ts
-  translations/duckstation-qt_es.ts
-  translations/duckstation-qt_es-ES.ts
-  translations/duckstation-qt_fr.ts
-  translations/duckstation-qt_he.ts
-  translations/duckstation-qt_id.ts
-  translations/duckstation-qt_it.ts
-  translations/duckstation-qt_ja.ts
-  translations/duckstation-qt_ko.ts
-  translations/duckstation-qt_nl.ts
-  translations/duckstation-qt_pl.ts
-  translations/duckstation-qt_pt-BR.ts
-  translations/duckstation-qt_pt-PT.ts
-  translations/duckstation-qt_ru.ts
-  translations/duckstation-qt_tr.ts
-  translations/duckstation-qt_zh-CN.ts
+  translations/rlyehpsx-qt_en.ts
 )
 
 add_executable(RLyehPSX-qt ${SRCS} ${QM_FILES})
