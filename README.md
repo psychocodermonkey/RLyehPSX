@@ -132,7 +132,7 @@ Sign the package to allow running on MacOS.
 codesign --force --deep --sign - build/debug-mac/bin/RLyehPSX.app
 ```
 
-The resulting app bundle is written to `build/debug-mac/bin/RLyehPSX.app `. Use `release-mac` in place of `debug-mac` for a Release build.
+The resulting app bundle is written to `build/debug-mac/bin/RLyehPSX.app`. Use `release-mac` in place of `debug-mac` for a Release build.
 
 ## Licensing
 
