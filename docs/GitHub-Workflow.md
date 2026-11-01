@@ -1,7 +1,7 @@
 # Project R’lyeh: GitHub Workflow and Development Roadmap
 
-**Status:** Planning document  
-**Date:** October 30, 2026  
+**Status:** Planning document
+**Date:** October 30, 2026
 **Project:** R’lyeh PSX
 
 ## 1. Purpose
@@ -269,6 +269,14 @@ Review remaining third-party dependency versions, maintenance status, and upgrad
 Potential issues and review areas:
 
 - Audit currently vendored and externally built dependencies.
+  - Known library modernization efforts.
+    - rcheevos
+    - FFMPEG
+    - Vulkan
+    - libwebp
+    - libpng
+    - libchdr / lzma
+    - harfbuzz
 - Compare against current supported upstream versions.
 - Identify obsolete, unsupported, or problematic dependencies.
 - Review compatibility, licensing, and provenance considerations.
@@ -278,7 +286,17 @@ Potential issues and review areas:
 
 Not every dependency requires upgrading merely because a newer version exists.
 
-### 4) Front-End re-write in Qt/QML
+### 4) Rewrite dependency build management
+
+Consolidate dependency acquisition and builds for supported platforms, with versions and source checksums recorded in a shared manifest.
+
+- Establish one entry point for macOS and Linux dependency builds.
+- Record source versions, download locations, and validation hashes in a tracked manifest.
+- Preserve platform-specific build options and patches where required.
+- Remove duplicated pins and checksums from the existing scripts.
+- Validate fresh dependency builds and application builds on macOS and Linux.
+
+### 5) Front-End re-write in Qt/QML
 
 Develop the planned Qt Quick/QML frontend architecture.
 
@@ -293,7 +311,7 @@ Potential issues and review areas:
 
 The intent is to support a common frontend architecture across desktop and mobile platforms where practical.
 
-### 5) Linux Flatpak development
+### 6) Linux Flatpak development
 
 Establish Flatpak packaging for R’lyeh PSX.
 
@@ -308,7 +326,7 @@ Potential issues and review areas:
 
 This milestone is separate from general build infrastructure because producing a working distributable application is a distinct deliverable.
 
-### 6) Android build
+### 7) Android build
 
 Establish Android as a supported build and execution target.
 
@@ -327,7 +345,7 @@ Potential issues and review areas:
 
 The Android content-access adapter should preserve the intended separation between platform-specific storage handling and the emulator core.
 
-### 7) Build infrastructure
+### 8) Build infrastructure
 
 Develop and maintain automated build environments.
 
@@ -343,7 +361,7 @@ Potential issues and review areas:
 
 The objective is to reduce manual build overhead and provide reliable, repeatable build environments.
 
-### 8) Automated testing implementation
+### 9) Automated testing implementation
 
 Investigate and incrementally establish useful automated testing.
 
@@ -365,7 +383,7 @@ Focused automated tests may be implemented earlier when development reveals a re
 
 Automated tests supplement, rather than replace, ongoing manual platform validation.
 
-### 9) `docs/` re-work and documentation migration
+### 10) `docs/` re-work and documentation migration
 
 Restructure project documentation into an accurate user and developer reference.
 
@@ -382,7 +400,7 @@ Potential issues and review areas:
 
 The resulting documentation should be authoritative about the current project state.
 
-### 10) Alternate handheld targets
+### 11) Alternate handheld targets
 
 Investigate and establish initial support for additional handheld environments.
 
@@ -433,7 +451,7 @@ Maintain dependency provenance, licensing compliance, and attribution as part of
 
 These are planning actions for a future GitHub organization pass, not actions already completed.
 
-- [ ] Review and establish the eleven roadmap milestones in the locked order.
+- [ ] Review and establish the twelve roadmap milestones in the locked order.
 - [ ] Create actionable issues for known outstanding work.
 - [ ] Associate issues with their appropriate milestones.
 - [ ] Determine which issues should use feature-request, bug, investigation, or maintenance classifications.
@@ -442,7 +460,7 @@ These are planning actions for a future GitHub organization pass, not actions al
 - [ ] Confirm issue-closing behavior when merging into `dev`.
 - [ ] Review existing planning documents for migration into issues.
 - [ ] Preserve implementation facts and architectural decisions in `docs/`.
-- [ ] Begin the README and documentation restructuring under milestone 9.
+- [ ] Begin the README and documentation restructuring under milestone 10.
 
 ## 8. Guiding Principles
 
