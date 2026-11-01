@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/psychocodermonkey/RLyehPSX>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "controllersettingswindow.h"
 #include "controllerbindingwidgets.h"
@@ -302,7 +303,7 @@ void ControllerSettingsWindow::onCopyGlobalSettingsClicked()
   g_emu_thread->reloadGameSettings();
   createWidgets();
 
-  QMessageBox::information(QtUtils::GetRootWidget(this), tr("DuckStation Controller Settings"),
+  QMessageBox::information(QtUtils::GetRootWidget(this), tr("R'Lyeh PSX Controller Settings"),
                            tr("Per-game controller configuration reset to global settings."));
 }
 
@@ -314,7 +315,7 @@ void ControllerSettingsWindow::onRestoreDefaultsForGameClicked()
   g_emu_thread->reloadGameSettings();
   createWidgets();
 
-  QMessageBox::information(QtUtils::GetRootWidget(this), tr("DuckStation Controller Settings"),
+  QMessageBox::information(QtUtils::GetRootWidget(this), tr("R'Lyeh PSX Controller Settings"),
                            tr("Per-game controller configuration reset to default settings."));
 }
 

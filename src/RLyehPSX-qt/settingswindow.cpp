@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/psychocodermonkey/RLyehPSX>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "settingswindow.h"
 #include "advancedsettingswidget.h"
@@ -90,7 +91,7 @@ void SettingsWindow::addPages()
       m_game_list_settings = new GameListSettingsWidget(this, m_ui.settingsContainer), tr("Game List"),
       QStringLiteral("folder-open-line"),
       tr("<strong>Game List Settings</strong><hr>The list above shows the directories which will be searched by "
-         "DuckStation to populate the game list. Search directories can be added, removed, and switched to "
+         "R'Lyeh PSX to populate the game list. Search directories can be added, removed, and switched to "
          "recursive/non-recursive."));
   }
 
@@ -132,7 +133,7 @@ void SettingsWindow::addPages()
     QString title(tr("Achievements"));
     QString icon_text(QStringLiteral("trophy-line"));
     QString help_text(
-      tr("<strong>Achievement Settings</strong><hr>DuckStation uses RetroAchievements as an achievement database and "
+      tr("<strong>Achievement Settings</strong><hr>R'Lyeh PSX uses RetroAchievements as an achievement database and "
          "for tracking progress. To use achievements, please sign up for an account at retroachievements.org. To view "
          "the achievement list in-game, press the hotkey for <strong>Open Pause Menu</strong> and select "
          "<strong>Achievements</strong> from the menu. Mouse over an option for additional information, and "
@@ -159,7 +160,7 @@ void SettingsWindow::addPages()
     addWidget(
       m_folder_settings = new FolderSettingsWidget(this, m_ui.settingsContainer), tr("Folders"),
       QStringLiteral("folder-settings-line"),
-      tr("<strong>Folder Settings</strong><hr>These options control where DuckStation will save runtime data files."));
+      tr("<strong>Folder Settings</strong><hr>These options control where R'Lyeh PSX will save runtime data files."));
   }
 
   addWidget(m_advanced_settings = new AdvancedSettingsWidget(this, m_ui.settingsContainer), tr("Advanced"),
@@ -285,7 +286,7 @@ void SettingsWindow::onCopyGlobalSettingsClicked()
     return;
 
   if (QMessageBox::question(
-        this, tr("DuckStation Settings"),
+        this, tr("R'Lyeh PSX Settings"),
         tr("The configuration for this game will be replaced by the current global settings.\n\nAny current setting "
            "values will be overwritten.\n\nDo you want to continue?"),
         QMessageBox::Yes, QMessageBox::No) != QMessageBox::Yes)
@@ -303,7 +304,7 @@ void SettingsWindow::onCopyGlobalSettingsClicked()
 
   reloadPages();
 
-  QMessageBox::information(this, tr("DuckStation Settings"), tr("Per-game configuration copied from global settings."));
+  QMessageBox::information(this, tr("R'Lyeh PSX Settings"), tr("Per-game configuration copied from global settings."));
 }
 
 void SettingsWindow::onClearSettingsClicked()
@@ -311,7 +312,7 @@ void SettingsWindow::onClearSettingsClicked()
   if (!isPerGameSettings())
     return;
 
-  if (QMessageBox::question(this, tr("DuckStation Settings"),
+  if (QMessageBox::question(this, tr("R'Lyeh PSX Settings"),
                             tr("The configuration for this game will be cleared.\n\nAny current setting values will be "
                                "lost.\n\nDo you want to continue?"),
                             QMessageBox::Yes, QMessageBox::No) != QMessageBox::Yes)
@@ -324,7 +325,7 @@ void SettingsWindow::onClearSettingsClicked()
 
   reloadPages();
 
-  QMessageBox::information(this, tr("DuckStation Settings"), tr("Per-game configuration cleared."));
+  QMessageBox::information(this, tr("R'Lyeh PSX Settings"), tr("Per-game configuration cleared."));
 }
 
 void SettingsWindow::registerWidgetHelp(QObject* object, QString title, QString recommended_value, QString text)

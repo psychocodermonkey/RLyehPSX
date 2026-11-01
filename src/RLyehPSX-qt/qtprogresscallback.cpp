@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/psychocodermonkey/RLyehPSX>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "qtprogresscallback.h"
 #include "qtutils.h"
@@ -14,7 +15,7 @@
 QtModalProgressCallback::QtModalProgressCallback(QWidget* parent_widget, float show_delay)
   : QObject(parent_widget), m_dialog(QString(), QString(), 0, 1, parent_widget), m_show_delay(show_delay)
 {
-  m_dialog.setWindowTitle(tr("DuckStation"));
+  m_dialog.setWindowTitle(tr("R'Lyeh PSX"));
   m_dialog.setMinimumSize(QSize(500, 0));
   m_dialog.setModal(parent_widget != nullptr);
   m_dialog.setAutoClose(false);
