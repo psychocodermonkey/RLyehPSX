@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/psychocodermonkey/RLyehPSX>
 // SPDX-FileCopyrightText: 2019-2022 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "achievementsettingswidget.h"
 #include "achievementlogindialog.h"
@@ -44,7 +45,7 @@ AchievementSettingsWidget::AchievementSettingsWidget(SettingsWindow* dialog, QWi
                                                 Settings::DEFAULT_LEADERBOARD_NOTIFICATION_TIME);
 
   dialog->registerWidgetHelp(m_ui.enable, tr("Enable Achievements"), tr("Unchecked"),
-                             tr("When enabled and logged in, DuckStation will scan for achievements on startup."));
+                             tr("When enabled and logged in, R'Lyeh PSX will scan for achievements on startup."));
   dialog->registerWidgetHelp(m_ui.hardcoreMode, tr("Enable Hardcore Mode"), tr("Unchecked"),
                              tr("\"Challenge\" mode for achievements, including leaderboard tracking. Disables save "
                                 "state, cheats, and slowdown functions."));
@@ -62,11 +63,11 @@ AchievementSettingsWidget::AchievementSettingsWidget(SettingsWindow* dialog, QWi
   dialog->registerWidgetHelp(m_ui.encoreMode, tr("Enable Encore Mode"), tr("Unchecked"),
                              tr("When enabled, each session will behave as if no achievements have been unlocked."));
   dialog->registerWidgetHelp(m_ui.spectatorMode, tr("Enable Spectator Mode"), tr("Unchecked"),
-                             tr("When enabled, DuckStation will assume all achievements are locked and not send any "
+                             tr("When enabled, R'Lyeh PSX will assume all achievements are locked and not send any "
                                 "unlock notifications to the server."));
   dialog->registerWidgetHelp(
     m_ui.unofficialAchievements, tr("Test Unofficial Achievements"), tr("Unchecked"),
-    tr("When enabled, DuckStation will list achievements from unofficial sets. Please note that these achievements are "
+    tr("When enabled, R'Lyeh PSX will list achievements from unofficial sets. Please note that these achievements are "
        "not tracked by RetroAchievements, so they unlock every time."));
   dialog->registerWidgetHelp(
     m_ui.useFirstDiscFromPlaylist, tr("Use First Disc From Playlist"), tr("Unchecked"),

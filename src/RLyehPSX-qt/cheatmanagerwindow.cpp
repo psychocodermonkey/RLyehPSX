@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/psychocodermonkey/RLyehPSX>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com> and contributors.
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "cheatmanagerwindow.h"
 #include "cheatcodeeditordialog.h"
@@ -566,8 +567,7 @@ void CheatManagerWindow::resetClicked()
 {
   if (QMessageBox::question(
         this, tr("Confirm Reset"),
-        tr(
-          "Are you sure you want to reset the cheat list? Any cheats not in the DuckStation database WILL BE LOST.")) !=
+        tr("Are you sure you want to reset the cheat list? Any cheats not in the R'Lyeh PSX database WILL BE LOST.")) !=
       QMessageBox::Yes)
   {
     return;
