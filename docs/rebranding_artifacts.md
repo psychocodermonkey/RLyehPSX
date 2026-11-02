@@ -258,14 +258,6 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
     <tr>
       <td>Probably Rename</td>
       <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/controllersettingswindow.cpp</code></td>
-      <td>305, 317</td>
-      <td>User-visible application name, dialog text, error text, log text, or version label.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
       <td><code>src/RLyehPSX-qt/displaywidget.cpp</code></td>
       <td>137</td>
       <td>User-visible application name, dialog text, error text, log text, or version label.</td>
@@ -276,22 +268,6 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
       <td><code>DuckStation</code></td>
       <td><code>src/RLyehPSX-qt/mainwindow.cpp</code></td>
       <td>2891</td>
-      <td>User-visible application name, dialog text, error text, log text, or version label.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/qtprogresscallback.cpp</code></td>
-      <td>17</td>
-      <td>User-visible application name, dialog text, error text, log text, or version label.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/settingswindow.cpp</code></td>
-      <td>93, 135, 162, 288, 306, 314, 327</td>
       <td>User-visible application name, dialog text, error text, log text, or version label.</td>
       <td>Low</td>
     </tr>
@@ -322,56 +298,8 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
     <tr>
       <td>Safe Rename</td>
       <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/aboutdialog.ui</code></td>
-      <td>14, 101</td>
-      <td>User-facing Qt or desktop-entry label/reference using DuckStation branding.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Safe Rename</td>
-      <td><code>DuckStation</code></td>
       <td><code>src/RLyehPSX-qt/achievementlogindialog.ui</code></td>
       <td>69</td>
-      <td>User-facing Qt or desktop-entry label/reference using DuckStation branding.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Safe Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/biossettingswidget.ui</code></td>
-      <td>126</td>
-      <td>User-facing Qt or desktop-entry label/reference using DuckStation branding.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Safe Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/controllersettingswindow.ui</code></td>
-      <td>20</td>
-      <td>User-facing Qt or desktop-entry label/reference using DuckStation branding.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Safe Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/coverdownloaddialog.ui</code></td>
-      <td>38</td>
-      <td>User-facing Qt or desktop-entry label/reference using DuckStation branding.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Safe Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/mainwindow.ui</code></td>
-      <td>17, 481</td>
-      <td>User-facing Qt or desktop-entry label/reference using DuckStation branding.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Safe Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/settingswindow.ui</code></td>
-      <td>20</td>
       <td>User-facing Qt or desktop-entry label/reference using DuckStation branding.</td>
       <td>Low</td>
     </tr>
