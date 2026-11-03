@@ -1,4 +1,3 @@
-// 2026/08/09 - Modified by R'Lyeh PSX contributors.
 // SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/psychocodermonkey/RLyehPSX>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
 // SPDX-License-Identifier: GPL-3.0-only
@@ -354,7 +353,7 @@ bool System::Internal::PerformEarlyHardwareChecks(Error* error)
   if (!cpuinfo_has_x86_sse4_1())
   {
     Error::SetStringFmt(error, "Your CPU does not support the SSE4.1 instruction set.\n"
-                               "A CPU from 2008 or newer is required to run DuckStation.");
+                               "A CPU from 2008 or newer is required to run R'Lyeh PSX.");
     return false;
   }
 #endif
@@ -422,7 +421,7 @@ void System::CheckCacheLineSize()
 
 void System::LogStartupInformation()
 {
-  INFO_LOG("DuckStation Version {} [{}]", g_scm_tag_str, g_scm_branch_str);
+  INFO_LOG("R'Lyeh PSX Version {} [{}]", g_scm_tag_str, g_scm_branch_str);
   INFO_LOG("SCM Timestamp: {}", g_scm_date_str);
   INFO_LOG("Build Timestamp: {} {}", __DATE__, __TIME__);
   if (const cpuinfo_package* package = cpuinfo_get_package(0)) [[likely]]

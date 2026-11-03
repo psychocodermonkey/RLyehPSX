@@ -2889,10 +2889,10 @@ void MainWindow::checkForUpdates(bool display_message)
       if (!AutoUpdaterDialog::isOfficialBuild())
       {
         message =
-          tr("<p>Sorry, you are trying to update a DuckStation version which is not an official GitHub release. To "
+          tr("<p>Sorry, you are trying to update a R'Lyeh PSX version which is not an official GitHub release. To "
              "prevent incompatibilities, the auto-updater is only enabled on official builds.</p>"
-             "<p>Please download an official release from from <a "
-             "href=\"https://rlyeh.dev\">duckstation.org</a>.</p>");
+             "<p>Please download an official release from <a "
+             "href=\"https://rlyeh.dev\">RLyeh.Dev</a>.</p>");
       }
       else
       {

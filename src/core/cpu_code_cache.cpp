@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/psychocodermonkey/RLyehPSX>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "bus.h"
 #include "cpu_code_cache_private.h"
@@ -193,7 +194,7 @@ bool CPU::CodeCache::ProcessStartup(Error* error)
   if (!code_buffer_allocated) [[unlikely]]
   {
     Error::SetStringView(error, "Failed to allocate code storage. The log may contain more information, you will need "
-                                "to run DuckStation with -earlyconsole in the command line.");
+                                "to run R'Lyeh PSX with -earlyconsole in the command line.");
     return false;
   }
 

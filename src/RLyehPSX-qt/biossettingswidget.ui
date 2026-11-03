@@ -98,7 +98,7 @@
         <item>
          <widget class="QPushButton" name="openSearchDirectory">
           <property name="text">
-           <string>Open in Explorer...</string>
+           <string>Open Folder...</string>
           </property>
          </widget>
         </item>
