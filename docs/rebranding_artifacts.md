@@ -38,20 +38,20 @@ The DuckStation-specific logos and application icons have been replaced with the
 
 ### After the image pass
 
-Later checkpoints renamed the executable, macOS bundle, supported-build targets, resource bundle, and user-data roots. They also set the macOS app and nested updater bundle IDs to `dev.rlyeh.rlyehpsx` and `dev.rlyeh.rlyehpsx.updater`. Linux Flatpak/application and desktop-entry identifiers, package migration behavior, and third-party UI/service icons remain outside those completed changes.
+Later checkpoints renamed the executable, macOS bundle, supported-build targets, resource bundle, and user-data roots. They also set the macOS app and nested updater bundle IDs to `dev.rlyeh.rlyehpsx` and `dev.rlyeh.rlyehpsx.updater`, and completed the first-run setup/diagnostics UI pass. Linux Flatpak/application and desktop-entry identifiers, package migration behavior, and third-party UI/service icons remain outside those completed changes.
 
 ## Remaining rebranding work gathered from the prior inventory
 
 The remaining work is grouped below. The old `.github` issue templates and workflows are no longer tracked; project-specific release automation will be designed when releases are in scope.
 
 1. **Linux package identity.** Coordinate the desktop entry, AppStream metadata, Flatpak manifest, AppImage packaging, and their references around the proposed `dev.rlyeh.rlyehpsx` ID. A changed Flatpak ID creates a separate application identity.
-2. **User-visible branding and public destinations.** Review remaining Qt/fullscreen/updater strings, About and setup text, package metadata, documentation, issue/help/community links, and the public contact address. Distinguish inherited attribution and dependency URLs from active product branding.
-3. **Compatibility-sensitive identifiers.** Decide separately whether to retain or rename PINE socket/version strings, shared-memory names, RetroAchievements client identity, and external rcheevos keys. Preserve save-state format identifiers unless an explicit compatibility policy calls for a format change. User-data directories have already been renamed without migration from DuckStation.
+2. **User-visible branding and public destinations.** Review remaining Qt/fullscreen/updater strings, package metadata, documentation, issue/help/community links, and the public contact address. Distinguish inherited attribution and dependency URLs from active product branding.
+3. **Compatibility-sensitive identifiers.** The shared HTTP user agent and dormant RetroAchievements client identity are planned to use R'Lyeh PSX in a focused identity checkpoint. Keep PINE socket/version strings, shared-memory names, external rcheevos keys, and save-state format identifiers separate until their compatibility policy is decided. User-data directories have already been renamed without migration from DuckStation.
 4. **Release integration.** The updater's GitHub API URLs now point to `psychocodermonkey/RLyehPSX`, but matching release assets, project-specific Actions, and end-to-end update checks remain deferred. `latest` and `preview` are channel tags; planned Pnakotic public versions are separate.
-5. **Localization and platform deferrals.** CMake now selects only the renamed English project catalog; non-English catalogs were removed while translation support and maintenance helpers were retained. Reintroducing other languages is deferred. Windows build tooling and remaining migration-input project files remain outside the active macOS/Linux path.
+5. **Localization and platform deferrals.** CMake now selects only the renamed English project catalog; non-English catalogs were removed while translation support and maintenance helpers were retained. Reintroducing other languages is deferred. Windows content may be rebranded deliberately, but legacy Visual Studio build tooling and validation remain outside the active macOS/Linux path.
 6. **Attribution review.** Project SPDX headers now use `RLyehPSX`, the repository URL, and `GPL-3.0-only`; the project notice was aligned with GPL v3. Preserve upstream copyright, license, contributor, and lineage material while reviewing remaining third-party notices separately.
 
-The `User-Visible Branding` and `Internal Branding` tables list findings still present in the current files. The `Third-Party Attribution` table remains a preservation inventory. Check historical line numbers against current source before editing.
+The `User-Visible Branding` and `Internal Branding` tables list findings still present in the current files. Windows source/resource and project-file findings remain future branding inputs; do not infer that the legacy Visual Studio build path should be restored or validated. The `Third-Party Attribution` table remains a preservation inventory. Check historical line numbers against current source before editing.
 
 ### Remaining public identity choices
 
@@ -185,27 +185,11 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
     </tr>
     <tr>
       <td>Needs Human Decision</td>
-      <td><code>duckstation</code>, <code>https://www.duckstation.org/discord.html</code>, <code>https://github.com/stenzek/duckstation/blob/master/CONTRIBUTORS.md</code></td>
-      <td><code>src/core/fullscreen_ui.cpp</code></td>
-      <td>7061, 7063</td>
-      <td>User-facing link or service destination requires a confirmed R'Lyeh endpoint or an intentional upstream reference.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Needs Human Decision</td>
       <td><code>duckstation</code>, <code>https://www.duckstation.org/issues.html</code>, <code>https://www.duckstation.org/discord.html</code></td>
       <td><code>src/RLyehPSX-qt/mainwindow.cpp</code></td>
       <td>1411, 1416, 1421, 2894</td>
       <td>User-facing link or service destination requires a confirmed R'Lyeh endpoint or an intentional upstream reference.</td>
       <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>data/resources/chtdb.txt</code></td>
-      <td>2, 11, 276</td>
-      <td>Documentation or package metadata still presents DuckStation as the active product.</td>
-      <td>Low</td>
     </tr>
     <tr>
       <td>Probably Rename</td>
@@ -225,90 +209,10 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
     </tr>
     <tr>
       <td>Probably Rename</td>
-      <td><code>DuckStation</code>, <code>duckstation</code></td>
-      <td><code>src/core/fullscreen_ui.cpp</code></td>
-      <td>1326, 1529, 4534, 5039, 5072, 5077, 5164, 7021, 7027, 7031, 7221, 7353, 7377, 7415, 7517, 7812-7814</td>
-      <td>User-visible application name, dialog text, error text, log text, or version label.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/achievementlogindialog.cpp</code></td>
-      <td>24</td>
-      <td>User-visible application name, dialog text, error text, log text, or version label.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/achievementsettingswidget.cpp</code></td>
-      <td>47, 65, 69</td>
-      <td>User-visible application name, dialog text, error text, log text, or version label.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/cheatmanagerwindow.cpp</code></td>
-      <td>570</td>
-      <td>User-visible application name, dialog text, error text, log text, or version label.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/displaywidget.cpp</code></td>
-      <td>137</td>
-      <td>User-visible application name, dialog text, error text, log text, or version label.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/mainwindow.cpp</code></td>
-      <td>2891</td>
-      <td>User-visible application name, dialog text, error text, log text, or version label.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/setupwizarddialog.cpp</code></td>
-      <td>47, 63, 147-148</td>
-      <td>User-visible application name, dialog text, error text, log text, or version label.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
       <td><code>DuckStation</code></td>
       <td><code>src/RLyehPSX-qt/vcruntimecheck.cpp</code></td>
       <td>84, 89</td>
-      <td>User-visible application name, dialog text, error text, log text, or version label.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Safe Rename</td>
-      <td><code>org.duckstation.DuckStation</code> icon ID</td>
-      <td><code>scripts/org.duckstation.DuckStation.desktop</code></td>
-      <td>6</td>
-      <td>The display name is already R'Lyeh PSX; the desktop icon ID still follows the old package identity.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Safe Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/achievementlogindialog.ui</code></td>
-      <td>69</td>
-      <td>User-facing Qt or desktop-entry label/reference using DuckStation branding.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Safe Rename</td>
-      <td><code>DuckStation</code>, <code>https://github.com/stenzek/duckstation#downloading-and-running</code></td>
-      <td><code>src/RLyehPSX-qt/setupwizarddialog.ui</code></td>
-      <td>14, 50, 136, 292, 402, 567</td>
-      <td>User-facing Qt or desktop-entry label/reference using DuckStation branding.</td>
+      <td>Windows-only runtime prompt. Rebrand it when editing Windows source content, without restoring or validating the legacy Visual Studio build path.</td>
       <td>Low</td>
     </tr>
   </tbody>
@@ -387,11 +291,19 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
       <td>High</td>
     </tr>
     <tr>
-      <td>Needs Human Decision</td>
+      <td>Probably Rename</td>
+      <td><code>DuckStation for &lt;platform&gt; (&lt;architecture&gt;) &lt;version&gt;</code></td>
+      <td><code>src/core/host.cpp</code></td>
+      <td>268</td>
+      <td>Shared outbound HTTP user agent used by updater, game metadata, and RetroAchievements requests. Rebrand with the dormant RetroAchievements client identity; service integration and approval remain separate work.</td>
+      <td>High</td>
+    </tr>
+    <tr>
+      <td>Probably Rename</td>
       <td><code>DuckStation</code></td>
       <td><code>src/core/achievements.cpp</code></td>
-      <td>3323</td>
-      <td>Runtime, IPC, service, log, updater, or external-integration identifier with compatibility or migration implications.</td>
+      <td>3322-3323</td>
+      <td>Dormant RetroAchievements client identity and user-agent detail. Rebrand for R'Lyeh PSX; the integration is build-disabled pending its library refresh and future approval submission.</td>
       <td>High</td>
     </tr>
     <tr>
@@ -456,14 +368,6 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
       <td><code>scripts/run_regression_tests.py</code></td>
       <td>62</td>
       <td>Project, target, executable, resource, package, workflow, or release-artifact name.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/core/system.cpp</code></td>
-      <td>357, 425</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
       <td>Medium</td>
     </tr>
     <tr>
@@ -800,6 +704,14 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
       <td><code>src/core/cheats.cpp</code></td>
       <td>231</td>
       <td>Internal comment or marker contains the legacy product name.</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td>Safe Rename</td>
+      <td><code>DuckStation</code></td>
+      <td><code>src/RLyehPSX-qt/displaywidget.cpp</code></td>
+      <td>137</td>
+      <td>Internal fullscreen-close behavior comment; no user-visible text remains.</td>
       <td>Low</td>
     </tr>
     <tr>
