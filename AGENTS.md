@@ -80,10 +80,10 @@ Only run builds when explicitly asked to test or build.
    - After a successful build, force codesigning to ensure the application can launch:
 
      ```sh
-     codesign --force --deep --sign - build/debug-mac/bin/DuckStation.app
+     codesign --force --deep --sign - build/debug-mac/bin/RLyehPSX.app
      ```
 
-   - For a release build, sign `build/release-mac/bin/DuckStation.app`.
+   - For a release build, sign `build/release-mac/bin/RLyehPSX.app`.
 
 ### Linux build
 
