@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/psychocodermonkey/RLyehPSX>
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-License-Identifier: GPL-3.0-only
 //
 
