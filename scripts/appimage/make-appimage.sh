@@ -25,7 +25,9 @@
 #
 # For more information, please refer to <http://unlicense.org/>
 
-SCRIPTDIR=$(dirname "${BASH_SOURCE[0]}")
+set -e
+
+SCRIPTDIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 
 function retry_command {
   # Package servers tend to be unreliable at times..
@@ -46,10 +48,18 @@ if [ "$#" -ne 4 ]; then
     exit 1
 fi
 
-ROOTDIR=$1
-BUILDDIR=$2
-DEPSDIR=$3
+ROOTDIR=$(realpath "$1")
+BUILDDIR=$(realpath "$2")
+DEPSDIR=$(realpath "$3")
 NAME=$4
+
+if [[ -z "$NAME" || "$NAME" == */* ]]; then
+	echo "Output name must be a filename without a path."
+	exit 1
+fi
+
+mkdir -p "$ROOTDIR/build/appimage"
+cd "$ROOTDIR/build/appimage"
 
 BINARY=RLyehPSX-qt
 APPDIRNAME=RLyehPSX.AppDir
@@ -76,8 +86,6 @@ declare -a REMOVE_LIBS=(
 	'libwayland-cursor.so*'
 	'libwayland-egl.so*'
 )
-
-set -e
 
 LINUXDEPLOY=./linuxdeploy-x86_64
 LINUXDEPLOY_PLUGIN_QT=./linuxdeploy-plugin-qt-x86_64
@@ -211,5 +219,6 @@ for hookpath in "$SCRIPTDIR/apprun-hooks"/*; do
 done
 
 echo "Generating AppImage..."
+chmod -R a+rX "$OUTDIR"
 rm -f "$NAME.AppImage"
 "$APPIMAGETOOL" -v --runtime-file "$APPIMAGERUNTIME" "$OUTDIR" "$NAME.AppImage"
