@@ -1,15 +1,9 @@
-app-id: "org.duckstation.DuckStation"
+app-id: "dev.rlyeh.rlyehpsx"
 runtime: "org.kde.Platform"
-runtime-version: "6.7"
+runtime-version: "6.11"
 sdk: "org.kde.Sdk"
 sdk-extensions:
-  - "org.freedesktop.Sdk.Extension.llvm17"
-add-extensions:
-  "org.freedesktop.Platform.ffmpeg-full":
-    directory: "lib/ffmpeg"
-    version: "23.08"
-    add-ld-path: "."
-    autodownload: true
+  - "org.freedesktop.Sdk.Extension.llvm21"
 
 command: "RLyehPSX"
 
@@ -27,16 +21,15 @@ finish-args:
 
 modules:
   # Dependencies.
-  - "modules/20-sdl2.yaml"
+  - "modules/20-sdl3.yaml"
   - "modules/21-libbacktrace.yaml"
   - "modules/22-shaderc.yaml"
   - "modules/23-spirv-cross.yaml"
   - "modules/24-cpuinfo.yaml"
-  - "modules/26-soundtouch.yaml"
   - "modules/27-plutosvg.yaml"
 
   # Main module.
-  - name: duckstation
+  - name: rlyehpsx
     buildsystem: cmake-ninja
     builddir: true
     no-make-install: true
@@ -60,8 +53,8 @@ modules:
 
         # Make sure we're using ThinLTO.
         - "-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON"
-        - "-DCMAKE_C_COMPILER=/usr/lib/sdk/llvm17/bin/clang"
-        - "-DCMAKE_CXX_COMPILER=/usr/lib/sdk/llvm17/bin/clang++"
+        - "-DCMAKE_C_COMPILER=/usr/lib/sdk/llvm21/bin/clang"
+        - "-DCMAKE_CXX_COMPILER=/usr/lib/sdk/llvm21/bin/clang++"
         - "-DCMAKE_EXE_LINKER_FLAGS_INIT=-fuse-ld=lld"
         - "-DCMAKE_MODULE_LINKER_FLAGS_INIT=-fuse-ld=lld"
         - "-DCMAKE_SHARED_LINKER_FLAGS_INIT=-fuse-ld=lld"
@@ -77,15 +70,12 @@ modules:
       - >-
         install -Dm644
         "${FLATPAK_BUILDER_BUILDDIR}/scripts/dev.rlyeh.rlyehpsx.png"
-        "${FLATPAK_DEST}/share/icons/hicolor/512x512/apps/org.duckstation.DuckStation.png"
+        "${FLATPAK_DEST}/share/icons/hicolor/512x512/apps/dev.rlyeh.rlyehpsx.png"
       - >-
         install -Dm644
-        "${FLATPAK_BUILDER_BUILDDIR}/scripts/org.duckstation.DuckStation.desktop"
-        "${FLATPAK_DEST}/share/applications/org.duckstation.DuckStation.desktop"
+        "${FLATPAK_BUILDER_BUILDDIR}/scripts/dev.rlyeh.rlyehpsx.desktop"
+        "${FLATPAK_DEST}/share/applications/dev.rlyeh.rlyehpsx.desktop"
       - >-
         install -Dm644
-        "${FLATPAK_BUILDER_BUILDDIR}/scripts/flatpak/org.duckstation.DuckStation.metainfo.xml"
-        "${FLATPAK_DEST}/share/metainfo/org.duckstation.DuckStation.metainfo.xml"
-
-      # Ensure ffmpeg-full mount point exists.
-      - "mkdir -p \"${FLATPAK_DEST}/lib/ffmpeg\""
+        "${FLATPAK_BUILDER_BUILDDIR}/scripts/flatpak/dev.rlyeh.rlyehpsx.metainfo.xml"
+        "${FLATPAK_DEST}/share/metainfo/dev.rlyeh.rlyehpsx.metainfo.xml"
