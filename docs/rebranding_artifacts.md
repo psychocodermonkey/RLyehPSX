@@ -38,20 +38,20 @@ The DuckStation-specific logos and application icons have been replaced with the
 
 ### After the image pass
 
-Later checkpoints renamed the executable, macOS bundle, supported-build targets, resource bundle, and user-data roots. They also set the macOS app and nested updater bundle IDs to `dev.rlyeh.rlyehpsx` and `dev.rlyeh.rlyehpsx.updater`, and completed the first-run setup/diagnostics UI pass. Linux Flatpak/application and desktop-entry identifiers, package migration behavior, and third-party UI/service icons remain outside those completed changes.
+Later checkpoints renamed the executable, macOS bundle, supported-build targets, resource bundle, and user-data roots. They also set the macOS app and nested updater bundle IDs to `dev.rlyeh.rlyehpsx` and `dev.rlyeh.rlyehpsx.updater`, completed the first-run setup/diagnostics UI pass, and updated the shared HTTP user agent and dormant RetroAchievements client name. A subsequent branding pass updated runtime labels, updater presentation, and project notices. The Unix PINE socket now uses `rlyehpsx.sock` (with the existing slot suffix), its version response says R'Lyeh PSX, and exported shared memory uses the `rlyehpsx` prefix. The save-state magic now identifies `RLYH` files; the data-format version remains 71. Controller and icon SVGs now use `RLyehPSX` IDs and R'Lyeh PSX editor labels without changing their artwork. These identities intentionally do not retain DuckStation compatibility aliases. Linux Flatpak/application and desktop-entry identifiers, package migration behavior, and third-party UI/service icons remain outside those completed changes.
 
 ## Remaining rebranding work gathered from the prior inventory
 
 The remaining work is grouped below. The old `.github` issue templates and workflows are no longer tracked; project-specific release automation will be designed when releases are in scope.
 
-1. **Linux package identity.** Coordinate the desktop entry, AppStream metadata, Flatpak manifest, AppImage packaging, and their references around the proposed `dev.rlyeh.rlyehpsx` ID. A changed Flatpak ID creates a separate application identity.
-2. **User-visible branding and public destinations.** Review remaining Qt/fullscreen/updater strings, package metadata, documentation, issue/help/community links, and the public contact address. Distinguish inherited attribution and dependency URLs from active product branding.
-3. **Compatibility-sensitive identifiers.** The shared HTTP user agent and dormant RetroAchievements client identity are planned to use R'Lyeh PSX in a focused identity checkpoint. Keep PINE socket/version strings, shared-memory names, external rcheevos keys, and save-state format identifiers separate until their compatibility policy is decided. User-data directories have already been renamed without migration from DuckStation.
+1. **Linux package identity.** Coordinate the desktop entry, AppStream metadata, Flatpak manifest, AppImage packaging, and their references around the proposed `dev.rlyeh.rlyehpsx` ID when Flatpak creation is in scope. A changed Flatpak ID creates a separate application identity.
+2. **User-visible branding and public destinations.** Review remaining package metadata, documentation, and public contact information. The Qt issue and Discord actions now point to `rlyeh.dev/issues.html` and `rlyeh.dev/discord.html`; create those pages before release. Use `psychocodermonkey@rlyeh.dev` for public-facing contact and `andrew.dixon@rlyeh.dev` for developer/source contact. The README, other repository documentation, and the stale macOS codesign paths in `AGENTS.md` are deferred to a documentation pass. Distinguish inherited attribution and dependency URLs from active product branding.
+3. **Compatibility-sensitive identifiers.** PINE socket/version strings, exported shared memory, and save-state magic now use R'Lyeh PSX identity; external clients and old save states using inherited identifiers will not be accepted under the new names. Save-state version 71 and header layout remain unchanged; future format additions are separate work. The DuckStation-named Libretro core entry in vendored rcheevos is upstream data, not this emulator's identity. User-data directories have already been renamed without migration from DuckStation. The RetroAchievements library refresh and client approval remain later work.
 4. **Release integration.** The updater's GitHub API URLs now point to `psychocodermonkey/RLyehPSX`, but matching release assets, project-specific Actions, and end-to-end update checks remain deferred. `latest` and `preview` are channel tags; planned Pnakotic public versions are separate.
-5. **Localization and platform deferrals.** CMake now selects only the renamed English project catalog; non-English catalogs were removed while translation support and maintenance helpers were retained. Reintroducing other languages is deferred. Windows content may be rebranded deliberately, but legacy Visual Studio build tooling and validation remain outside the active macOS/Linux path.
-6. **Attribution review.** Project SPDX headers now use `RLyehPSX`, the repository URL, and `GPL-3.0-only`; the project notice was aligned with GPL v3. Preserve upstream copyright, license, contributor, and lineage material while reviewing remaining third-party notices separately.
+5. **Localization and platform deferrals.** CMake now selects only the renamed English project catalog; non-English catalogs were removed while translation support and maintenance helpers were retained. Reintroducing other languages is deferred. Windows display strings and updater identity have been rebranded, but legacy Visual Studio build tooling and validation remain outside the active macOS/Linux path. The existing CMake warning about MSBuild was left in place by decision pending the Windows toolchain pass.
+6. **Attribution review.** Touched project SPDX headers now name Andrew Dixon and use `GPL-3.0-only`; the project notice was aligned with GPL v3. Preserve upstream copyright, license, contributor, and lineage material while reviewing remaining third-party notices separately.
 
-The `User-Visible Branding` and `Internal Branding` tables list findings still present in the current files. Windows source/resource and project-file findings remain future branding inputs; do not infer that the legacy Visual Studio build path should be restored or validated. The `Third-Party Attribution` table remains a preservation inventory. Check historical line numbers against current source before editing.
+The `User-Visible Branding` and `Internal Branding` tables list findings still present in the current files. Remaining Windows source/resource and project-file findings are future branding inputs; do not infer that the legacy Visual Studio build path should be restored or validated. The `Third-Party Attribution` table remains a preservation inventory. Check historical line numbers against current source before editing.
 
 ### Remaining public identity choices
 
@@ -59,8 +59,14 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
 |---|---|---|
 | Linux Flatpak/AppID | `org.duckstation.DuckStation` | `dev.rlyeh.rlyehpsx` |
 | Linux desktop/AppStream ID | `org.duckstation.DuckStation` | Coordinate with the Flatpak ID |
-| Public contact | Inherited upstream addresses in package metadata | Confirm a R'Lyeh PSX address before publishing |
-| Windows product metadata | Remaining upstream values | Deferred with Windows tooling |
+| Public contact in package metadata | Inherited upstream addresses | `psychocodermonkey@rlyeh.dev` when package metadata is updated |
+| Windows main executable copyright display | Single-line Andrew Dixon notice | Review separately when Windows validation is in scope |
+
+### Project-level copyright presentation
+
+The opening project notice in `data/resources/thirdparty.html` and the macOS main-app `NSHumanReadableCopyright` now put `Copyright (C) 2026-2027 R'Lyeh PSX - Andrew Dixon <andrew.dixon@rlyeh.dev>` before the preserved `Copyright (C) 2019-2024 Connor McLaughlin <stenzek@gmail.com>` line. The macOS plist encodes the line break as `&#10;`. The separate third-party license notices remain intact.
+
+The macOS updater `NSHumanReadableCopyright` intentionally retains `Licensed under GPL version 3`. The Windows updater `LegalCopyright` retains its existing Stenzek-and-collaborators line and adds a R'Lyeh PSX/Andrew Dixon line above it. The Windows main executable still has a single-line Andrew Dixon notice. Check platform rendering when the corresponding builds are in scope; Windows build validation remains deferred.
 
 ### High-risk non-legal decision points
 
@@ -119,36 +125,6 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
       <td>N/A (filename/path)</td>
       <td>Branded package/application filename; coordinate its rename with every build, resource, and packaging reference.</td>
     </tr>
-    <tr>
-      <td><code>DuckStation</code></td>
-      <td><code>src/core/achievements.cpp</code></td>
-      <td>3323</td>
-      <td>Runtime, IPC, service, log, updater, or external-integration identifier with compatibility or migration implications.</td>
-    </tr>
-    <tr>
-      <td><code>duckstation</code></td>
-      <td><code>src/core/bus.cpp</code></td>
-      <td>205</td>
-      <td>Runtime, IPC, service, log, updater, or external-integration identifier with compatibility or migration implications.</td>
-    </tr>
-    <tr>
-      <td><code>duckstation</code>, <code>DuckStation</code></td>
-      <td><code>src/core/pine_server.cpp</code></td>
-      <td>143, 145, 448</td>
-      <td>Runtime, IPC, service, log, updater, or external-integration identifier with compatibility or migration implications.</td>
-    </tr>
-    <tr>
-      <td><code>SAVE_STATE_MAGIC = 0x43435544</code>, <code>SAVE_STATE_VERSION = 71</code>, <code>SAVE_STATE_HEADER</code></td>
-      <td><code>src/core/save_state_version.h</code></td>
-      <td>8-10, 15-52</td>
-      <td>Save-state magic and version constants define the inherited on-disk serialization format; changing them would break compatibility with existing states.</td>
-    </tr>
-    <tr>
-      <td><code>duckstation</code>, <code>DuckStation</code></td>
-      <td><code>dep/rcheevos/src/rc_libretro.c</code></td>
-      <td>59-60, 159</td>
-      <td>External rcheevos compatibility table keyed to DuckStation settings; renaming would change third-party behavior.</td>
-    </tr>
   </tbody>
 </table>
 </div>
@@ -156,9 +132,9 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
 ## Negative findings
 
 - No C++ namespace, class, or struct declaration named `DuckStation` was found. Most code symbols are neutral subsystem names.
-- No DuckStation-specific telemetry or crash-reporting identifier was found. RetroAchievements is an external integration, not telemetry; its client identity is inventoried below. The remaining Discord item is a community link, not Rich Presence.
+- No DuckStation-specific telemetry or crash-reporting identifier was found. RetroAchievements is an external integration, not telemetry; its client name now uses R'Lyeh PSX. The Discord action is a community link, not Rich Presence.
 - No standalone splash-screen file was found. The active Vaulketh assets serve setup, fullscreen, About, updater, and window-icon surfaces.
-- No printable DuckStation string is stored in save states, but the inherited magic/version/header constants are compatibility-sensitive serialization identifiers.
+- No printable DuckStation string is stored in save states. The magic is now `RLYH`; version 71 and the header layout remain unchanged.
 
 ## User-Visible Branding
 
@@ -184,14 +160,6 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
       <td>Medium</td>
     </tr>
     <tr>
-      <td>Needs Human Decision</td>
-      <td><code>duckstation</code>, <code>https://www.duckstation.org/issues.html</code>, <code>https://www.duckstation.org/discord.html</code></td>
-      <td><code>src/RLyehPSX-qt/mainwindow.cpp</code></td>
-      <td>1411, 1416, 1421, 2894</td>
-      <td>User-facing link or service destination requires a confirmed R'Lyeh endpoint or an intentional upstream reference.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
       <td>Probably Rename</td>
       <td><code>org.duckstation</code>, <code>DuckStation</code></td>
       <td><code>scripts/generate-metainfo.sh</code></td>
@@ -205,14 +173,6 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
       <td><code>scripts/org.duckstation.DuckStation.metainfo.xml.in</code></td>
       <td>3-4, 7, 11</td>
       <td>Documentation or package metadata still presents DuckStation as the active product.</td>
-      <td>Low</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/vcruntimecheck.cpp</code></td>
-      <td>84, 89</td>
-      <td>Windows-only runtime prompt. Rebrand it when editing Windows source content, without restoring or validating the legacy Visual Studio build path.</td>
       <td>Low</td>
     </tr>
   </tbody>
@@ -292,62 +252,6 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
     </tr>
     <tr>
       <td>Probably Rename</td>
-      <td><code>DuckStation for &lt;platform&gt; (&lt;architecture&gt;) &lt;version&gt;</code></td>
-      <td><code>src/core/host.cpp</code></td>
-      <td>268</td>
-      <td>Shared outbound HTTP user agent used by updater, game metadata, and RetroAchievements requests. Rebrand with the dormant RetroAchievements client identity; service integration and approval remain separate work.</td>
-      <td>High</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/core/achievements.cpp</code></td>
-      <td>3322-3323</td>
-      <td>Dormant RetroAchievements client identity and user-agent detail. Rebrand for R'Lyeh PSX; the integration is build-disabled pending its library refresh and future approval submission.</td>
-      <td>High</td>
-    </tr>
-    <tr>
-      <td>Needs Human Decision</td>
-      <td><code>duckstation</code></td>
-      <td><code>src/core/bus.cpp</code></td>
-      <td>205</td>
-      <td>Runtime, IPC, service, log, updater, or external-integration identifier with compatibility or migration implications.</td>
-      <td>High</td>
-    </tr>
-    <tr>
-      <td>Needs Human Decision</td>
-      <td><code>duckstation</code>, <code>DuckStation</code></td>
-      <td><code>src/core/pine_server.cpp</code></td>
-      <td>143, 145, 448</td>
-      <td>Runtime, IPC, service, log, updater, or external-integration identifier with compatibility or migration implications.</td>
-      <td>High</td>
-    </tr>
-    <tr>
-      <td>Needs Human Decision</td>
-      <td><code>SAVE_STATE_MAGIC = 0x43435544</code>, <code>SAVE_STATE_VERSION = 71</code>, <code>SAVE_STATE_HEADER</code></td>
-      <td><code>src/core/save_state_version.h</code></td>
-      <td>8-10, 15-52</td>
-      <td>Save-state magic and version constants define the inherited on-disk serialization format; changing them would break compatibility with existing states.</td>
-      <td>High</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>CMakeModules/RLyehPSXBuildSummary.cmake</code></td>
-      <td>28, 36, 38, 46, 48</td>
-      <td>Project, target, executable, resource, package, workflow, or release-artifact name.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>scripts/appimage/apprun-hooks/default-to-x11.sh</code></td>
-      <td>3</td>
-      <td>Project, target, executable, resource, package, workflow, or release-artifact name.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
       <td><code>duckstation</code>, <code>DuckStation</code>, <code>https://github.com/stenzek/duckstation-ext-qt-minimal/releases/download/linux/linuxdeploy-x86_64.AppImage</code>, <code>https://github.com/stenzek/duckstation-ext-qt-minimal/releases/download/linux/linuxdeploy-plugin-qt-x86_64.AppImage</code></td>
       <td><code>scripts/appimage/make-appimage.sh</code></td>
       <td>45, 54-55, 89, 94, 146</td>
@@ -359,14 +263,6 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
       <td><code>duckstation</code></td>
       <td><code>scripts/flatpak/org.duckstation.DuckStation.yaml</code></td>
       <td>14, 40</td>
-      <td>Project, target, executable, resource, package, workflow, or release-artifact name.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>scripts/run_regression_tests.py</code></td>
-      <td>62</td>
       <td>Project, target, executable, resource, package, workflow, or release-artifact name.</td>
       <td>Medium</td>
     </tr>
@@ -412,174 +308,6 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
     </tr>
     <tr>
       <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/controllers/analog_controller.svg</code></td>
-      <td>179-180</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/controllers/analog_joystick.svg</code></td>
-      <td>3</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/controllers/digital_controller.svg</code></td>
-      <td>111-112</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/controllers/guncon.svg</code></td>
-      <td>324-325</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/controllers/justifier.svg</code></td>
-      <td>2</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/controllers/mouse.svg</code></td>
-      <td>3</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/controllers/negcon.svg</code></td>
-      <td>3</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/icons/black/svg/controller-digital-line.svg</code></td>
-      <td>1</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/icons/black/svg/controller-strike-line.svg</code></td>
-      <td>1</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/icons/black/svg/emulation-line.svg</code></td>
-      <td>3</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/icons/black/svg/joystick-line.svg</code></td>
-      <td>3</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/icons/black/svg/negcon-line.svg</code></td>
-      <td>3</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/icons/black/svg/sparkle-fill.svg</code></td>
-      <td>1</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/icons/black/svg/sun-fill.svg</code></td>
-      <td>1</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/icons/white/svg/controller-digital-line.svg</code></td>
-      <td>1</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/icons/white/svg/controller-strike-line.svg</code></td>
-      <td>1</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/icons/white/svg/emulation-line.svg</code></td>
-      <td>3</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/icons/white/svg/joystick-line.svg</code></td>
-      <td>1</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/icons/white/svg/negcon-line.svg</code></td>
-      <td>1</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/icons/white/svg/sparkle-fill.svg</code></td>
-      <td>1</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>Duckstation</code></td>
-      <td><code>src/RLyehPSX-qt/resources/icons/white/svg/sun-fill.svg</code></td>
-      <td>3</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
       <td><code>src/RLyehPSX-regtest/duckstation-regtest.vcxproj</code></td>
       <td><code>src/RLyehPSX-regtest/duckstation-regtest.vcxproj</code></td>
       <td>N/A (filename/path)</td>
@@ -612,26 +340,10 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
     </tr>
     <tr>
       <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/updater/updater.cpp</code></td>
-      <td>38</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>stenzek</code>, <code>duckstation</code>, <code>DuckStation</code></td>
-      <td><code>src/updater/updater.manifest</code></td>
-      <td>6, 9</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>github.com/psychocodermonkey</code>, <code>duckstation</code>, <code>https://github.com/psychocodermonkey/RLyehPSX</code>, <code>DuckStation</code></td>
+      <td><code>..\duckstation-qt\rlyehpsx-qt.ico</code></td>
       <td><code>src/updater/updater.rc</code></td>
-      <td>70-71, 76</td>
-      <td>Project, target, executable, resource, package, workflow, or release-artifact name.</td>
+      <td>94</td>
+      <td>Legacy source-directory path remains in the icon resource reference; coordinate with the deferred Windows toolchain work.</td>
       <td>Medium</td>
     </tr>
     <tr>
@@ -649,46 +361,6 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
       <td>7</td>
       <td>Project, target, executable, resource, package, workflow, or release-artifact name.</td>
       <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/util/cubeb_audio_stream.cpp</code></td>
-      <td>112, 302</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/util/media_capture.cpp</code></td>
-      <td>2002</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/util/platform_misc_unix.cpp</code></td>
-      <td>108</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Probably Rename</td>
-      <td><code>DuckStation</code></td>
-      <td><code>src/util/vulkan_device.cpp</code></td>
-      <td>168, 170</td>
-      <td>Internal application, subsystem, resource, log, or diagnostic identity still uses DuckStation branding.</td>
-      <td>Medium</td>
-    </tr>
-    <tr>
-      <td>Leave Alone</td>
-      <td><code>https://github.com/stenzek/duckstation/tree/master/scripts/deps</code></td>
-      <td><code>data/resources/thirdparty.html</code></td>
-      <td>1575</td>
-      <td>Inherited FFmpeg build-source attribution; review separately from active product links.</td>
-      <td>High</td>
     </tr>
     <tr>
       <td>Safe Rename</td>
@@ -727,7 +399,7 @@ The `User-Visible Branding` and `Internal Branding` tables list findings still p
       <td><code>duckstation</code>, <code>DuckStation</code></td>
       <td><code>dep/rcheevos/src/rc_libretro.c</code></td>
       <td>59-60, 159</td>
-      <td>External rcheevos compatibility table keyed to DuckStation settings; renaming would change third-party behavior.</td>
+      <td>Upstream rcheevos data for the DuckStation Libretro core, not R'Lyeh PSX product identity.</td>
       <td>High</td>
     </tr>
   </tbody>
@@ -886,5 +558,5 @@ The former DuckStation image files and their source/build references have been r
 - `README.md`, `CONTRIBUTORS.md`, `RESPECT.md`, and portions of `STATE.md` intentionally describe project lineage. Those upstream names are attribution, not stale active-product branding.
 - Some AppImage, Flatpak, and deferred Windows dependency files still name upstream download sources. Review those URLs alongside the relevant package versions and hashes before changing them.
 - If other languages are reintroduced, review source text before regenerating catalogs; blind replacement risks stale or invalid translation metadata.
-- External identifiers may be owned outside this repository. The macOS bundle IDs and updater GitHub API source have been updated; Linux package listing, update assets, community links, and support endpoints still need decisions before publication.
-- The save-state magic `0x43435544` and current version `71` should not be changed merely for branding. Any format-identity change needs an explicit backward-compatibility and migration policy.
+- External identifiers may be owned outside this repository. The macOS bundle IDs, Windows updater manifest identity, and updater GitHub API source have been updated. Linux package identity is deferred to Flatpak creation; update assets and support endpoints still need decisions before publication. The issue and Discord actions point to planned pages on `rlyeh.dev` that do not yet exist.
+- Save states now use the `RLYH` magic (`0x48594C52`) and do not accept states with the inherited magic. Version `71` and the header layout remain unchanged; any future header expansion should be handled as a separate format revision.
