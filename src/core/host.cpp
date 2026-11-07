@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/psychocodermonkey/RLyehPSX>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR PolyForm-Strict-1.0.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "host.h"
 #include "fullscreen_ui.h"
@@ -265,7 +266,7 @@ void Host::Internal::SetInputSettingsLayer(SettingsInterface* sif, std::unique_l
 
 std::string Host::GetHTTPUserAgent()
 {
-  return fmt::format("DuckStation for {} ({}) {}", TARGET_OS_STR, CPU_ARCH_STR, g_scm_tag_str);
+  return fmt::format("R'Lyeh PSX for {} ({}) {}", TARGET_OS_STR, CPU_ARCH_STR, g_scm_tag_str);
 }
 
 bool Host::CreateGPUDevice(RenderAPI api, Error* error)
