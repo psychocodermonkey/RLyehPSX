@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 RLyehPSX <https://github.com/psychocodermonkey/RLyehPSX>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "common/windows_headers.h"
 #include <shellapi.h>
@@ -81,12 +82,12 @@ struct VCRuntimeCheckObject
     char message[512];
     const auto fmt_result =
       fmt::format_to_n(message, sizeof(message),
-                       "Your Microsoft Visual C++ Runtime appears to be too old for this build of DuckStation.\n\n"
+                       "Your Microsoft Visual C++ Runtime appears to be too old for this build of R'Lyeh PSX.\n\n"
                        "Your version: {}.{}.{}.{}\n"
                        "Required version: {}.{}.{}.{}\n\n"
                        "You can download the latest version from {}.\n\n"
                        "Do you want to exit and download this version now?\n"
-                       "If you select No, DuckStation will likely crash.",
+                       "If you select No, R'Lyeh PSX will likely crash.",
                        VERSION64_PART(version, 0), VERSION64_PART(version, 1), VERSION64_PART(version, 2),
                        VERSION64_PART(version, 3), VERSION64_PART(MIN_VERSION, 0), VERSION64_PART(MIN_VERSION, 1),
                        VERSION64_PART(MIN_VERSION, 2), VERSION64_PART(MIN_VERSION, 3), DOWNLOAD_URL);

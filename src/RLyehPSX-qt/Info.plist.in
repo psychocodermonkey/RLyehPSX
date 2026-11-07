@@ -40,7 +40,7 @@
     <key>CFBundleVersionString</key>
     <string>${SCM_VERSION}</string>
     <key>NSHumanReadableCopyright</key>
-    <string>2026-2027 Andrew Dixon &lt;andrew.dixon@rlyeh.dev&gt;</string>
+    <string>Copyright (C) 2026-2027 R'Lyeh PSX - Andrew Dixon &lt;andrew.dixon@rlyeh.dev&gt;&#10;Copyright (C) 2019-2024 Connor McLaughlin &lt;stenzek@gmail.com&gt;</string>
     <key>LSMinimumSystemVersion</key>
     <string>${CMAKE_OSX_DEPLOYMENT_TARGET}</string>
     <key>LSApplicationCategoryType</key>

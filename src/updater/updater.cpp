@@ -35,7 +35,7 @@
 
 Updater::Updater(ProgressCallback* progress) : m_progress(progress)
 {
-  progress->SetTitle("DuckStation Update Installer");
+  progress->SetTitle("R'Lyeh PSX Update Installer");
 }
 
 Updater::~Updater()

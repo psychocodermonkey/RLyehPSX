@@ -1414,12 +1414,12 @@ void MainWindow::onGitHubRepositoryActionTriggered()
 
 void MainWindow::onIssueTrackerActionTriggered()
 {
-  QtUtils::OpenURL(this, "https://www.duckstation.org/issues.html");
+  QtUtils::OpenURL(this, "https://rlyeh.dev/issues.html");
 }
 
 void MainWindow::onDiscordServerActionTriggered()
 {
-  QtUtils::OpenURL(this, "https://www.duckstation.org/discord.html");
+  QtUtils::OpenURL(this, "https://rlyeh.dev/discord.html");
 }
 
 void MainWindow::onAboutActionTriggered()
