@@ -8,6 +8,13 @@ These notes are for the planned cross-platform build documentation. They are not
 - Before running `flatpak-builder` from a fresh checkout, generate the AppStream file with `./scripts/generate-metainfo.sh scripts/flatpak` from the repository root. The manifest installs `scripts/flatpak/dev.rlyeh.rlyehpsx.metainfo.xml`, which is generated from `scripts/dev.rlyeh.rlyehpsx.metainfo.xml.in` and ignored by Git.
 - The generator uses `git describe` for the release version. When no usable tag exists, it prints a Git error and falls back to the current commit hash; generation still completes.
 - The build host needs `flatpak`, `flatpak-builder`, a Flathub remote, and the manifest's matching KDE runtime, SDK, and LLVM extension. The host's Clang version does not select the compiler inside the Flatpak SDK.
+- Install the current manifest's runtime and SDK prerequisites for the build user with:
+
+  ```sh
+  flatpak install --user flathub org.kde.Platform//6.11 org.kde.Sdk//6.11 org.freedesktop.Sdk.Extension.llvm21//25.08
+  ```
+
+  This installs build prerequisites on the host. It does not publish R'Lyeh PSX or create a distributable Flatpak; building and exporting a `.flatpak` bundle are separate steps.
 - A headless host can build and inspect the Flatpak, but graphical launch testing needs a desktop session.
 
 ## AppImage
