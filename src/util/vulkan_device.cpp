@@ -1,5 +1,4 @@
-// 2026/08/05 - Modified by R'Lyeh PSX contributors.
-// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
 // SPDX-License-Identifier: GPL-3.0-only
 
@@ -166,9 +165,9 @@ VkInstance VulkanDevice::CreateVulkanInstance(const WindowInfo& wi, OptionalExte
   VkApplicationInfo app_info = {};
   app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
   app_info.pNext = nullptr;
-  app_info.pApplicationName = "DuckStation";
+  app_info.pApplicationName = "R'Lyeh PSX";
   app_info.applicationVersion = VK_MAKE_VERSION(0, 1, 0);
-  app_info.pEngineName = "DuckStation";
+  app_info.pEngineName = "R'Lyeh PSX";
   app_info.engineVersion = VK_MAKE_VERSION(0, 1, 0);
   app_info.apiVersion = apiVersion;
 

@@ -11,7 +11,7 @@ if(WIN32)
     win32_main.cpp
     win32_progress_callback.cpp
     win32_progress_callback.h
-    ../duckstation-qt/vcruntimecheck.cpp
+    ../RLyehPSX-qt/vcruntimecheck.cpp
   )
   target_link_libraries(updater PRIVATE "Comctl32.lib")
   set_target_properties(updater PROPERTIES WIN32_EXECUTABLE TRUE)
@@ -34,7 +34,7 @@ if(APPLE)
       MACOSX_BUNDLE true
       MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in
       OUTPUT_NAME Updater
-      RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/DuckStation.app/Contents/Resources
+      RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/RLyehPSX.app/Contents/Resources
     )
 
     # Copy icon into the bundle

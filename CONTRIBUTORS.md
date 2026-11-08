@@ -6,7 +6,7 @@ R'Lyeh PSX is still early in its life as an independent fork. As new contributor
 
 ## Current Project
 
-- PsychoCoderMonkey
+- Andrew Dixon (psychocodermonkey@rlyeh.dev)
 
 ## Project Lineage
 

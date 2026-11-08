@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2023 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "cocoa_progress_callback.h"
 #include "updater.h"
@@ -54,12 +55,12 @@ int main(int argc, char* argv[])
 
   if (const char* home_dir = getenv("HOME"))
   {
-    static constexpr char log_file[] = "Library/Application Support/DuckStation/updater.log";
+    static constexpr char log_file[] = "Library/Application Support/RLyehPSX/updater.log";
     std::string log_path = Path::Combine(home_dir, log_file);
     Log::SetFileOutputParams(true, log_path.c_str());
   }
 
-  std::string program_to_launch = Path::Combine(destination_directory, "Contents/MacOS/DuckStation");
+  std::string program_to_launch = Path::Combine(destination_directory, "Contents/MacOS/RLyehPSX");
   int result = EXIT_SUCCESS;
 
   std::thread worker([&progress, zip_path = std::move(zip_path),
@@ -114,7 +115,7 @@ int main(int argc, char* argv[])
 
     updater.CleanupStagingDirectory();
     updater.RemoveUpdateZip();
-    
+
     result = EXIT_SUCCESS;
   });
 

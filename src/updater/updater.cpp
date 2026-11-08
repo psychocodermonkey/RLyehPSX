@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "updater.h"
 
@@ -34,7 +35,7 @@
 
 Updater::Updater(ProgressCallback* progress) : m_progress(progress)
 {
-  progress->SetTitle("DuckStation Update Installer");
+  progress->SetTitle("R'Lyeh PSX Update Installer");
 }
 
 Updater::~Updater()
@@ -213,8 +214,8 @@ bool Updater::ParseZip()
       // skip updater itself, since it was already pre-extracted.
       process_file = process_file && (StringUtil::Strcasecmp(zip_filename_buffer, "updater.exe") != 0);
 #elif defined(__APPLE__)
-      // on MacOS, we want to remove the DuckStation.app prefix.
-      static constexpr const char* PREFIX_PATH = "DuckStation.app/";
+      // on MacOS, we want to remove the RLyehPSX.app prefix.
+      static constexpr const char* PREFIX_PATH = "RLyehPSX.app/";
       const size_t prefix_length = std::strlen(PREFIX_PATH);
       process_file = process_file && (std::strncmp(zip_filename_buffer, PREFIX_PATH, prefix_length) == 0);
       filename_to_add += prefix_length;

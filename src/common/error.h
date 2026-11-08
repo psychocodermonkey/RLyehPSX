@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #pragma once
 
@@ -89,7 +90,7 @@ public:
   static void SetStringFmt(Error* errptr, fmt::format_string<T...> fmt, T&&... args)
   {
     if (errptr)
-      Error::SetString(errptr, fmt::vformat(fmt, fmt::make_format_args(args...)));
+      Error::SetString(errptr, fmt::vformat(fmt.get(), fmt::make_format_args(args...)));
   }
 
   void AddPrefix(std::string_view prefix);
@@ -101,7 +102,7 @@ public:
   void AddPrefixFmt(fmt::format_string<T...> fmt, T&&... args)
   {
     TinyString str;
-    fmt::vformat_to(std::back_inserter(str), fmt, fmt::make_format_args(args...));
+    fmt::vformat_to(std::back_inserter(str), fmt.get(), fmt::make_format_args(args...));
     AddPrefix(str.view());
   }
 
@@ -109,7 +110,7 @@ public:
   void AddSuffixFmt(fmt::format_string<T...> fmt, T&&... args)
   {
     TinyString str;
-    fmt::vformat_to(std::back_inserter(str), fmt, fmt::make_format_args(args...));
+    fmt::vformat_to(std::back_inserter(str), fmt.get(), fmt::make_format_args(args...));
     AddSuffix(str.view());
   }
 
@@ -119,7 +120,7 @@ public:
     if (errptr)
     {
       TinyString str;
-      fmt::vformat_to(std::back_inserter(str), fmt, fmt::make_format_args(args...));
+      fmt::vformat_to(std::back_inserter(str), fmt.get(), fmt::make_format_args(args...));
       errptr->AddPrefix(str.view());
     }
   }
@@ -129,7 +130,7 @@ public:
     if (errptr)
     {
       TinyString str;
-      fmt::vformat_to(std::back_inserter(str), fmt, fmt::make_format_args(args...));
+      fmt::vformat_to(std::back_inserter(str), fmt.get(), fmt::make_format_args(args...));
       errptr->AddSuffix(str.view());
     }
   }

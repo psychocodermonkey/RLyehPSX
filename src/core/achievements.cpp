@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR PolyForm-Strict-1.0.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 // TODO: Don't poll when booting the game, e.g. Crash Warped freaks out.
 
@@ -257,7 +258,7 @@ template<typename... T>
 void Achievements::ReportFmtError(fmt::format_string<T...> fmt, T&&... args)
 {
   TinyString str;
-  fmt::vformat_to(std::back_inserter(str), fmt, fmt::make_format_args(args...));
+  fmt::vformat_to(std::back_inserter(str), fmt.get(), fmt::make_format_args(args...));
   ReportError(str);
 }
 
@@ -265,7 +266,7 @@ template<typename... T>
 void Achievements::ReportRCError(int err, fmt::format_string<T...> fmt, T&&... args)
 {
   TinyString str;
-  fmt::vformat_to(std::back_inserter(str), fmt, fmt::make_format_args(args...));
+  fmt::vformat_to(std::back_inserter(str), fmt.get(), fmt::make_format_args(args...));
   str.append_format("{} ({})", rc_error_str(err), err);
   ReportError(str);
 }
@@ -3317,7 +3318,7 @@ void Achievements::SwitchToRAIntegration()
 
 void Achievements::RAIntegration::InitializeRAIntegration(void* main_window_handle)
 {
-  RA_InitClient((HWND)main_window_handle, "DuckStation", g_scm_tag_str);
+  RA_InitClient((HWND)main_window_handle, "R'Lyeh PSX", g_scm_tag_str);
   RA_SetUserAgentDetail(Host::GetHTTPUserAgent().c_str());
 
   RA_InstallSharedFunctions(RACallbackIsActive, RACallbackCauseUnpause, RACallbackCausePause, RACallbackRebuildMenu,

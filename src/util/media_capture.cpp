@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR PolyForm-Strict-1.0.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "media_capture.h"
 #include "gpu_device.h"
@@ -1999,7 +2000,7 @@ bool MediaCaptureFFmpeg::LoadFFmpeg(Error* error)
     error,
     TRANSLATE_FS(
       "MediaCapture",
-      "You may be missing one or more files, or are using the incorrect version. This build of DuckStation requires:\n"
+      "You may be missing one or more files, or are using the incorrect version. This build of R'Lyeh PSX requires:\n"
       "  libavcodec: {}\n"
       "  libavformat: {}\n"
       "  libavutil: {}\n"

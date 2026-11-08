@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "memmap.h"
 #include "align.h"
@@ -855,7 +856,7 @@ void* MemMap::AllocateJITMemory(size_t size)
   Assert(size <= max_displacement);
 
   // Try to find a region in the max displacement range of the process base address.
-  // Assume that the DuckStation binary will at max be some size, release is currently around 12MB on Windows.
+  // Assume that the RLyehPSX binary will at max be some size, release is currently around 12MB on Windows.
   // Therefore the max offset is +/- 12MB + code_size. Try allocating in steps by incrementing the pointer, then if no
   // address range is found, go backwards from the base address (which will probably fail).
   const u8* min_address =

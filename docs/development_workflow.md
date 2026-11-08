@@ -48,10 +48,10 @@ flowchart BT
 
     integration{"Integration Promotion"}
 
-    feature["feature/*"]
+    feature["feature/*<br/>new user-visible capability<br/><br/>fix/*<br/>correctness or regression fixes<br/><br/>migration/*<br/>dependency, API, platform, or<br/>subsystem transitions<br/><br/>refactor/*<br/>structural cleanup with intended<br/>behavior preservation<br/><br/>maintenance/*<br/>build tooling, CI, packaging,<br/>documentation, or routine dependency<br/>updates that do not constitute a migration"]
 
     subgraph Platforms
-        direction LR
+        direction BT
 
         subgraph Android
             direction BT
@@ -190,31 +190,43 @@ Owns work specific to:
 
 Purpose:
 
-Windows platform integration.
+Future Windows platform integration. Windows builds are intentionally unsupported while the Linux and macOS build paths are stabilized.
 
-Owns work specific to:
+When this work is in scope, it will establish a CMake/Ninja-based Windows toolchain. The legacy Visual Studio solution was intentionally retired and must not be restored or maintained.
 
-- Windows build
-- Visual Studio
+It will own work specific to:
+
+- Windows CMake/Ninja build
 - Installer
 - Windows-specific APIs
 
 ---
 
-## Feature Branches
+## Work Branches
 
-Feature branches are temporary.
+The `feature/*` box in the promotion flowchart represents all temporary, platform-independent work branches. These are collectively the **other** work type.
+
+Use one of these prefixes to make the branch's purpose clear:
+
+- `feature/*` — new user-visible capability
+- `fix/*` — correctness or regression fix
+- `migration/*` — dependency, API, platform, or subsystem transition
+- `refactor/*` — structural cleanup with intended behavior preservation
+- `maintenance/*` — build tooling, CI, packaging, documentation, or routine dependency update that is not a migration
+
+Work branches are temporary.
 
 Examples:
 
 ``` text
-feature/rcheevos-update
-feature/license-audit
 feature/new-memorycard
-feature/cdrom-fixes
+fix/cdrom-read-retry
+migration/sdl3
+refactor/build-noise
+maintenance/license-audit
 ```
 
-Feature branches should be used whenever work is:
+Work branches should be used whenever work is:
 
 - emulator-core
 - platform-independent
@@ -247,7 +259,7 @@ Rules:
 
 ## Promotion Rules
 
-### Feature → Dev
+### Work Branch → Dev
 
 Allowed when:
 
@@ -257,11 +269,11 @@ Allowed when:
 
 Question answered:
 
-> Does this feature work?
+> Does this work change correctly?
 
 ---
 
-### Feature → Platform
+### Work Branch → Platform
 
 Allowed when:
 
@@ -367,7 +379,7 @@ Platform branches do NOT own:
 - Disc subsystem
 - Generic bug fixes
 
-Those belong in feature branches.
+Those belong in work branches.
 
 ---
 
@@ -388,6 +400,10 @@ Temporary:
 
 ``` text
 feature/*
+fix/*
+migration/*
+refactor/*
+maintenance/*
 experiment/*
 hotfix/*
 ```

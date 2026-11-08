@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "system.h"
 #include "achievements.h"
@@ -352,7 +353,7 @@ bool System::Internal::PerformEarlyHardwareChecks(Error* error)
   if (!cpuinfo_has_x86_sse4_1())
   {
     Error::SetStringFmt(error, "Your CPU does not support the SSE4.1 instruction set.\n"
-                               "A CPU from 2008 or newer is required to run DuckStation.");
+                               "A CPU from 2008 or newer is required to run R'Lyeh PSX.");
     return false;
   }
 #endif
@@ -420,7 +421,7 @@ void System::CheckCacheLineSize()
 
 void System::LogStartupInformation()
 {
-  INFO_LOG("DuckStation Version {} [{}]", g_scm_tag_str, g_scm_branch_str);
+  INFO_LOG("R'Lyeh PSX Version {} [{}]", g_scm_tag_str, g_scm_branch_str);
   INFO_LOG("SCM Timestamp: {}", g_scm_date_str);
   INFO_LOG("Build Timestamp: {} {}", __DATE__, __TIME__);
   if (const cpuinfo_package* package = cpuinfo_get_package(0)) [[likely]]
@@ -1242,7 +1243,7 @@ LayeredSettingsInterface System::GetControllerSettingsLayers(std::unique_lock<st
   // Select input profile _or_ game settings, not both.
   if (SettingsInterface* isi = Host::Internal::GetInputSettingsLayer())
   {
-    ret.SetLayer(LayeredSettingsInterface::Layer::LAYER_INPUT, Host::Internal::GetInputSettingsLayer());
+    ret.SetLayer(LayeredSettingsInterface::Layer::LAYER_INPUT, isi);
   }
   else if (SettingsInterface* gsi = Host::Internal::GetGameSettingsLayer();
            gsi && gsi->GetBoolValue("ControllerPorts", "UseGameSettingsForController", false))

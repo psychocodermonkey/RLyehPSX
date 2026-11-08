@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2023 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #pragma once
 
@@ -361,7 +362,7 @@ private:
   id<MTLCommandQueue> m_queue;
 
   CAMetalLayer* m_layer = nil;
-  id<MTLDrawable> m_layer_drawable = nil;
+  id<CAMetalDrawable> m_layer_drawable = nil;
   MTLRenderPassDescriptor* m_layer_pass_desc = nil;
 
   std::mutex m_fence_mutex;

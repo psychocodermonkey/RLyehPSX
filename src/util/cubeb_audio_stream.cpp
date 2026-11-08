@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "host.h"
 #include "imgui_manager.h"
@@ -109,7 +110,7 @@ bool CubebAudioStream::Initialize(const char* driver_name, const char* device_na
   cubeb_set_log_callback(CUBEB_LOG_NORMAL, LogCallback);
 
   int rv =
-    cubeb_init(&m_context, "DuckStation", g_settings.audio_driver.empty() ? nullptr : g_settings.audio_driver.c_str());
+    cubeb_init(&m_context, "R'Lyeh PSX", g_settings.audio_driver.empty() ? nullptr : g_settings.audio_driver.c_str());
   if (rv != CUBEB_OK)
   {
     Error::SetStringFmt(error, "Could not initialize cubeb context: {}", GetCubebErrorString(rv));
@@ -299,7 +300,7 @@ std::vector<AudioStream::DeviceInfo> AudioStream::GetCubebOutputDevices(const ch
   ret.emplace_back(std::string(), TRANSLATE_STR("AudioStream", "Default"), 0);
 
   cubeb* context;
-  int rv = cubeb_init(&context, "DuckStation", (driver && *driver) ? driver : nullptr);
+  int rv = cubeb_init(&context, "R'Lyeh PSX", (driver && *driver) ? driver : nullptr);
   if (rv != CUBEB_OK)
   {
     ERROR_LOG("cubeb_init() failed: {}", GetCubebErrorString(rv));

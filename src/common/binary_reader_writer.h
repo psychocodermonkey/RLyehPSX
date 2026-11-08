@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "types.h"
 
@@ -218,7 +219,7 @@ class BinaryFileReader
 public:
   BinaryFileReader();
   BinaryFileReader(std::FILE* fp);
-  
+
   BinaryFileReader(const BinaryFileReader&) = delete;
   BinaryFileReader& operator=(const BinaryFileReader&) = delete;
 
@@ -272,7 +273,7 @@ public:
   ALWAYS_INLINE BinaryFileReader& operator>>(s64& val) { val = ReadT<s64>(); return *this; }
   ALWAYS_INLINE BinaryFileReader& operator>>(u64& val) { val = ReadT<u64>(); return *this; }
   ALWAYS_INLINE BinaryFileReader& operator>>(float& val) { val = ReadT<float>(); return *this; }
-  ALWAYS_INLINE BinaryFileReader& operator>>(std::string_view& val) { val = ReadCString(); return *this; }
+  ALWAYS_INLINE BinaryFileReader& operator>>(std::string& val) { val = ReadCString(); return *this; }
   // clang-format on
 
   template<typename T>
@@ -309,7 +310,7 @@ class BinaryFileWriter
 public:
   BinaryFileWriter();
   BinaryFileWriter(std::FILE* fp);
-  
+
   BinaryFileWriter(const BinaryFileWriter&) = delete;
   BinaryFileWriter& operator=(const BinaryFileWriter&) = delete;
 

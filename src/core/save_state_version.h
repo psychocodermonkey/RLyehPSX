@@ -1,11 +1,12 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #pragma once
 
 #include "common/types.h"
 
-static constexpr u32 SAVE_STATE_MAGIC = 0x43435544;
+static constexpr u32 SAVE_STATE_MAGIC = 0x48594C52; // "RLYH" in little-endian byte order.
 static constexpr u32 SAVE_STATE_VERSION = 71;
 static constexpr u32 SAVE_STATE_MINIMUM_VERSION = 42;
 
@@ -36,7 +37,7 @@ struct SAVE_STATE_HEADER
   u32 media_path_length;
   u32 offset_to_media_path;
   u32 media_subimage_index;
-  
+
   // Screenshot compression added in version 69.
   // Uncompressed size not stored, it can be inferred from width/height.
   u32 screenshot_compression_type;

@@ -45,3 +45,5 @@ __pycache__
 # other repos
 /android
 
+# Exclude local GitHub configuration
+.github/

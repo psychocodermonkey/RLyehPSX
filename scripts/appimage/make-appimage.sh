@@ -25,7 +25,9 @@
 #
 # For more information, please refer to <http://unlicense.org/>
 
-SCRIPTDIR=$(dirname "${BASH_SOURCE[0]}")
+set -e
+
+SCRIPTDIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 
 function retry_command {
   # Package servers tend to be unreliable at times..
@@ -42,17 +44,25 @@ function retry_command {
 }
 
 if [ "$#" -ne 4 ]; then
-    echo "Syntax: $0 <path to duckstation directory> <path to build directory> <deps prefix> <output name>"
+    echo "Syntax: $0 <path to rlyehpsx directory> <path to build directory> <deps prefix> <output name>"
     exit 1
 fi
 
-ROOTDIR=$1
-BUILDDIR=$2
-DEPSDIR=$3
+ROOTDIR=$(realpath "$1")
+BUILDDIR=$(realpath "$2")
+DEPSDIR=$(realpath "$3")
 NAME=$4
 
-BINARY=duckstation-qt
-APPDIRNAME=DuckStation.AppDir
+if [[ -z "$NAME" || "$NAME" == */* ]]; then
+	echo "Output name must be a filename without a path."
+	exit 1
+fi
+
+mkdir -p "$ROOTDIR/build/appimage"
+cd "$ROOTDIR/build/appimage"
+
+BINARY=RLyehPSX-qt
+APPDIRNAME=RLyehPSX.AppDir
 STRIP=strip
 
 declare -a MANUAL_LIBS=(
@@ -77,8 +87,6 @@ declare -a REMOVE_LIBS=(
 	'libwayland-egl.so*'
 )
 
-set -e
-
 LINUXDEPLOY=./linuxdeploy-x86_64
 LINUXDEPLOY_PLUGIN_QT=./linuxdeploy-plugin-qt-x86_64
 APPIMAGETOOL=./appimagetool-x86_64
@@ -86,22 +94,22 @@ APPIMAGERUNTIME=./runtime-x86_64
 PATCHELF=patchelf
 
 if [ ! -f "$LINUXDEPLOY" ]; then
-	retry_command wget -O "$LINUXDEPLOY" https://github.com/stenzek/duckstation-ext-qt-minimal/releases/download/linux/linuxdeploy-x86_64.AppImage
+	retry_command wget -O "$LINUXDEPLOY" https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
 	chmod +x "$LINUXDEPLOY"
 fi
 
 if [ ! -f "$LINUXDEPLOY_PLUGIN_QT" ]; then
-	retry_command wget -O "$LINUXDEPLOY_PLUGIN_QT" https://github.com/stenzek/duckstation-ext-qt-minimal/releases/download/linux/linuxdeploy-plugin-qt-x86_64.AppImage
+	retry_command wget -O "$LINUXDEPLOY_PLUGIN_QT" https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
 	chmod +x "$LINUXDEPLOY_PLUGIN_QT"
 fi
 
 if [ ! -f "$APPIMAGETOOL" ]; then
-	retry_command wget -O "$APPIMAGETOOL" https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+	retry_command wget -O "$APPIMAGETOOL" https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
 	chmod +x "$APPIMAGETOOL"
 fi
 
 if [ ! -f "$APPIMAGERUNTIME" ]; then
-	retry_command wget -O "$APPIMAGERUNTIME" https://github.com/stenzek/type2-runtime/releases/download/continuous/runtime-x86_64
+	retry_command wget -O "$APPIMAGERUNTIME" https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-x86_64
 fi
 
 OUTDIR=$(realpath "./$APPDIRNAME")
@@ -142,8 +150,8 @@ EXTRA_PLATFORM_PLUGINS="libqwayland-egl.so;libqwayland-generic.so" \
 DEPLOY_PLATFORM_THEMES="1" \
 QMAKE="$DEPSDIR/bin/qmake" \
 NO_STRIP="1" \
-$LINUXDEPLOY --plugin qt --appdir="$OUTDIR" --executable="$BUILDDIR/bin/duckstation-qt" ${EXTRA_LIBS_ARGS[@]} \
---desktop-file="$ROOTDIR/scripts/org.duckstation.DuckStation.desktop" \
+$LINUXDEPLOY --plugin qt --appdir="$OUTDIR" --executable="$BUILDDIR/bin/RLyehPSX" ${EXTRA_LIBS_ARGS[@]} \
+--desktop-file="$ROOTDIR/scripts/dev.rlyeh.rlyehpsx.desktop" \
 --icon-file="$ROOTDIR/scripts/dev.rlyeh.rlyehpsx.png" \
 
 echo "Copying resources into AppDir..."
@@ -205,11 +213,23 @@ mkdir -p "$OUTDIR/usr/share/metainfo"
 echo "Copying AppRun hooks..."
 mkdir -p "$OUTDIR/apprun-hooks"
 for hookpath in "$SCRIPTDIR/apprun-hooks"/*; do
-	hookname=$(basename "$hookpath")
-	cp -v "$hookpath" "$OUTDIR/apprun-hooks/$hookname"
-	sed -i -e 's/exec /source "$this_dir"\/apprun-hooks\/"'"$hookname"'"\nexec /' "$OUTDIR/AppRun"
+  hookname=$(basename "$hookpath")
+  cp -v "$hookpath" "$OUTDIR/apprun-hooks/$hookname"
 done
 
+rm -f "$OUTDIR/AppRun"
+
+cat > "$OUTDIR/AppRun" <<'EOF'
+#!/usr/bin/env bash
+this_dir="$(cd -- "$(dirname -- "$0")" && pwd)"
+for hookpath in "$this_dir"/apprun-hooks/*; do
+  source "$hookpath"
+done
+exec "$this_dir/usr/bin/RLyehPSX" "$@"
+EOF
+
+chmod +x "$OUTDIR/AppRun"
 echo "Generating AppImage..."
+chmod -R a+rX "$OUTDIR"
 rm -f "$NAME.AppImage"
 "$APPIMAGETOOL" -v --runtime-file "$APPIMAGERUNTIME" "$OUTDIR" "$NAME.AppImage"

@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com> and contributors.
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "input_manager.h"
 #include "platform_misc.h"
@@ -105,7 +106,7 @@ static bool SetScreensaverInhibitDBus(const bool inhibit_requested, const char* 
 
 static bool SetScreensaverInhibit(bool inhibit)
 {
-  return SetScreensaverInhibitDBus(inhibit, "DuckStation", "DuckStation VM is running.");
+  return SetScreensaverInhibitDBus(inhibit, "R'Lyeh PSX", "R'Lyeh PSX VM is running.");
 }
 
 static bool s_screensaver_suspended;

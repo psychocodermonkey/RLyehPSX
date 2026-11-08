@@ -49,49 +49,76 @@ Build instructions per platform.
 
 ### macOS build
 
-1. **Set Deployment Target Variable:**
-   - Before running the initial build, set the deployment target variable:
+Only run builds when explicitly asked to test or build.
 
-     ```sh
-     export MACOSX_DEPLOYMENT_TARGET=11.0
-     ```
-
-2. **Run Dependencies Build Script:**
+1. **Run Dependencies Build Script:**
    - Run the dependencies build script to ensure all necessary dependencies are built locally:
 
      ```sh
-     ./scripts/deps/build-dependencies-mac.sh
+     ./scripts/deps/build-dependencies-mac.sh deps
      ```
 
-3. **Configure CMake:**
-   - Set up the build environment using CMake, pointing it to the local dependencies directory:
+2. **Configure CMake:**
+   - Configure a debug build using the macOS preset:
 
      ```sh
-     cmake -S . -B build \
-       -G Ninja \
-       -DCMAKE_BUILD_TYPE=Debug \
-       -DCMAKE_PREFIX_PATH="$PWD/deps"
+     cmake --preset debug-mac
      ```
 
-4. **Build the Project:**
-   - Re-run the build using either Ninja or CMake:
+   - Use `release-mac` instead for a release build.
+
+3. **Build the Project:**
+   - Build the matching preset with an explicit parallel-job limit:
 
      ```sh
-     ninja -C build -j1
+     cmake --build --preset debug-mac --parallel "$(getconf _NPROCESSORS_ONLN)"
      ```
 
-     **or**
+   - Use `release-mac` here too when building the release preset.
 
-     ```sh
-     cmake --build build --parallel
-     ```
-
-5. **Force Codesigning:**
+4. **Force Codesigning:**
    - After a successful build, force codesigning to ensure the application can launch:
 
      ```sh
-     codesign --force --deep --sign - build/bin/DuckStation.app
+     codesign --force --deep --sign - build/debug-mac/bin/RLyehPSX.app
      ```
+
+   - For a release build, sign `build/release-mac/bin/RLyehPSX.app`.
+
+### Linux build
+
+Only run builds when explicitly asked to test or build.
+
+1. **Run Dependencies Build Script:**
+   - Run the dependencies build script to ensure all necessary dependencies are built locally:
+
+     ```sh
+     ./scripts/deps/build-dependencies-linux.sh deps
+     ```
+
+2. **Configure CMake:**
+   - Configure a debug build using the Linux preset:
+
+     ```sh
+     cmake --preset debug-linux
+     ```
+
+   - Use `release-linux` instead for a release build.
+
+3. **Build the Project:**
+   - Build the matching preset with an explicit parallel-job limit:
+
+     ```sh
+     cmake --build --preset debug-linux --parallel "$(getconf _NPROCESSORS_ONLN)"
+     ```
+
+   - Use `release-linux` here too when building the release preset.
+
+### Windows build boundary
+
+- Windows builds are intentionally unsupported until a dedicated CMake/Ninja Windows toolchain implementation is in scope and Linux/macOS builds are stable.
+- The legacy Visual Studio solution was deliberately removed. Do not restore, update, validate, or treat remaining `.vcxproj`, `.props`, or Windows dependency-script files as an active build path during unrelated work, including rebranding.
+- Preserve those remaining files as migration inputs unless the Windows toolchain work explicitly includes their removal or replacement.
 
 ## Refactoring Guidelines
 

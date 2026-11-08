@@ -1,5 +1,4 @@
-// 2026/08/05 - Modified by R'Lyeh PSX contributors.
-// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2024 Connor McLaughlin <stenzek@gmail.com>
 // SPDX-License-Identifier: GPL-3.0-only
 
@@ -462,7 +461,7 @@ void MetalDevice::RenderBlankFrame()
 
   @autoreleasepool
   {
-    id<MTLDrawable> drawable = [[m_layer nextDrawable] retain];
+    id<CAMetalDrawable> drawable = [[m_layer nextDrawable] retain];
     m_layer_pass_desc.colorAttachments[0].texture = [drawable texture];
     id<MTLRenderCommandEncoder> encoder = [m_render_cmdbuf renderCommandEncoderWithDescriptor:m_layer_pass_desc];
     [encoder endEncoding];

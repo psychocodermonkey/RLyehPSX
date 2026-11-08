@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2002-2024 PCSX2 Dev Team, Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR PolyForm-Strict-1.0.0)
+// SPDX-License-Identifier: GPL-3.0-only
 // NOTE: File has been rewritten completely compared to the original, only the enums remain.
 
 #include "pine_server.h"
@@ -140,9 +141,9 @@ bool PINEServer::Initialize(u16 slot)
 
   std::string socket_path;
   if (slot != Settings::DEFAULT_PINE_SLOT)
-    socket_path = fmt::format("{}/duckstation.sock.{}", runtime_dir, slot);
+    socket_path = fmt::format("{}/rlyehpsx.sock.{}", runtime_dir, slot);
   else
-    socket_path = fmt::format("{}/duckstation.sock", runtime_dir);
+    socket_path = fmt::format("{}/rlyehpsx.sock", runtime_dir);
 
   // we unlink the socket so that when releasing this thread the socket gets
   // freed even if we didn't close correctly the loop
@@ -445,7 +446,7 @@ bool PINEServer::PINESocket::HandleCommand(IPCCommand command, BinarySpanReader 
 
     case MsgVersion:
     {
-      const TinyString version = TinyString::from_format("DuckStation {}", g_scm_tag_str);
+      const TinyString version = TinyString::from_format("R'Lyeh PSX {}", g_scm_tag_str);
       if (!BeginReply(reply, version.length() + 1)) [[unlikely]]
         return false;
 

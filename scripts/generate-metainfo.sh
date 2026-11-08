@@ -7,7 +7,7 @@ if [[ $# -lt 1 ]]; then
 	exit 1
 fi
 
-APPID="org.duckstation.DuckStation"
+APPID="dev.rlyeh.rlyehpsx"
 OUTDIR=$(realpath "$1")
 OUTFILE="${OUTDIR}/${APPID}.metainfo.xml"
 
@@ -30,4 +30,3 @@ cp "${SCRIPTDIR}/${APPID}.metainfo.xml.in" "${OUTFILE}"
 sed -i -e "s/@GIT_VERSION@/${GIT_VERSION}/" "${OUTFILE}"
 sed -i -e "s/@GIT_DATE@/${GIT_DATE}/" "${OUTFILE}"
 sed -i -e "s/@GIT_HASH@/${GIT_HASH}/" "${OUTFILE}"
-
