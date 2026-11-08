@@ -1,5 +1,4 @@
-// 2026/08/05 - Modified by R'Lyeh PSX contributors.
-// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin
 // <stenzek@gmail.com>
 // SPDX-License-Identifier: GPL-3.0-only

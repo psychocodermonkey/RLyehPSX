@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com> and contributors.
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "cheats.h"
 #include "bus.h"
@@ -228,7 +229,7 @@ bool CheatList::LoadFromPCSXRString(const std::string& str)
       end--;
     }
 
-    // DuckStation metadata
+    // RLyehPSX metadata
     if (StringUtil::Strncasecmp(start, "#group=", 7) == 0)
     {
       group = start + 7;

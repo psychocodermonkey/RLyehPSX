@@ -1,5 +1,4 @@
-// 2026/08/09 - Modified by R'Lyeh PSX contributors.
-// SPDX-FileCopyrightText: 2026 R'Lyeh PSX contributors
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
 // SPDX-License-Identifier: GPL-3.0-only
 
@@ -3319,7 +3318,7 @@ void Achievements::SwitchToRAIntegration()
 
 void Achievements::RAIntegration::InitializeRAIntegration(void* main_window_handle)
 {
-  RA_InitClient((HWND)main_window_handle, "DuckStation", g_scm_tag_str);
+  RA_InitClient((HWND)main_window_handle, "R'Lyeh PSX", g_scm_tag_str);
   RA_SetUserAgentDetail(Host::GetHTTPUserAgent().c_str());
 
   RA_InstallSharedFunctions(RACallbackIsActive, RACallbackCauseUnpause, RACallbackCausePause, RACallbackRebuildMenu,

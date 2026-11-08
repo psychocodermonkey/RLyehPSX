@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>dev.rlyeh.rlyehpsx</id>
+  <launchable type="desktop-id">dev.rlyeh.rlyehpsx.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>R'Lyeh PSX</name>
+  <developer id="dev.rlyeh">
+    <name>PsychoCoderMonkey</name>
+  </developer>
+  <summary>PlayStation Emulator</summary>
+  <description>
+    <p>R'Lyeh PSX is an emulator for the Sony PlayStation(TM) console, focusing on playability, speed, and long-term maintainability. The goal is to be as accurate as possible while maintaining performance suitable for low-end devices.</p>
+    <p>"Hack" options are discouraged, the default configuration should support all playable games with only some of the enhancements having compatibility issues.</p>
+    <p>"PlayStation" and "PSX" are registered trademarks of Sony Interactive Entertainment Europe Limited. This project is not affiliated in any way with Sony Interactive Entertainment.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <update_contact>psychocodermonkey_AT_rlyeh.dev</update_contact>
+  <url type="homepage">https://rlyeh.dev</url>
+  <url type="help">https://github.com/psychocodermonkey/RLyehPSX</url>
+  <url type="vcs-browser">https://github.com/psychocodermonkey/RLyehPSX</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/psychocodermonkey/RLyehPSX/md-images/main-qt.png</image>
+      <caption>Desktop Interface</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/psychocodermonkey/RLyehPSX/md-images/big-squid.png</image>
+      <caption>Big Picture Mode Interface</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="@GIT_VERSION@" date="@GIT_DATE@" />
+  </releases>
+  <custom>
+    <value key="flathub::manifest">https://raw.githubusercontent.com/psychocodermonkey/RLyehPSX/@GIT_HASH@/scripts/flatpak/dev.rlyeh.rlyehpsx.yaml</value>
+  </custom>
+</component>
