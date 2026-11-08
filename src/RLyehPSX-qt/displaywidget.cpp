@@ -1,5 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Andrew Dixon <andrew.dixon@rlyeh.dev>
 // SPDX-FileCopyrightText: 2019-2024 Connor McLaughlin <stenzek@gmail.com>
-// SPDX-License-Identifier: (GPL-3.0 OR CC-BY-NC-ND-4.0)
+// SPDX-License-Identifier: GPL-3.0-only
 
 #include "displaywidget.h"
 #include "mainwindow.h"
@@ -134,7 +135,7 @@ void DisplayWidget::handleCloseEvent(QCloseEvent* event)
 
   // Closing the separate widget will either cancel the close, or trigger shutdown.
   // In the latter case, it's going to destroy us, so don't let Qt do it first.
-  // Treat a close event while fullscreen as an exit, that way ALT+F4 closes DuckStation,
+  // Treat a close event while fullscreen as an exit, that way ALT+F4 closes R'Lyeh PSX,
   // rather than just the game.
   if (QtHost::IsSystemValid() && !isActuallyFullscreen())
   {

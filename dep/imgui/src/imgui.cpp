@@ -14235,7 +14235,7 @@ static void ImGui::NavUpdateCancelRequest()
     }
 
     #if 0
-    // DUCKSTATION-CHANGE: We want to keep nav active, since we handle menu exits ourselves.
+    // RLYEHPSX-CHANGE: We want to keep nav active, since we handle menu exits ourselves.
     else
     {
         // Clear NavLastId for popups but keep it for regular child window so we can leave one and come back where we were
