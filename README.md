@@ -95,7 +95,7 @@ Prerequisites: `git`, `curl`, CMake 3.21 or newer, `ninja`, Xcode command line t
 #### Clone the repo
 
 ``` sh
-git clone git@github.com:psychocodermonkey/RlyehPSX.git
+git clone git@github.com:psychocodermonkey/RLyehPSX.git
 ```
 
 #### Build and install dependencies
@@ -103,7 +103,7 @@ git clone git@github.com:psychocodermonkey/RlyehPSX.git
 This script downloads, verifies, builds, and installs the dependency set into `deps/`. It also sets `MACOSX_DEPLOYMENT_TARGET=11.0` internally.
 
 ``` sh
-cd RlyehPSX
+cd RLyehPSX
 ```
 
 Run the dependencies build script.
