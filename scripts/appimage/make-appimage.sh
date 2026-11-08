@@ -213,11 +213,22 @@ mkdir -p "$OUTDIR/usr/share/metainfo"
 echo "Copying AppRun hooks..."
 mkdir -p "$OUTDIR/apprun-hooks"
 for hookpath in "$SCRIPTDIR/apprun-hooks"/*; do
-	hookname=$(basename "$hookpath")
-	cp -v "$hookpath" "$OUTDIR/apprun-hooks/$hookname"
-	sed -i -e 's/exec /source "$this_dir"\/apprun-hooks\/"'"$hookname"'"\nexec /' "$OUTDIR/AppRun"
+  hookname=$(basename "$hookpath")
+  cp -v "$hookpath" "$OUTDIR/apprun-hooks/$hookname"
 done
 
+rm -f "$OUTDIR/AppRun"
+
+cat > "$OUTDIR/AppRun" <<'EOF'
+#!/usr/bin/env bash
+this_dir="$(cd -- "$(dirname -- "$0")" && pwd)"
+for hookpath in "$this_dir"/apprun-hooks/*; do
+  source "$hookpath"
+done
+exec "$this_dir/usr/bin/RLyehPSX" "$@"
+EOF
+
+chmod +x "$OUTDIR/AppRun"
 echo "Generating AppImage..."
 chmod -R a+rX "$OUTDIR"
 rm -f "$NAME.AppImage"
