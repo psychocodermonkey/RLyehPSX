@@ -47,3 +47,6 @@ __pycache__
 
 # Exclude local GitHub configuration
 .github/
+
+# External tool work and staging files and directories
+.obsidian
